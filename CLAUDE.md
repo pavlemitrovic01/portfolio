@@ -257,6 +257,7 @@ portfolio/
 │   │   │   ├── Testimonials.tsx — 3 placeholder citata
 │   │   │   ├── About.tsx      — Mini-story + facts + availability
 │   │   │   └── Contact.tsx    — CTA + linkovi
+│   │   ├── ErrorBoundary.tsx   — React error boundary sa branded fallback
 │   │   ├── motion/
 │   │   │   └── MotionReveal.tsx — Framer Motion reveal wrapper
 │   │   └── canvas/
@@ -352,6 +353,10 @@ portfolio/
 - [2026-03-20] useCountUp hook koristi IntersectionObserver(threshold:0.3) + rAF + cubic ease-out. Trigger jednom, ne resetuje se.
 - [2026-03-20] TrustSignals counter vrednosti su placeholder: 12+, 2+, 50k+, 99%. Čekaju prave podatke od Pavla.
 - [2026-03-20] Hero chat već ima auto-scroll i messagesContainerRef — typing indicator dodat kao .chat-typing sa 3 pulsing dots.
+- [2026-03-20] ErrorBoundary je class component (React zahteva) — wrappuje App u main.tsx.
+- [2026-03-20] 404.html je statičan fajl u public/ — Vercel ga automatski servira za nepostojeće rute.
+- [2026-03-20] GA4 script u index.html sa placeholder ID `G-XXXXXXXXXX` — treba zameniti pravim Measurement ID-jem.
+- [2026-03-20] OG image meta tagovi dodati — treba kreirati `public/og-image.png` (1200x630px) za social preview.
 
 ---
 
@@ -359,3 +364,6 @@ portfolio/
 
 - Hero.tsx je najkompleksnija komponenta (~400+ linija) — kandidat za razbijanje u sub-komponente kad bude pravo vreme.
 - Contact.tsx — Upwork/Fiverr linkovi su placeholder (~TODO u URL-u). Zameniti pravim profilima kad budu spremni.
+- GA4 Measurement ID je placeholder `G-XXXXXXXXXX` u index.html — zameniti kad Pavle napravi GA4 property.
+- `public/og-image.png` ne postoji — treba dizajnirati i dodati (1200x630px) za social preview.
+- Projects.tsx, Testimonials.tsx, About.tsx — sav tekst je placeholder, čeka prave podatke.
