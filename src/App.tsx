@@ -8,6 +8,9 @@ import Flagship from './components/sections/Flagship'
 import AnatomyOfBuild from './components/sections/AnatomyOfBuild'
 import Process from './components/sections/Process'
 import Stack from './components/sections/Stack'
+import Projects from './components/sections/Projects'
+import Testimonials from './components/sections/Testimonials'
+import About from './components/sections/About'
 import Contact from './components/sections/Contact'
 import Preloader from './components/layout/Preloader'
 import { useMagnetic } from './hooks/useMagnetic'
@@ -121,10 +124,13 @@ export default function App() {
       <Hero />
       <TrustSignals />
       <Systems />
+      <Projects />
       <Flagship />
       <AnatomyOfBuild />
       <Process />
       <Stack />
+      <Testimonials />
+      <About />
       <Contact />
       {terminal && (
         <div className="terminal-overlay">

@@ -253,6 +253,9 @@ portfolio/
 │   │   │   ├── AnatomyOfBuild.tsx — Interaktivna SVG arhitektura
 │   │   │   ├── Process.tsx    — 5-step workflow
 │   │   │   ├── Stack.tsx      — 4 tech pillars
+│   │   │   ├── Projects.tsx   — Project grid (Padrino + 2 placeholdera)
+│   │   │   ├── Testimonials.tsx — 3 placeholder citata
+│   │   │   ├── About.tsx      — Mini-story + facts + availability
 │   │   │   └── Contact.tsx    — CTA + linkovi
 │   │   ├── motion/
 │   │   │   └── MotionReveal.tsx — Framer Motion reveal wrapper
@@ -274,10 +277,14 @@ portfolio/
 2. **TrustSignals** — 4 tiles: product framing, genius builder, motion, hierarchy
 3. **Systems** — 4 service ponude (A-D)
 4. **Flagship** — Padrino Budva deep-dive
-5. **AnatomyOfBuild** — Interaktivni SVG dijagram sistema
-6. **Process** — 5 koraka workflow-a
-7. **Stack** — React, TS, Supabase, Motion
-8. **Contact** — CTA sa Upwork/Fiverr/email
+5. **Projects** — Grid sa projektima (Padrino Live + 2 placeholder)
+6. **Flagship** — Padrino Budva deep-dive
+7. **AnatomyOfBuild** — Interaktivni SVG dijagram sistema
+8. **Process** — 5 koraka workflow-a
+9. **Stack** — React, TS, Supabase, Motion
+10. **Testimonials** — 3 placeholder citata (čekaju prave)
+11. **About** — Mini-story, facts, availability
+12. **Contact** — CTA sa Upwork/Fiverr/email
 
 ### CSS konvencije
 - **Sve u jednom fajlu:** `global.css` (~1230 linija)
