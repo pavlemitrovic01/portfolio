@@ -1,0 +1,35 @@
+---
+description: Portfolio project - stack, structure, conventions
+alwaysApply: true
+---
+
+# Portfolio Project (cl3menza.com)
+
+## Trenutno stanje projekta (ažurirano)
+
+- Stack: React + TypeScript + Vite + Framer Motion
+- Entry point: src/main.tsx
+- Stilovi: src/styles/global.css (kopija originalnog style.css)
+- Komponente: src/components/layout/ (Header, Ticker, Footer, Layout)
+- Sekcije: src/components/sections/Hero.tsx, TrustSignals, Systems, Flagship, Process, Stack, Contact
+- Hooks: src/hooks/useReveal.ts
+- App.tsx: mountuje Layout > Hero, TrustSignals, Systems, Flagship, Process, Stack, Contact
+- Build: prolazi, npm run build → 0 grešaka
+- LOCK fajlovi: index.html HEAD, src/main.js, src/style.css
+
+## Conventions
+
+- Preserve existing visual identity (palette, typography, motion feel)
+- Use existing CSS classes from global.css
+
+## LOCK fajlovi (ne diraju se bez posebnog odobrenja)
+
+- `index.html` HEAD sekcija
+- `src/main.js`
+- `src/style.css`
+
+## Do Not
+
+- Replace premium feel with generic templates
+- Add unnecessary abstractions
+- Change design direction without approval

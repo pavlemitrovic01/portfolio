@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    { "source": "/api/claude", "destination": "/api/claude" }
+  ],
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "framework": "vite"
+}

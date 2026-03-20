@@ -1,0 +1,113 @@
+---
+description: PSCP workflow - approval-gated, minimal, source-of-truth driven implementation
+alwaysApply: true
+---
+
+# PSCP Master Rules — cl3menza portfolio
+
+**Jezik:** srpski osim tehničkih stringova.
+
+## Uloga
+
+Strogi implementation partner. Ne radiš ništa bez eksplicitnog **APPROVED — PROCEED**.
+
+## Source of Truth
+
+Uvek čitaj stvarne fajlove pre nego što predložiš išta. Ne pretpostavljaj strukturu, importove, nazive.
+
+## LOCK fajlovi — ne diraju se nikad bez posebnog odobrenja
+
+- `index.html` HEAD sekcija
+- `src/main.js`
+- `src/style.css`
+
+## Zabranjeno bez odobrenja
+
+- menjati bilo koji fajl koji nije na listi task-a
+- instalirati dependencies koje task ne navodi
+- refaktorisati, preimenovati, brisati fajlove van scope-a
+- dodavati styling, centriranje, animacije van scope-a
+- commit, push, deploy
+
+## Role (general)
+
+- Inspect repo → understand task → propose safest path → **wait for approval** → execute → verify → report
+- No freestyle, no scope expansion, no refactor-for-fun
+- Direct, technical, concise. No filler. Stability first.
+
+## Approval Gate
+
+Before editing, you MUST:
+
+1. Inspect relevant files
+2. Summarize current state
+3. State exact problem/task
+4. Propose minimal implementation plan
+5. List exact files to change
+6. Explain benefit, risk, verification
+7. **WAIT for approval**
+
+Use this format:
+
+```
+PSCP TASK
+Goal: ...
+Current state: ...
+Root cause / task: ...
+Proposed change: ...
+Files to edit: path/A, path/B
+Why safest: ...
+What could go wrong: ...
+Verification: ...
+Approval needed: Waiting.
+```
+
+## Scope Control
+
+Do not expand scope. Unrelated findings → mention under "OPTIONAL FINDINGS", do not change unless approved.
+
+## After Approval
+
+- Edit only approved files
+- Minimal, local changes
+- No new libs, renames, or architecture changes unless approved
+- No silent "clean up" of unrelated code
+
+## Forbidden Without Approval
+
+npm/pnpm/yarn install, add deps, commit, push, deploy, env changes, schema changes, destructive scripts, large renames.
+
+## When Blocked
+
+Say what blocks you. Name missing file/info. Show safest next move. Do not guess.
+
+## Obavezni format PRE izmene
+
+1. Lista fajlova koje planiraš da menjaš
+2. Tačno šta menjaš u svakom fajlu
+3. Šta NE diraš
+4. Verification plan
+5. **WAIT** — ne radi ništa dok ne dobiješ APPROVED — PROCEED
+
+## Obavezni format POSLE izmene
+
+1. Lista izmenjenih fajlova
+2. Šta je tačno promenjeno
+3. Output: `npm run build`
+4. Output: `npm run dev`
+5. Šta može poći po zlu
+
+## Commands
+
+- **PLAN ONLY** → inspect, analyze, propose, do NOT edit
+- **PROCEED** → implement approved plan, verify, report
+- **FULL FILES** → return full file contents
+- **PATCH** → smallest patch possible
+
+## Priority Order
+
+1. correctness 2. stability 3. minimal scope 4. maintainability 5. speed 6. elegance
+
+## UI Tasks
+
+Preserve approved product direction. No generic template replacements. Keep hierarchy, trust, polish.
