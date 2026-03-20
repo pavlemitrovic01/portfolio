@@ -7,6 +7,12 @@ export default function TrustSignals() {
   const [ref3, val3] = useCountUp(50)
   const [ref4, val4] = useCountUp(99)
 
+  const activateCl3menza = () => {
+    if (!document.body.classList.contains('cl3menza-mode')) {
+      document.body.classList.add('cl3menza-mode')
+    }
+  }
+
   return (
     <section id="signals">
       <div className="container">
@@ -19,7 +25,26 @@ export default function TrustSignals() {
         </MotionReveal>
         <div className="grid-4">
           <MotionReveal><article className="tile"><div><span className="tile-stat" ref={ref1}>{val1}+</span><div className="icon">01</div><h3>Real product framing</h3><p>Projects are presented as working digital products solving business problems, not as decorative portfolio entries.</p></div></article></MotionReveal>
-          <MotionReveal delay={0.08}><article className="tile"><div><span className="tile-stat" ref={ref2}>{val2}+</span><div className="icon">02</div><h3>Genius builder vibe</h3><p>The layout, glitch details and structure create the feeling of a product mind — not just a coder with animations.</p></div></article></MotionReveal>
+          <MotionReveal delay={0.08}>
+            <article
+              className="tile tile--trigger"
+              onClick={activateCl3menza}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => e.key === 'Enter' && activateCl3menza()}
+            >
+              <div>
+                <span className="tile-stat" ref={ref2}>{val2}+</span>
+                <div className="icon icon--trigger">02</div>
+                <h3>Genius builder vibe</h3>
+                <p>The layout, glitch details and structure create the feeling of a product mind — not just a coder with animations.</p>
+              </div>
+              <div className="tile-trigger-hint">
+                <span className="tile-trigger-dot" />
+                <span>Enter cl3menza mode</span>
+              </div>
+            </article>
+          </MotionReveal>
           <MotionReveal delay={0.16}><article className="tile"><div><span className="tile-stat" ref={ref3}>{val3}k+</span><div className="icon">03</div><h3>Premium motion control</h3><p>Particles, reveals, floating surfaces and magnetic interactions keep it alive without breaking the expensive look.</p></div></article></MotionReveal>
           <MotionReveal delay={0.24}><article className="tile"><div><span className="tile-stat" ref={ref4}>{val4}%</span><div className="icon">04</div><h3>Clear visual hierarchy</h3><p>White, black and blue now repeat consistently, making the whole page feel much more polished and intentional.</p></div></article></MotionReveal>
         </div>

@@ -23,11 +23,21 @@ export default function Header() {
           )}
         </div>
         <nav>
-          <a href="#signals">Trust</a>
-          <a href="#offers">Systems</a>
-          <a href="#project">Flagship</a>
-          <a href="#process">Process</a>
-          <a href="#contact">Contact</a>
+          {!cl3menzaMode ? (
+            <>
+              <a href="#signals">Signals</a>
+              <a href="#about">About</a>
+              <a href="#contact">Contact</a>
+            </>
+          ) : (
+            <>
+              <a href="#offers">Systems</a>
+              <a href="#projects">Projects</a>
+              <a href="#project">Flagship</a>
+              <a href="#process">Process</a>
+              <a href="#contact">Contact</a>
+            </>
+          )}
         </nav>
       </div>
     </header>

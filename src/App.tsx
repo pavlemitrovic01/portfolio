@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import type React from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import Layout from './components/layout/Layout'
 import Hero from './components/sections/Hero'
 import TrustSignals from './components/sections/TrustSignals'
@@ -80,20 +81,27 @@ const TERMINAL_LINES = [
   '// welcome to cl3menza mode',
 ]
 
+const sectionFade = {
+  initial: { opacity: 0, y: 30 },
+  animate: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] as const } },
+  exit: { opacity: 0, y: -20, transition: { duration: 0.3 } },
+}
+
 export default function App() {
   useMagnetic()
   useParallax()
 
+  const [cl3menzaMode, setCl3menzaMode] = useState(false)
   const [glitching, setGlitching] = useState(false)
   const [terminal, setTerminal] = useState(false)
   const [terminalLines, setTerminalLines] = useState<string[]>([])
 
   useEffect(() => {
     const observer = new MutationObserver(() => {
-      const isAdding = document.body.classList.contains('cl3menza-mode')
+      const isActive = document.body.classList.contains('cl3menza-mode')
 
-      if (isAdding) {
-        // Boot sequence → fragment explosion
+      if (isActive && !cl3menzaMode) {
+        // Activating — boot sequence → fragment explosion
         setTerminalLines([])
         setTerminal(true)
         let idx = 0
@@ -105,33 +113,49 @@ export default function App() {
             setTimeout(() => {
               setTerminal(false)
               setGlitching(true)
+              setCl3menzaMode(true)
+              window.scrollTo({ top: 0, behavior: 'instant' })
               setTimeout(() => setGlitching(false), 1200)
             }, 400)
           }
         }, 120)
-      } else {
-        // Deactivate — fragment explosion only
+      } else if (!isActive && cl3menzaMode) {
+        // Deactivating — fragment explosion
         setGlitching(true)
+        setCl3menzaMode(false)
+        window.scrollTo({ top: 0, behavior: 'instant' })
         setTimeout(() => setGlitching(false), 1200)
       }
     })
     observer.observe(document.body, { attributes: true, attributeFilter: ['class'] })
     return () => observer.disconnect()
-  }, [])
+  }, [cl3menzaMode])
 
   return (
     <Layout>
       <Hero />
-      <TrustSignals />
-      <Systems />
-      <Projects />
-      <Flagship />
-      <AnatomyOfBuild />
-      <Process />
-      <Stack />
-      <Testimonials />
-      <About />
+
+      <AnimatePresence mode="wait">
+        {!cl3menzaMode ? (
+          <motion.div key="normal" {...sectionFade}>
+            <TrustSignals />
+            <About />
+          </motion.div>
+        ) : (
+          <motion.div key="cl3menza" {...sectionFade}>
+            <Systems />
+            <Projects />
+            <Flagship />
+            <AnatomyOfBuild />
+            <Process />
+            <Stack />
+            <Testimonials />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <Contact />
+
       {terminal && (
         <div className="terminal-overlay">
           <MatrixRain />
@@ -182,7 +206,7 @@ export default function App() {
             )
           })}
           <div className="fragment-label">
-            {document.body.classList.contains('cl3menza-mode') ? '// cl3menza mode: OFF' : '// cl3menza mode: ON'}
+            {cl3menzaMode ? '// cl3menza mode: ON' : '// cl3menza mode: OFF'}
           </div>
         </div>
       )}

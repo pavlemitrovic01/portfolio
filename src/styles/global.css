@@ -470,6 +470,29 @@ section{position:relative;padding:92px 0}
 .tile{min-height:228px;padding:24px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
 .tile::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;background:linear-gradient(90deg,var(--blue),var(--violet),var(--cyan))}
 .icon{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(135deg, rgba(93,184,255,.16), rgba(124,109,255,.16));border:1px solid rgba(255,255,255,.08);font-weight:700;margin-bottom:16px}
+
+/* ── Trigger tile (genius builder vibe) ── */
+.tile--trigger{cursor:pointer;position:relative}
+.tile--trigger::before{background:linear-gradient(90deg,var(--cyan),var(--blue),var(--cyan));animation:triggerShimmer 3s linear infinite;background-size:200% 100%}
+@keyframes triggerShimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.tile--trigger:hover{border-color:rgba(120,255,240,.25);box-shadow:0 18px 38px rgba(0,0,0,.24),0 0 40px rgba(120,255,240,.1),inset 0 1px 0 rgba(120,255,240,.08)}
+.tile--trigger:focus-visible{outline:2px solid var(--cyan);outline-offset:4px}
+.icon--trigger{background:linear-gradient(135deg,rgba(120,255,240,.2),rgba(93,184,255,.2));border-color:rgba(120,255,240,.2)}
+.tile-trigger-hint{
+  display:flex;align-items:center;gap:8px;
+  margin-top:12px;font-size:12px;
+  font-family:'Space Grotesk',monospace;
+  color:var(--cyan);opacity:.6;
+  transition:opacity .22s;
+  letter-spacing:.06em;
+}
+.tile--trigger:hover .tile-trigger-hint{opacity:1}
+.tile-trigger-dot{
+  width:6px;height:6px;border-radius:50%;
+  background:var(--cyan);
+  box-shadow:0 0 8px rgba(120,255,240,.6);
+  animation:pulse 2s ease-in-out infinite;
+}
 .tile-stat{
   font-family:'Space Grotesk',monospace;
   font-size:clamp(2rem,3vw,2.8rem);
