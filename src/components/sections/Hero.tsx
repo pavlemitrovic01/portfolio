@@ -12,12 +12,23 @@ const itemVariants = {
   visible: { opacity: 1, y: 0 },
 }
 
+const TIMELINE = [
+  { year: '2025', title: 'Started building', desc: 'Placeholder — describe your first steps. What sparked the interest, what you were doing before, the moment you decided to take this seriously.' },
+  { year: '2025', title: 'Padrino Budva', desc: 'First major project — a full ordering system for a pizza restaurant in Montenegro. Cart, payments, admin panel, delivery zones, real-time notifications. Built from scratch.' },
+  { year: '2026', title: 'cl3menza.com', desc: 'Portfolio as product. Not a template, not a resume — a living system that demonstrates the approach. Every interaction is intentional.' },
+  { year: '2026', title: 'What\'s next', desc: 'Placeholder — where are you going. What kind of projects excite you, what you want to build next, your vision for the next 12 months.' },
+]
+
+const VALUES = [
+  { label: 'Build like a product', desc: 'Every project gets product thinking — not just code.' },
+  { label: 'Zero template mindset', desc: 'Nothing is copy-pasted. Everything is intentional.' },
+  { label: 'Ship what works', desc: 'Real users, real payments, real uptime.' },
+]
+
 export default function Hero() {
   const glitchRef = useRef<HTMLSpanElement>(null)
   const leftColRef = useRef<HTMLDivElement>(null)
-  const rightColRef = useRef<HTMLDivElement>(null)
-  const glitching = useRef(false)
-  const [cl3menzaMode, setCl3menzaMode] = useState(false)
+  const glitchingRef = useRef(false)
   const [isMode, setIsMode] = useState(false)
   const [userInput, setUserInput] = useState('')
   const [messages, setMessages] = useState<{role: 'user'|'assistant', content: string}[]>([
@@ -49,12 +60,6 @@ export default function Hero() {
   const targ = 'cl3menza'
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$%'
 
-  // Sync cl3menzaMode to body class
-  useEffect(() => {
-    document.body.classList.toggle('cl3menza-mode', cl3menzaMode)
-  }, [cl3menzaMode])
-
-  // Track body class for right-column rendering
   useEffect(() => {
     const update = () => setIsMode(document.body.classList.contains('cl3menza-mode'))
     update()
@@ -63,16 +68,15 @@ export default function Hero() {
     return () => observer.disconnect()
   }, [])
 
-  // Glitch efekat na imenu
+  // Glitch on name hover
   useEffect(() => {
     const el = glitchRef.current
     if (!el) return
     let intervalId: ReturnType<typeof setInterval> | null = null
     const handleEnter = () => {
-      if (glitching.current) return
-      glitching.current = true
+      if (glitchingRef.current) return
+      glitchingRef.current = true
       leftColRef.current?.classList.add('glitch-shaking')
-      rightColRef.current?.classList.add('glitch-shaking')
       let i = 0
       const max = 16
       intervalId = setInterval(() => {
@@ -87,22 +91,20 @@ export default function Hero() {
           if (intervalId) clearInterval(intervalId)
           intervalId = null
           leftColRef.current?.classList.remove('glitch-shaking')
-          rightColRef.current?.classList.remove('glitch-shaking')
           el.textContent = targ
           el.style.color = 'var(--cyan)'
           el.classList.add('glitch-resolved')
-          glitching.current = false
+          glitchingRef.current = false
         }
       }, 40)
     }
     const handleLeave = () => {
       if (intervalId) { clearInterval(intervalId); intervalId = null }
       leftColRef.current?.classList.remove('glitch-shaking')
-      rightColRef.current?.classList.remove('glitch-shaking')
       el.textContent = orig
       el.style.color = ''
       el.classList.remove('glitch-resolved')
-      glitching.current = false
+      glitchingRef.current = false
     }
     el.addEventListener('mouseenter', handleEnter)
     el.addEventListener('mouseleave', handleLeave)
@@ -115,7 +117,6 @@ export default function Hero() {
 
   const sendMessage = async () => {
     if (!userInput.trim() || isLoading) return
-
     const newMessages = [...messages, { role: 'user' as const, content: userInput }]
     setMessages(newMessages)
     setUserInput('')
@@ -177,7 +178,7 @@ Make the proposal specific to their business — not generic. Use real feature n
       const data = await response.json()
       const assistantMessage = data.content[0].text
       setMessages(prev => [...prev, { role: 'assistant', content: assistantMessage }])
-    } catch (error) {
+    } catch {
       setMessages(prev => [...prev, { role: 'assistant', content: 'Connection error. Reach me directly at hello@cl3menza.com' }])
     } finally {
       setIsLoading(false)
@@ -190,59 +191,128 @@ Make the proposal specific to their business — not generic. Use real feature n
   }, [messages])
 
   return (
-    <section className="hero">
-      <div className="container hero-grid">
+    <section className="hero" id="hero">
+      <div className="container">
 
-        {/* Leva kolona */}
-        <motion.div ref={leftColRef} variants={containerVariants} initial="hidden" animate="visible">
-          <motion.div variants={itemVariants}>
-            <div className="eyebrow">10k agency polish × genius product engineer energy</div>
-          </motion.div>
-          <motion.div variants={itemVariants}>
-            <h1>
-              <span className="line pavle">Pavle</span>
-              <span className="line glitch" ref={glitchRef} onClick={() => setCl3menzaMode(prev => !prev)}>Mitrovic</span>
-              <span className="cl3-hint">[ click ]</span>
-            </h1>
-          </motion.div>
-          <motion.div variants={itemVariants}>
-            <div className="role">Digital Product Engineer</div>
-          </motion.div>
-          <motion.div variants={itemVariants}>
-            <p className="headline">I design and build premium digital products that feel sharp, intelligent and impossible to confuse with a basic portfolio.</p>
-          </motion.div>
-          <motion.div variants={itemVariants}>
-            <p className="lead">From Padrino Budva's ordering system to premium business websites — I build digital products that work as well as they look. Based in Serbia, working globally.</p>
-          </motion.div>
-          <motion.div variants={itemVariants}>
-            <div className="hero-actions">
-              <a className="button primary magnetic" href="#project">View flagship build</a>
-              <a className="button magnetic" href="#contact">Start a project</a>
-            </div>
-          </motion.div>
-          <motion.div variants={itemVariants}>
-            <div className="trust-pills">
-              <span>Premium websites</span>
-              <span>Custom systems</span>
-              <span>Admin logic</span>
-              <span>Payment integrations</span>
-              <span>Product thinking</span>
-            </div>
-          </motion.div>
-        </motion.div>
+        {!isMode ? (
+          /* ═══ NORMAL MODE — Personal ═══ */
+          <div className="hero-personal">
+            <motion.div ref={leftColRef} className="hero-intro" variants={containerVariants} initial="hidden" animate="visible">
+              <motion.div variants={itemVariants}>
+                <div className="eyebrow">Digital product engineer · Serbia → Global</div>
+              </motion.div>
+              <motion.div variants={itemVariants}>
+                <h1>
+                  <span className="line pavle">Pavle</span>
+                  <span className="line glitch" ref={glitchRef}>Mitrovic</span>
+                </h1>
+              </motion.div>
+              <motion.div variants={itemVariants}>
+                <p className="hero-personal-pitch">
+                  Placeholder — your personal pitch goes here. One paragraph that captures who you are and how you think about building digital products. Direct, specific, no generic "passionate developer" language.
+                </p>
+              </motion.div>
+              <motion.div variants={itemVariants}>
+                <div className="hero-personal-facts">
+                  <div className="hero-fact">
+                    <span className="hero-fact-num">1</span>
+                    <span className="hero-fact-label">Flagship project live</span>
+                  </div>
+                  <div className="hero-fact">
+                    <span className="hero-fact-num">2025</span>
+                    <span className="hero-fact-label">Building since</span>
+                  </div>
+                  <div className="hero-fact">
+                    <span className="hero-fact-num">0</span>
+                    <span className="hero-fact-label">Templates used</span>
+                  </div>
+                </div>
+              </motion.div>
+              <motion.div variants={itemVariants}>
+                <div className="hero-actions">
+                  <a className="button primary magnetic" href="#about">My story</a>
+                  <a className="button magnetic" href="#contact">Start a project</a>
+                </div>
+              </motion.div>
+            </motion.div>
 
-        {/* Desna kolona */}
-        <motion.div
-          ref={rightColRef}
-          className="hero-visual"
-          aria-hidden="true"
-          initial={{ opacity: 0, x: 40 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.6, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-        >
-          {isMode ? (
-            <>
-              {/* cl3menza mode — chat panel */}
+            {/* Timeline */}
+            <motion.div
+              className="hero-timeline"
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.4, ease: [0.22, 1, 0.36, 1] as const }}
+            >
+              <div className="timeline-line" />
+              {TIMELINE.map((item, i) => (
+                <div key={i} className="timeline-item">
+                  <div className="timeline-dot" />
+                  <div className="timeline-year">{item.year}</div>
+                  <div className="timeline-content">
+                    <h3 className="timeline-title">{item.title}</h3>
+                    <p className="timeline-desc">{item.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </motion.div>
+
+            {/* Values */}
+            <motion.div
+              className="hero-values"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.6, ease: [0.22, 1, 0.36, 1] as const }}
+            >
+              {VALUES.map((v, i) => (
+                <div key={i} className="hero-value">
+                  <span className="hero-value-label">{v.label}</span>
+                  <span className="hero-value-desc">{v.desc}</span>
+                </div>
+              ))}
+            </motion.div>
+          </div>
+        ) : (
+          /* ═══ CL3MENZA MODE — Technical ═══ */
+          <div className="hero-grid">
+            <motion.div variants={containerVariants} initial="hidden" animate="visible">
+              <motion.div variants={itemVariants}>
+                <div className="eyebrow">cl3menza mode — portfolio engine active</div>
+              </motion.div>
+              <motion.div variants={itemVariants}>
+                <h1>
+                  <span className="line pavle">Pavle</span>
+                  <span className="line" style={{ color: 'var(--cyan)' }}>cl3menza</span>
+                </h1>
+              </motion.div>
+              <motion.div variants={itemVariants}>
+                <div className="role">Digital Product Engineer</div>
+              </motion.div>
+              <motion.div variants={itemVariants}>
+                <p className="lead">From Padrino Budva's ordering system to premium business websites — I build digital products that work as well as they look. Based in Serbia, working globally.</p>
+              </motion.div>
+              <motion.div variants={itemVariants}>
+                <div className="hero-actions">
+                  <a className="button primary magnetic" href="#project">View flagship build</a>
+                  <a className="button magnetic" href="#contact">Start a project</a>
+                </div>
+              </motion.div>
+              <motion.div variants={itemVariants}>
+                <div className="trust-pills">
+                  <span>Premium websites</span>
+                  <span>Custom systems</span>
+                  <span>Admin logic</span>
+                  <span>Payment integrations</span>
+                  <span>Product thinking</span>
+                </div>
+              </motion.div>
+            </motion.div>
+
+            <motion.div
+              className="hero-visual"
+              initial={{ opacity: 0, x: 40 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 0.3, ease: [0.22, 1, 0.36, 1] as const }}
+            >
               <div className="hv-badge-status">
                 <span className="hv-status-dot" />
                 <span>Available for projects</span>
@@ -291,32 +361,9 @@ Make the proposal specific to their business — not generic. Use real feature n
                   <button className="hv-send" onClick={sendMessage} disabled={isLoading} aria-label="Send">→</button>
                 </div>
               </motion.div>
-            </>
-          ) : (
-            /* Normal mode — personal card */
-            <div className="hv-personal">
-              <div className="hv-avatar">
-                <div className="hv-avatar-placeholder">PM</div>
-              </div>
-              <div className="hv-personal-info">
-                <div className="hv-personal-name">Pavle Mitrovic</div>
-                <div className="hv-personal-role">Digital Product Engineer</div>
-                <div className="hv-personal-location">📍 Serbia → Working globally</div>
-                <div className="hv-personal-bio">I build premium digital products that combine serious technical depth with agency-level polish. React, TypeScript, Supabase — shipped to production.</div>
-                <div className="hv-personal-tags">
-                  <span>React 19</span>
-                  <span>TypeScript</span>
-                  <span>Supabase</span>
-                  <span>Framer Motion</span>
-                </div>
-              </div>
-              <div className="hv-personal-status">
-                <span className="hv-status-dot" />
-                <span>Available for projects</span>
-              </div>
-            </div>
-          )}
-        </motion.div>
+            </motion.div>
+          </div>
+        )}
 
       </div>
     </section>

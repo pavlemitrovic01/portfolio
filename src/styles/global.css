@@ -232,6 +232,143 @@ section{position:relative;padding:92px 0}
   margin-bottom:26px;
 }
 .hero-actions{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:24px}
+
+/* ═══ Hero Personal Mode ═══ */
+.hero-personal{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:48px 56px;
+  align-items:start;
+  min-height:calc(100vh - 120px);
+  padding-top:40px;
+}
+.hero-intro{
+  grid-column:1;
+  grid-row:1 / 3;
+}
+.hero-personal-pitch{
+  max-width:520px;
+  color:rgba(245,247,251,.72);
+  font-size:17px;
+  line-height:1.8;
+  margin-bottom:28px;
+}
+.hero-personal-facts{
+  display:flex;
+  gap:32px;
+  margin-bottom:32px;
+}
+.hero-fact{
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+}
+.hero-fact-num{
+  font-family:"Space Grotesk",Inter,sans-serif;
+  font-size:clamp(1.8rem,3vw,2.6rem);
+  font-weight:700;
+  letter-spacing:-.04em;
+  color:var(--text);
+}
+.hero-fact-label{
+  font-size:13px;
+  color:var(--muted);
+  text-transform:uppercase;
+  letter-spacing:.08em;
+}
+
+/* Timeline */
+.hero-timeline{
+  grid-column:2;
+  grid-row:1;
+  position:relative;
+  padding-left:28px;
+  display:flex;
+  flex-direction:column;
+  gap:28px;
+}
+.timeline-line{
+  position:absolute;
+  left:5px;
+  top:8px;
+  bottom:8px;
+  width:1px;
+  background:linear-gradient(180deg, var(--blue), var(--violet), transparent);
+  opacity:.4;
+}
+.timeline-item{
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+}
+.timeline-dot{
+  position:absolute;
+  left:-28px;
+  top:6px;
+  width:11px;
+  height:11px;
+  border-radius:50%;
+  background:var(--bg);
+  border:2px solid var(--blue);
+  box-shadow:0 0 12px rgba(93,184,255,.35);
+}
+.timeline-year{
+  font-family:"Space Grotesk",Inter,sans-serif;
+  font-size:12px;
+  font-weight:600;
+  color:var(--blue);
+  text-transform:uppercase;
+  letter-spacing:.12em;
+}
+.timeline-title{
+  font-family:"Space Grotesk",Inter,sans-serif;
+  font-size:16px;
+  font-weight:600;
+  color:var(--text);
+  margin-bottom:2px;
+}
+.timeline-desc{
+  font-size:14px;
+  line-height:1.65;
+  color:var(--muted);
+  max-width:380px;
+}
+
+/* Values */
+.hero-values{
+  grid-column:2;
+  grid-row:2;
+  display:flex;
+  flex-direction:column;
+  gap:18px;
+}
+.hero-value{
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+  padding:16px 20px;
+  border-radius:var(--radius-md);
+  background:var(--panel);
+  border:1px solid var(--line);
+  transition:border-color .2s, box-shadow .2s;
+}
+.hero-value:hover{
+  border-color:var(--line-strong);
+  box-shadow:0 8px 30px rgba(0,0,0,.2);
+}
+.hero-value-label{
+  font-family:"Space Grotesk",Inter,sans-serif;
+  font-size:15px;
+  font-weight:600;
+  color:var(--text);
+}
+.hero-value-desc{
+  font-size:14px;
+  color:var(--muted);
+  line-height:1.55;
+}
+
 .button{
   min-height:54px;padding:0 22px;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;
   border:1px solid rgba(255,255,255,.10);
@@ -619,6 +756,10 @@ footer{padding:28px 0 44px;color:rgba(245,247,251,.42);font-size:13px}
 .reveal.visible{opacity:1;transform:translateY(0) scale(1)}
 
 @media (max-width:1180px){
+  .hero-personal{grid-template-columns:1fr;gap:36px}
+  .hero-intro{grid-row:auto}
+  .hero-timeline{grid-column:1;padding-left:24px}
+  .hero-values{grid-column:1}
   .hero-grid,.section-head,.project-grid,.cta-card{grid-template-columns:1fr}
   .grid-6{grid-template-columns:repeat(3,1fr)}
   .grid-4,.stack-grid{grid-template-columns:repeat(2,1fr)}
@@ -638,6 +779,13 @@ footer{padding:28px 0 44px;color:rgba(245,247,251,.42);font-size:13px}
 
   /* Hero */
   .hero{padding-top:36px}
+  .hero-personal{grid-template-columns:1fr;min-height:auto;padding-top:20px;gap:28px}
+  .hero-intro{grid-column:1;grid-row:auto}
+  .hero-timeline{grid-column:1;grid-row:auto;padding-left:24px}
+  .hero-values{grid-column:1;grid-row:auto}
+  .hero-personal-facts{flex-wrap:wrap;gap:20px}
+  .hero-personal-pitch{font-size:15px}
+  .timeline-desc{max-width:100%}
   .hero-grid{min-height:auto;gap:36px}
   .hero h1{font-size:clamp(2.8rem,13vw,4.8rem)}
   .headline{max-width:100%;font-size:clamp(1.4rem,6vw,2rem)}
