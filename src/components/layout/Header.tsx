@@ -1,41 +1,59 @@
 import { useState, useEffect } from 'react'
+import { useCl3menzaBodyClass } from '../../hooks/useCl3menzaBodyClass'
 
 export default function Header() {
-  const [cl3menzaMode, setCl3menzaMode] = useState(false)
+  const cl3menzaMode = useCl3menzaBodyClass()
+  const [menuOpen, setMenuOpen] = useState(false)
 
   useEffect(() => {
-    const update = () => setCl3menzaMode(document.body.classList.contains('cl3menza-mode'))
-    update()
-    const observer = new MutationObserver(update)
-    observer.observe(document.body, { attributes: true, attributeFilter: ['class'] })
-    return () => observer.disconnect()
-  }, [])
+    setMenuOpen(false)
+  }, [cl3menzaMode])
+
+  const closeMenu = () => setMenuOpen(false)
 
   return (
     <header>
       <div className="container topbar">
         <div className="brand">
-          Pavle Mitrovic / cl3menza
+          <span className="brand-text">Pavle Mitrovic / cl3menza</span>
           {cl3menzaMode && (
             <button className="cl3-mode-badge" onClick={() => document.body.classList.remove('cl3menza-mode')}>
               cl3menza mode: ON <span>×</span>
             </button>
           )}
         </div>
-        <nav>
+        <button
+          type="button"
+          className="mobile-nav-toggle"
+          aria-expanded={menuOpen}
+          aria-controls="header-topbar-nav"
+          aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+          onClick={() => setMenuOpen((o) => !o)}
+        >
+          <span className="mobile-nav-toggle-bars" aria-hidden="true">
+            <span />
+            <span />
+            <span />
+          </span>
+        </button>
+        <nav
+          id="header-topbar-nav"
+          className={`topbar-nav${menuOpen ? ' is-open' : ''}`}
+        >
           {!cl3menzaMode ? (
             <>
-              <a href="#signals">Signals</a>
-              <a href="#about">About</a>
-              <a href="#contact">Contact</a>
+              <a href="#signals" onClick={closeMenu}>Signals</a>
+              <a href="#about" onClick={closeMenu}>About</a>
+              <a href="#contact" onClick={closeMenu}>Contact</a>
             </>
           ) : (
             <>
-              <a href="#offers">Systems</a>
-              <a href="#projects">Projects</a>
-              <a href="#project">Flagship</a>
-              <a href="#process">Process</a>
-              <a href="#contact">Contact</a>
+              <a href="#offers" onClick={closeMenu}>Systems</a>
+              <a href="#projects" onClick={closeMenu}>Projects</a>
+              <a href="#project" onClick={closeMenu}>Flagship</a>
+              <a href="#anatomy" onClick={closeMenu}>Anatomy</a>
+              <a href="#process" onClick={closeMenu}>Process</a>
+              <a href="#contact" onClick={closeMenu}>Contact</a>
             </>
           )}
         </nav>

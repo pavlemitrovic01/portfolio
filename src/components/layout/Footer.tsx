@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useCl3menzaBodyClass } from '../../hooks/useCl3menzaBodyClass'
 
 const START = new Date('2026-01-15T23:00:00')
 
@@ -21,6 +22,7 @@ function useElapsed() {
 
 export default function Footer() {
   const { days, h, m, s } = useElapsed()
+  const cl3menzaMode = useCl3menzaBodyClass()
 
   return (
     <footer>
@@ -31,11 +33,22 @@ export default function Footer() {
             <span className="footer-elapsed">Built &middot; {days}d, {h}h {m.toString().padStart(2, '0')}m {s.toString().padStart(2, '0')}s</span>
           </div>
           <nav className="footer-nav">
-            <a href="#signals">Signals</a>
-            <a href="#offers">Offers</a>
-            <a href="#project">Project</a>
-            <a href="#process">Process</a>
-            <a href="#contact">Contact</a>
+            {cl3menzaMode ? (
+              <>
+                <a href="#offers">Systems</a>
+                <a href="#projects">Projects</a>
+                <a href="#project">Flagship</a>
+                <a href="#anatomy">Anatomy</a>
+                <a href="#process">Process</a>
+                <a href="#contact">Contact</a>
+              </>
+            ) : (
+              <>
+                <a href="#signals">Signals</a>
+                <a href="#about">About</a>
+                <a href="#contact">Contact</a>
+              </>
+            )}
           </nav>
           <div className="footer-links">
             <a href="https://github.com/pavlemitrovic01/portfolio" target="_blank" rel="noopener noreferrer">GitHub</a>

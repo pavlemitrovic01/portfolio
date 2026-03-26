@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import type React from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
 import Layout from './components/layout/Layout'
 import Hero from './components/sections/Hero'
 import TrustSignals from './components/sections/TrustSignals'
@@ -16,10 +16,13 @@ import Contact from './components/sections/Contact'
 import Preloader from './components/layout/Preloader'
 import { useMagnetic } from './hooks/useMagnetic'
 import { useParallax } from './hooks/useParallax'
+import { subscribeCl3BodyClassMutations, getCl3menzaBodyClass } from './hooks/useCl3menzaBodyClass'
 
 const MatrixRain: React.FC = () => {
+  const reduceMotion = useReducedMotion() === true
   const canvasRef = useRef<HTMLCanvasElement>(null)
   useEffect(() => {
+    if (reduceMotion) return
     const canvas = canvasRef.current
     if (!canvas) return
     const ctx = canvas.getContext('2d')
@@ -60,8 +63,8 @@ const MatrixRain: React.FC = () => {
     }
     draw()
     return () => cancelAnimationFrame(animId)
-  }, [])
-  return <canvas ref={canvasRef} className="matrix-canvas" />
+  }, [reduceMotion])
+  return <canvas ref={canvasRef} className="matrix-canvas" aria-hidden />
 }
 
 const TERMINAL_LINES = [
@@ -81,13 +84,20 @@ const TERMINAL_LINES = [
   '// welcome to cl3menza mode',
 ]
 
-const sectionFade = {
-  initial: { opacity: 0, y: 30 },
-  animate: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] as const } },
-  exit: { opacity: 0, y: -20, transition: { duration: 0.3 } },
-}
-
 export default function App() {
+  const reduceMotion = useReducedMotion() === true
+  const sectionFade = reduceMotion
+    ? {
+        initial: { opacity: 0, y: 0 },
+        animate: { opacity: 1, y: 0, transition: { duration: 0.01, ease: [0.22, 1, 0.36, 1] as const } },
+        exit: { opacity: 0, y: 0, transition: { duration: 0.01 } },
+      }
+    : {
+        initial: { opacity: 0, y: 30 },
+        animate: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] as const } },
+        exit: { opacity: 0, y: -20, transition: { duration: 0.3 } },
+      }
+
   useMagnetic()
   useParallax()
 
@@ -95,12 +105,32 @@ export default function App() {
   const [glitching, setGlitching] = useState(false)
   const [terminal, setTerminal] = useState(false)
   const [terminalLines, setTerminalLines] = useState<string[]>([])
+  const cl3menzaModeRef = useRef(false)
+  const modeTransitionTimersRef = useRef<{
+    intervalId: ReturnType<typeof setInterval> | null
+    timeoutIds: ReturnType<typeof setTimeout>[]
+  }>({ intervalId: null, timeoutIds: [] })
 
   useEffect(() => {
-    const observer = new MutationObserver(() => {
-      const isActive = document.body.classList.contains('cl3menza-mode')
+    cl3menzaModeRef.current = cl3menzaMode
+  }, [cl3menzaMode])
 
-      if (isActive && !cl3menzaMode) {
+  useEffect(() => {
+    const clearModeTransitionTimers = () => {
+      const slot = modeTransitionTimersRef.current
+      if (slot.intervalId !== null) {
+        clearInterval(slot.intervalId)
+        slot.intervalId = null
+      }
+      slot.timeoutIds.forEach(clearTimeout)
+      slot.timeoutIds = []
+    }
+
+    const unsub = subscribeCl3BodyClassMutations(() => {
+      const isActive = getCl3menzaBodyClass()
+      const internal = cl3menzaModeRef.current
+
+      if (isActive && !internal) {
         // Activating — boot sequence → fragment explosion
         setTerminalLines([])
         setTerminal(true)
@@ -110,26 +140,36 @@ export default function App() {
           setTerminalLines(TERMINAL_LINES.slice(0, idx))
           if (idx >= TERMINAL_LINES.length) {
             clearInterval(iv)
-            setTimeout(() => {
+            modeTransitionTimersRef.current.intervalId = null
+            const t1 = setTimeout(() => {
               setTerminal(false)
               setGlitching(true)
+              cl3menzaModeRef.current = true
               setCl3menzaMode(true)
               window.scrollTo({ top: 0, behavior: 'instant' })
-              setTimeout(() => setGlitching(false), 1200)
+              const t2 = setTimeout(() => setGlitching(false), 1200)
+              modeTransitionTimersRef.current.timeoutIds.push(t2)
             }, 400)
+            modeTransitionTimersRef.current.timeoutIds.push(t1)
           }
         }, 120)
-      } else if (!isActive && cl3menzaMode) {
+        modeTransitionTimersRef.current.intervalId = iv
+      } else if (!isActive && internal) {
         // Deactivating — fragment explosion
         setGlitching(true)
+        cl3menzaModeRef.current = false
         setCl3menzaMode(false)
         window.scrollTo({ top: 0, behavior: 'instant' })
-        setTimeout(() => setGlitching(false), 1200)
+        const t = setTimeout(() => setGlitching(false), 1200)
+        modeTransitionTimersRef.current.timeoutIds.push(t)
       }
     })
-    observer.observe(document.body, { attributes: true, attributeFilter: ['class'] })
-    return () => observer.disconnect()
-  }, [cl3menzaMode])
+
+    return () => {
+      clearModeTransitionTimers()
+      unsub()
+    }
+  }, [])
 
   return (
     <Layout>

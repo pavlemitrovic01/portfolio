@@ -2,6 +2,8 @@ import { useEffect } from 'react'
 
 export function useParallax() {
   useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+
     const heroVisual = document.querySelector<HTMLElement>('.hero-visual')
     const glows = document.querySelectorAll<HTMLElement>('.glow')
 

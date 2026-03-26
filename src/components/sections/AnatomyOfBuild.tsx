@@ -60,7 +60,7 @@ export default function AnatomyOfBuild() {
   const activeCat = CAT_META[activeNode.category]
 
   return (
-    <section className="anatomy">
+    <section className="anatomy" id="anatomy">
       <div className="container">
         <MotionReveal className="section-head">
           <div>
