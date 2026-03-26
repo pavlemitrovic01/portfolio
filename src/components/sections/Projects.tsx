@@ -20,22 +20,6 @@ const PROJECTS: Project[] = [
     statusColor: 'var(--cyan)',
     link: 'https://padrinobudva.com',
   },
-  {
-    tag: 'Coming soon',
-    title: 'Project placeholder',
-    description: 'Description of the next project goes here. Custom web product with premium execution and real business logic.',
-    stack: ['React', 'TypeScript', 'Supabase'],
-    status: 'In progress',
-    statusColor: 'var(--gold)',
-  },
-  {
-    tag: 'Coming soon',
-    title: 'Project placeholder',
-    description: 'Description of another project. Admin dashboard, custom ordering flow, or premium digital product.',
-    stack: ['React', 'TypeScript', 'Framer Motion'],
-    status: 'Planned',
-    statusColor: 'var(--muted)',
-  },
 ]
 
 export default function Projects() {
