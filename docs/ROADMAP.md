@@ -70,11 +70,10 @@ Režim: STANDARD | Rizik: srednji (LOCK zona)
 Verifikacija: prod build potvrđuje 9 odvojenih chunk-ova; `index.js` ne sadrži nijedan cl3menza modul.
 Chunk mapa: `HeroCl3menza` 7.35kB · `AnatomyOfBuild` 5.09kB · `Flagship` 4.14kB · ostali 1.6–2.3kB each.
 
-### Batch 11 — CSS modularizacija `[ ]`
-Razbij `global.css` (1813 linija) u logičke module: `base.css`, `layout.css`, `sections.css`, `animations.css`.
-Ili prelaz na CSS modules per-component.
-Cilj: održivost, ne redesign.
-Fajlovi: `src/styles/`, component fajlovi
+### Batch 11 — CSS modularizacija `[x]`
+global.css (1823L) → base.css (92L) + layout.css (140L) + hero.css (553L) + overrides.css (808L) + sections.css (230L).
+global.css postaje orkestrator sa 5 @import linija. main.tsx nepromenjen.
+Fajlovi: `src/styles/`
 Režim: STANDARD | Rizik: srednji
 
 ---

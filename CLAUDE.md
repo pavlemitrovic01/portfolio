@@ -188,11 +188,11 @@ LOCK ne znači "ne diraj nikad". Znači:
 ## Current status (2026-03-26)
 
 Završena Faza 1 (batch-evi 1–5): anchor IDs, Hero copy, Hero refactor, mobile polish, nav sync.
-Faza 2 završena (batch-evi 6–10.5): git checkpoint, API hardening, SEO, a11y, lazy load, typecheck coverage + repo hygiene.
+Faza 2 završena (batch-evi 6–11): git checkpoint, API hardening, SEO, a11y, lazy load, typecheck coverage, CSS modularizacija.
 Detalji → `docs/ROADMAP.md` arhiva.
 
 Sledeći korak:
-- Batch 11: CSS modularizacija — razbij global.css (1800+ linija) u logičke module
+- Batch 12: Sadržaj — About, Contact, Projects placeholder popunjavanje
 
 ---
 
