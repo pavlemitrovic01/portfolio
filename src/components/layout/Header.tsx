@@ -17,8 +17,8 @@ export default function Header() {
         <div className="brand">
           <span className="brand-text">Pavle Mitrovic / cl3menza</span>
           {cl3menzaMode && (
-            <button className="cl3-mode-badge" onClick={() => document.body.classList.remove('cl3menza-mode')}>
-              cl3menza mode: ON <span>×</span>
+            <button className="cl3-mode-badge" aria-label="Exit cl3menza mode" onClick={() => document.body.classList.remove('cl3menza-mode')}>
+              cl3menza mode: ON <span aria-hidden="true">×</span>
             </button>
           )}
         </div>
@@ -39,6 +39,7 @@ export default function Header() {
         <nav
           id="header-topbar-nav"
           className={`topbar-nav${menuOpen ? ' is-open' : ''}`}
+          aria-label="Main navigation"
         >
           {!cl3menzaMode ? (
             <>

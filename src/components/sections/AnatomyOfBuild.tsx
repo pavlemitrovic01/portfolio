@@ -126,7 +126,17 @@ export default function AnatomyOfBuild() {
                 const isActive = node.id === active
                 const cat = CAT_META[node.category]
                 return (
-                  <g key={node.id} className="anatomy-node" onClick={() => setActive(node.id)} style={{ cursor: 'pointer' }}>
+                  <g
+                    key={node.id}
+                    className="anatomy-node"
+                    onClick={() => setActive(node.id)}
+                    onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setActive(node.id) } }}
+                    role="button"
+                    tabIndex={0}
+                    aria-pressed={isActive}
+                    aria-label={`${node.label} — ${CAT_META[node.category].label}`}
+                    style={{ cursor: 'pointer' }}
+                  >
                     {isActive && (
                       <rect
                         x={node.x - 4}

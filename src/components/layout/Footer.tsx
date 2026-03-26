@@ -32,7 +32,7 @@ export default function Footer() {
             <span>&copy; 2026 cl3menza.com</span>
             <span className="footer-elapsed">Built &middot; {days}d, {h}h {m.toString().padStart(2, '0')}m {s.toString().padStart(2, '0')}s</span>
           </div>
-          <nav className="footer-nav">
+          <nav className="footer-nav" aria-label="Footer navigation">
             {cl3menzaMode ? (
               <>
                 <a href="#offers">Systems</a>

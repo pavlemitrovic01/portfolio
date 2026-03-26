@@ -2,7 +2,7 @@ import MotionReveal from '../motion/MotionReveal'
 
 export default function Stack() {
   return (
-    <section>
+    <section id="stack">
       <div className="container">
         <MotionReveal className="section-head">
           <div>

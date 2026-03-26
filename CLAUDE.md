@@ -191,10 +191,10 @@ Završena Faza 1 (batch-evi 1–5): anchor IDs, Hero copy, Hero refactor, mobile
 Detalji → `docs/ROADMAP.md` arhiva.
 
 Trenutni fokus:
-- Faza 2 u toku — batch-evi 6–8 završeni
+- Faza 2 u toku — batch-evi 6–10 završeni
 
 Sledeći korak:
-- Batch 9: Accessibility audit (ARIA, keyboard nav, focus management, skip-to-content)
+- Batch 11: CSS modularizacija — razbij global.css (1813+ linija) u logičke module
 
 ---
 

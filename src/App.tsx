@@ -1,22 +1,23 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, lazy, Suspense } from 'react'
 import type React from 'react'
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
 import Layout from './components/layout/Layout'
 import Hero from './components/sections/Hero'
 import TrustSignals from './components/sections/TrustSignals'
-import Systems from './components/sections/Systems'
-import Flagship from './components/sections/Flagship'
-import AnatomyOfBuild from './components/sections/AnatomyOfBuild'
-import Process from './components/sections/Process'
-import Stack from './components/sections/Stack'
-import Projects from './components/sections/Projects'
-import Testimonials from './components/sections/Testimonials'
 import About from './components/sections/About'
 import Contact from './components/sections/Contact'
 import Preloader from './components/layout/Preloader'
 import { useMagnetic } from './hooks/useMagnetic'
 import { useParallax } from './hooks/useParallax'
 import { subscribeCl3BodyClassMutations, getCl3menzaBodyClass } from './hooks/useCl3menzaBodyClass'
+
+const Systems = lazy(() => import('./components/sections/Systems'))
+const Projects = lazy(() => import('./components/sections/Projects'))
+const Flagship = lazy(() => import('./components/sections/Flagship'))
+const AnatomyOfBuild = lazy(() => import('./components/sections/AnatomyOfBuild'))
+const Process = lazy(() => import('./components/sections/Process'))
+const Stack = lazy(() => import('./components/sections/Stack'))
+const Testimonials = lazy(() => import('./components/sections/Testimonials'))
 
 const MatrixRain: React.FC = () => {
   const reduceMotion = useReducedMotion() === true
@@ -105,6 +106,7 @@ export default function App() {
   const [glitching, setGlitching] = useState(false)
   const [terminal, setTerminal] = useState(false)
   const [terminalLines, setTerminalLines] = useState<string[]>([])
+  const [modeAnnouncement, setModeAnnouncement] = useState('')
   const cl3menzaModeRef = useRef(false)
   const modeTransitionTimersRef = useRef<{
     intervalId: ReturnType<typeof setInterval> | null
@@ -147,7 +149,11 @@ export default function App() {
               cl3menzaModeRef.current = true
               setCl3menzaMode(true)
               window.scrollTo({ top: 0, behavior: 'instant' })
-              const t2 = setTimeout(() => setGlitching(false), 1200)
+              const t2 = setTimeout(() => {
+                setGlitching(false)
+                setModeAnnouncement('cl3menza mode activated')
+                document.getElementById('main-content')?.focus()
+              }, 1200)
               modeTransitionTimersRef.current.timeoutIds.push(t2)
             }, 400)
             modeTransitionTimersRef.current.timeoutIds.push(t1)
@@ -160,7 +166,11 @@ export default function App() {
         cl3menzaModeRef.current = false
         setCl3menzaMode(false)
         window.scrollTo({ top: 0, behavior: 'instant' })
-        const t = setTimeout(() => setGlitching(false), 1200)
+        const t = setTimeout(() => {
+          setGlitching(false)
+          setModeAnnouncement('cl3menza mode deactivated')
+          document.getElementById('main-content')?.focus()
+        }, 1200)
         modeTransitionTimersRef.current.timeoutIds.push(t)
       }
     })
@@ -183,21 +193,25 @@ export default function App() {
           </motion.div>
         ) : (
           <motion.div key="cl3menza" {...sectionFade}>
-            <Systems />
-            <Projects />
-            <Flagship />
-            <AnatomyOfBuild />
-            <Process />
-            <Stack />
-            <Testimonials />
+            <Suspense fallback={<div className="lazy-fallback" />}>
+              <Systems />
+              <Projects />
+              <Flagship />
+              <AnatomyOfBuild />
+              <Process />
+              <Stack />
+              <Testimonials />
+            </Suspense>
           </motion.div>
         )}
       </AnimatePresence>
 
       <Contact />
 
+      <div role="status" aria-live="polite" aria-atomic="true" className="sr-only">{modeAnnouncement}</div>
+
       {terminal && (
-        <div className="terminal-overlay">
+        <div className="terminal-overlay" role="status" aria-label="cl3menza mode loading" aria-live="polite">
           <MatrixRain />
           <div className="terminal-window">
             <div className="terminal-header">

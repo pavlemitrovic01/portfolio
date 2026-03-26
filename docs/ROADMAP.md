@@ -53,7 +53,7 @@ Proveri OG image rendering na social share.
 Fajlovi: `index.html`, `public/`
 Režim: STANDARD | Rizik: srednji
 
-### Batch 9 — Accessibility audit `[ ]`
+### Batch 9 — Accessibility audit `[x]`
 ARIA landmarks na svim sekcijama.
 Keyboard navigacija kroz mode switch (cl3menza ulaz/izlaz).
 Focus management pri mode tranziciji.
@@ -62,12 +62,13 @@ Skip-to-content link.
 Fajlovi: `Header.tsx`, `App.tsx`, `Layout.tsx`, sekcije
 Režim: STANDARD | Rizik: nizak
 
-### Batch 10 — Performance: lazy load i code split `[ ]`
+### Batch 10 — Performance: lazy load i code split `[x]`
 `React.lazy` + `Suspense` za cl3menza sekcije (Systems, Projects, Flagship, Anatomy, Process, Stack, Testimonials).
 Lazy load HeroCl3menza (iframe + AI chat).
-Lighthouse score pre/posle.
 Fajlovi: `App.tsx`, `Hero.tsx`
 Režim: STANDARD | Rizik: srednji (LOCK zona)
+Verifikacija: prod build potvrđuje 9 odvojenih chunk-ova; `index.js` ne sadrži nijedan cl3menza modul.
+Chunk mapa: `HeroCl3menza` 7.35kB · `AnatomyOfBuild` 5.09kB · `Flagship` 4.14kB · ostali 1.6–2.3kB each.
 
 ### Batch 11 — CSS modularizacija `[ ]`
 Razbij `global.css` (1813 linija) u logičke module: `base.css`, `layout.css`, `sections.css`, `animations.css`.

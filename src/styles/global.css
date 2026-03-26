@@ -22,6 +22,14 @@
 
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
+
+/* Lazy load fallback */
+.lazy-fallback{min-height:0;background:transparent}
+
+/* Accessibility utilities */
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.skip-to-content{position:fixed;top:-100%;left:50%;transform:translateX(-50%);z-index:9999;background:var(--blue);color:var(--bg);padding:12px 24px;border-radius:0 0 var(--radius-md) var(--radius-md);font-weight:600;font-size:14px;text-decoration:none;transition:top .15s}
+.skip-to-content:focus{top:0}
 body{
   font-family:Inter,system-ui,sans-serif;
   color:var(--text);
@@ -1601,9 +1609,11 @@ h1 .glitch{
 }
 .anatomy-map svg{width:100%;height:auto;display:block}
 
-/* Node hover */
+/* Node hover / focus */
 .anatomy-node rect{transition:fill .15s,opacity .15s}
 .anatomy-node:hover rect{fill:rgba(255,255,255,.05)}
+.anatomy-node:focus{outline:none}
+.anatomy-node:focus-visible rect:first-of-type{stroke:var(--cyan);stroke-width:2;opacity:1}
 
 /* Active glow pulse */
 @keyframes anatomy-glow-pulse{

@@ -1,6 +1,8 @@
+import { lazy, Suspense } from 'react'
 import HeroNormal from './HeroNormal'
-import HeroCl3menza from './HeroCl3menza'
 import { useCl3menzaBodyClass } from '../../hooks/useCl3menzaBodyClass'
+
+const HeroCl3menza = lazy(() => import('./HeroCl3menza'))
 
 export default function Hero() {
   const isMode = useCl3menzaBodyClass()
@@ -8,7 +10,11 @@ export default function Hero() {
   return (
     <section className="hero" id="hero">
       <div className="container">
-        {!isMode ? <HeroNormal /> : <HeroCl3menza />}
+        {!isMode ? <HeroNormal /> : (
+          <Suspense fallback={<div className="lazy-fallback" />}>
+            <HeroCl3menza />
+          </Suspense>
+        )}
       </div>
     </section>
   )
