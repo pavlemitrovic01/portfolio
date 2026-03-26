@@ -33,19 +33,19 @@ Jedan `MutationObserver` preko `useCl3menzaBodyClass`; Hero, Header, Footer + Ap
 
 ## FAZA 2 — Stabilnost, zaštita, infrastruktura
 
-### Batch 6 — Git checkpoint `[ ]`
+### Batch 6 — Git checkpoint `[x]`
 Komituj sav nekomitirani rad iz batch-eva 3–5.
 Fajlovi: sve modifikovane i untracked datoteke.
 Režim: LEAN | Rizik: nizak
 
-### Batch 7 — API hardening `[ ]`
+### Batch 7 — API hardening `[x]`
 Rate-limiting na `api/claude.ts` (IP-based, in-memory ili Vercel KV).
 Input validacija (max message length, sanitizacija).
 Graceful error response umesto raw Anthropic greške.
 Fajlovi: `api/claude.ts`
 Režim: STANDARD | Rizik: srednji (LOCK zona)
 
-### Batch 8 — SEO & Meta osnova `[ ]`
+### Batch 8 — SEO & Meta osnova `[x]`
 Konfiguriši GA4 sa pravim ID-om ili ukloni placeholder script.
 Dodaj `sitemap.xml`, `robots.txt`.
 Favicon set (16, 32, 180, 192, 512) + `site.webmanifest`.

@@ -191,11 +191,10 @@ Završena Faza 1 (batch-evi 1–5): anchor IDs, Hero copy, Hero refactor, mobile
 Detalji → `docs/ROADMAP.md` arhiva.
 
 Trenutni fokus:
-- Faza 2 roadmap upisan (batch-evi 6–15), cilj: ocena 9/9.5
-- Prioritet: stabilnost → zaštita → infrastruktura → sadržaj → polish
+- Faza 2 u toku — batch-evi 6–8 završeni
 
 Sledeći korak:
-- Batch 6: git checkpoint — komituj sav nekomitirani rad
+- Batch 9: Accessibility audit (ARIA, keyboard nav, focus management, skip-to-content)
 
 ---
 
