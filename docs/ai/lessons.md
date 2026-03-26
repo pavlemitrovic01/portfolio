@@ -10,6 +10,32 @@ Format: datum → greška/problem → lekcija → primena → status → next re
 
 ---
 
+## 2026-03-26 — QA pre deploy, ne posle
+
+**PROBLEM:** 12 commit-a ostalo lokalno nekoliko sesija — production bio daleko iza. Otkriveno tek u Batch 15B.
+
+**LEKCIJA:** Na kraju svakog batch-a koji menja runtime: `git push` je deo verify faze, ne opcija. Vercel auto-deploy je brz (~15s) — nema razloga čekati.
+
+**PRIMENA:** Batch workflow: DONE → build → push → smoke. Posebno za LOCK zone i API promene.
+
+**STATUS:** RESOLVED
+**NEXT REVIEW:** —
+
+---
+
+## 2026-03-26 — Lighthouse via Edge kad Chrome nije dostupan
+
+**PROBLEM:** `npx lighthouse` nije pronašao Chrome na Windows mašini.
+
+**LEKCIJA:** Postaviti `CHROME_PATH` na Edge (`/c/Program Files (x86)/Microsoft/Edge/Application/msedge.exe`) — Lighthouse radi normalno. EPERM cleanup error na kraju je benigan, report se upisuje.
+
+**PRIMENA:** Svaki Lighthouse run na ovoj mašini: koristiti Edge path.
+
+**STATUS:** RESOLVED
+**NEXT REVIEW:** —
+
+---
+
 ## 2026-03-26 — App terminal timers bez cleanup-a
 
 **PROBLEM:** `App.tsx` cl3menza ulaz pokretao `setInterval` / `setTimeout` bez čišćenja na unmount — StrictMode / lifecycle rizik i moguća upozorenja u konzoli.

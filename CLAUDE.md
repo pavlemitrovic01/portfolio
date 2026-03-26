@@ -187,12 +187,16 @@ LOCK ne znači "ne diraj nikad". Znači:
 
 ## Current status (2026-03-26)
 
-Završena Faza 1 (batch-evi 1–5): anchor IDs, Hero copy, Hero refactor, mobile polish, nav sync.
-Faza 2 završena (batch-evi 6–11): git checkpoint, API hardening, SEO, a11y, lazy load, typecheck coverage, CSS modularizacija.
-Detalji → `docs/ROADMAP.md` arhiva.
+Roadmap Faza 1–3 završen.
+Faza 1 (1–5): anchors, copy, Hero refactor, mobile, nav sync.
+Faza 2 (6–11): git, API hardening, SEO, a11y, lazy load, typecheck, CSS modularizacija.
+Faza 3 (12A, 14, 15A–D): content placeholders, font fix, heading fix, QA, deploy, manual smoke.
+Production: https://portfolio-seven-eosin-21.vercel.app — sve OK.
+Detalji → `docs/ROADMAP.md`.
 
 Sledeći korak:
-- Batch 14: Targeted fixes — Google Fonts preconnect + heading order fix (iz QA 15A)
+- Batch 12B: finalni About copy + pravi Upwork/Fiverr URL-ovi (čeka Pavle's input)
+- Config: cl3menza.com domain setup + GA4 real ID
 
 ---
 

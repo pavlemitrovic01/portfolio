@@ -105,7 +105,35 @@ Lighthouse delta: Perf 62→76, A11y 98→100, TBT 1370ms→420ms
 Fajlovi: `index.html`, `HeroNormal.tsx`
 Režim: LEAN | Rizik: nizak
 
-### Batch 15B — Final QA i deploy verifikacija `[ ]`
-Vercel deployment smoke test + cross-browser check (Edge potvrđen; Firefox pending).
-Fajlovi: `vercel.json` po potrebi
-Režim: STANDARD | Rizik: nizak
+### Batch 15B — Production gap audit `[x]`
+Production bio na b675f643 (12 commit-a iza lokalnog HEAD-a). Smoke na starom production aliasu.
+Confirmed: cl3menza.com = ECONNREFUSED (domena nije vezana za Vercel).
+
+### Batch 15C — Push / deploy latest commits `[x]`
+git push origin main → b675f64..f2fc700 (12 commit-a).
+Vercel auto-deploy triggerovan, READY za ~15s. Production = local HEAD.
+
+### Batch 15D — Final production smoke test `[x]`
+Manual browser smoke (Edge) na https://portfolio-seven-eosin-21.vercel.app
+- header/nav, normal hero, cl3 switch, projects, contact, footer: ✅ sve OK
+- console: 0 errors | network: 0 failed requests
+- font fix, heading fix, content batch 12A: ✅ sve potvrđeno vizuelno
+- Testimonials placeholder: ℹ️ vidljiv, expected (Batch 13 deferred)
+- Firefox: not verified (nije dostupan u okruženju)
+
+---
+
+## OPEN — Pending user input / config
+
+### Batch 12B — Finalni content `[ ]`
+Finalni About copy (Pavle's priča) + pravi Upwork/Fiverr URL-ovi.
+Čeka: tekst od Pavla + aktivne profile URL-ove.
+Fajlovi: `About.tsx`, `Contact.tsx`
+Režim: LEAN | Rizik: nizak
+
+### Batch 13 — Testimonials `[defer]`
+Realne recenzije nisu dostupne. Sekcija ostaje, popunjava se naknadno.
+
+### Config pending (van batch sistema)
+- cl3menza.com → Vercel domain config + DNS setup
+- GA4 Measurement ID → zameni G-XXXXXXXXXX sa pravim ID-om
