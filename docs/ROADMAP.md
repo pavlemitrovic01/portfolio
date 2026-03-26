@@ -80,30 +80,33 @@ Režim: STANDARD | Rizik: srednji
 
 ## FAZA 3 — Sadržaj i Polish
 
-### Batch 12 — Sadržaj: placeholder popunjavanje `[ ]`
-About.tsx: realan Pavle's story.
-Contact.tsx: pravi Upwork/Fiverr URL-ovi.
-Projects.tsx: realni projekti ili smanjenje grida na 1 (Padrino).
-Fajlovi: `About.tsx`, `Contact.tsx`, `Projects.tsx`
+### Batch 12 — Sadržaj: placeholder popunjavanje `[~]`
+12A zatvoren: About neutralni bio, Contact Upwork/Fiverr → non-interactive span, Projects fake kartice uklonjene.
+12B pending: finalni About copy + pravi Upwork/Fiverr URL-ovi (čeka Pavle's input).
+Fajlovi: `About.tsx`, `Contact.tsx`
 Režim: LEAN | Rizik: nizak
 
-### Batch 13 — Testimonials: real ili remove `[ ]`
-Ako postoje realne recenzije → ubaci ih.
-Ako ne → sakrij sekciju iz renderovanja (bolje ništa nego fake).
-Fajlovi: `Testimonials.tsx`, `App.tsx`
+### Batch 13 — Testimonials: real ili remove `[defer]`
+Realne recenzije trenutno nisu dostupne. Sekcija ostaje u kodu, popunjava se naknadno.
+Fajlovi: `Testimonials.tsx`
 Režim: LEAN | Rizik: nizak
 
-### Batch 14 — UI polish final pass `[ ]`
-Micro-interakcije, hover stanja, transition timing.
-Mobile edge-case provera na više uređaja.
-Dark theme doslednost (contrast, readability).
-Fajlovi: `global.css`, komponente po potrebi
-Režim: STANDARD | Rizik: nizak
+### Batch 15A — QA audit `[x]`
+Lighthouse mobile: Perf 62 / A11y 98 / Best Practices 100 / SEO 100.
+TBT 1,370ms (Framer Motion), FCP 2.7s, LCP 3.0s, CLS 0.
+Render-blocking Google Fonts: 813ms. Heading order invalid (h3 pre h2 u timeline).
+Firefox: not verified (nije dostupan u okruženju).
+Findings → Batch 14 targeted fixes.
 
-### Batch 15 — Final QA i deploy verifikacija `[ ]`
-Full Lighthouse audit (Performance, A11y, SEO, Best Practices).
-Cross-browser test (Chrome, Firefox, Safari, Edge).
-Production build verifikacija.
+### Batch 14 — Targeted fixes (iz QA) `[ ]`
+1. `preconnect` + `font-display: swap` za Google Fonts → ~800ms FCP gain
+2. Heading order fix u Hero timeline (h3 → semantic) → A11y 98→100
+Fajlovi: `index.html`, `Hero.tsx`
+Režim: LEAN | Rizik: nizak
+
+### Batch 15B — Final QA i deploy verifikacija `[ ]`
+Re-run Lighthouse post Batch 14 fixes.
 Vercel deployment smoke test.
+Cross-browser: Chrome + Edge (Firefox pending).
 Fajlovi: build config, `vercel.json`
 Režim: STANDARD | Rizik: nizak

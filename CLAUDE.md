@@ -192,7 +192,7 @@ Faza 2 završena (batch-evi 6–11): git checkpoint, API hardening, SEO, a11y, l
 Detalji → `docs/ROADMAP.md` arhiva.
 
 Sledeći korak:
-- Batch 12: Sadržaj — About, Contact, Projects placeholder popunjavanje
+- Batch 14: Targeted fixes — Google Fonts preconnect + heading order fix (iz QA 15A)
 
 ---
 
