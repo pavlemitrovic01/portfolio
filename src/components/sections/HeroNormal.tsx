@@ -134,7 +134,7 @@ export default function HeroNormal() {
             <div className="timeline-dot" />
             <div className="timeline-year">{item.year}</div>
             <div className="timeline-content">
-              <h3 className="timeline-title">{item.title}</h3>
+              <p className="timeline-title">{item.title}</p>
               <p className="timeline-desc">{item.desc}</p>
             </div>
           </div>
