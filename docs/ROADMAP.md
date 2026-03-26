@@ -98,15 +98,14 @@ Render-blocking Google Fonts: 813ms. Heading order invalid (h3 pre h2 u timeline
 Firefox: not verified (nije dostupan u okruženju).
 Findings → Batch 14 targeted fixes.
 
-### Batch 14 — Targeted fixes (iz QA) `[ ]`
-1. `preconnect` + `font-display: swap` za Google Fonts → ~800ms FCP gain
-2. Heading order fix u Hero timeline (h3 → semantic) → A11y 98→100
-Fajlovi: `index.html`, `Hero.tsx`
+### Batch 14 — Targeted fixes (iz QA) `[x]`
+1. Google Fonts: preload/onload non-blocking pattern — eliminisano 813ms render-blocking
+2. HeroNormal.tsx: h3.timeline-title → p.timeline-title — heading order FAIL→PASS
+Lighthouse delta: Perf 62→76, A11y 98→100, TBT 1370ms→420ms
+Fajlovi: `index.html`, `HeroNormal.tsx`
 Režim: LEAN | Rizik: nizak
 
 ### Batch 15B — Final QA i deploy verifikacija `[ ]`
-Re-run Lighthouse post Batch 14 fixes.
-Vercel deployment smoke test.
-Cross-browser: Chrome + Edge (Firefox pending).
-Fajlovi: build config, `vercel.json`
+Vercel deployment smoke test + cross-browser check (Edge potvrđen; Firefox pending).
+Fajlovi: `vercel.json` po potrebi
 Režim: STANDARD | Rizik: nizak
