@@ -187,14 +187,13 @@ LOCK ne znači "ne diraj nikad". Znači:
 
 ## Current status (2026-03-26)
 
-Roadmap Faza 1–3 završen.
-Faza 1 (1–5): anchors, copy, Hero refactor, mobile, nav sync.
-Faza 2 (6–11): git, API hardening, SEO, a11y, lazy load, typecheck, CSS modularizacija.
-Faza 3 (12A, 14, 15A–D): content placeholders, font fix, heading fix, QA, deploy, manual smoke.
+Roadmap Faza 1–3 završen (arhivirano). Faza 4 u toku.
+Batch 16–18 zatvoreni: 52 testova (34 API + 8 hooks + 9 integration + 1 skipped model), `npm test` = zeleno.
 Production: https://portfolio-seven-eosin-21.vercel.app — sve OK.
 Detalji → `docs/ROADMAP.md`.
 
 Sledeći korak:
+- **Batch 19**: Timer extraction — useTerminalBoot hook, App.tsx cleanup
 - Batch 12B: finalni About copy + pravi Upwork/Fiverr URL-ovi (čeka Pavle's input)
 - Config: cl3menza.com domain setup + GA4 real ID
 

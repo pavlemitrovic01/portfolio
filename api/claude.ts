@@ -1,5 +1,9 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 
+// --- Backend constants (never client-controlled) ---
+const ANTHROPIC_MODEL = 'claude-haiku-4-5-20251001'
+const MAX_TOKENS = 600
+
 // --- Rate limiter (in-memory, best-effort on Vercel warm instances) ---
 const RATE_LIMIT = 15
 const RATE_WINDOW = 60_000
@@ -17,7 +21,7 @@ function getClientIp(req: VercelRequest): string {
   return req.socket?.remoteAddress ?? 'unknown'
 }
 
-function isRateLimited(ip: string): boolean {
+export function isRateLimited(ip: string): boolean {
   const now = Date.now()
   const entry = rateLimitMap.get(ip)
 
@@ -37,16 +41,12 @@ const MAX_MESSAGES = 30
 const MAX_MESSAGE_LENGTH = 2000
 const MAX_SYSTEM_LENGTH = 4000
 
-function validateBody(body: unknown): string | null {
+export function validateBody(body: unknown): string | null {
   if (!body || typeof body !== 'object' || Array.isArray(body)) {
     return 'Invalid request body'
   }
 
   const b = body as Record<string, unknown>
-
-  if (typeof b.model !== 'string' || !b.model.startsWith('claude-')) {
-    return 'Invalid model'
-  }
 
   if (!Array.isArray(b.messages)) return 'Invalid messages'
   if (b.messages.length > MAX_MESSAGES) return 'Too many messages'
@@ -67,10 +67,39 @@ function validateBody(body: unknown): string | null {
   return null
 }
 
+// --- Response sanitization ---
+// Strip HTML tags from text content blocks only — guards against XSS if upstream ever returns markup.
+export function sanitizeAnthropicResponse(data: unknown): unknown {
+  if (!data || typeof data !== 'object' || Array.isArray(data)) return data
+  const d = data as Record<string, unknown>
+  if (!Array.isArray(d.content)) return data
+  return {
+    ...d,
+    content: d.content.map((block: unknown) => {
+      if (!block || typeof block !== 'object' || Array.isArray(block)) return block
+      const b = block as Record<string, unknown>
+      if (typeof b.text === 'string') {
+        return { ...b, text: b.text.replace(/<[^>]*>/g, '') }
+      }
+      return block
+    }),
+  }
+}
+
+/** Test-only: reset in-memory rate limit state between test runs. */
+export function _resetRateLimitMap(): void {
+  rateLimitMap.clear()
+}
+
 // --- Handler ---
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' })
+  }
+
+  const apiKey = process.env.ANTHROPIC_API_KEY
+  if (!apiKey) {
+    return res.status(500).json({ error: 'Service not configured.' })
   }
 
   const ip = getClientIp(req)
@@ -83,15 +112,25 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(400).json({ error: validationError })
   }
 
+  const b = req.body as Record<string, unknown>
+  const anthropicBody: Record<string, unknown> = {
+    model: ANTHROPIC_MODEL,
+    max_tokens: MAX_TOKENS,
+    messages: b.messages,
+  }
+  if (typeof b.system === 'string') {
+    anthropicBody.system = b.system
+  }
+
   try {
     const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'x-api-key': process.env.ANTHROPIC_API_KEY ?? '',
+        'x-api-key': apiKey,
         'anthropic-version': '2023-06-01',
       },
-      body: JSON.stringify(req.body),
+      body: JSON.stringify(anthropicBody),
     })
 
     if (!response.ok) {
@@ -102,7 +141,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     const data = await response.json()
-    return res.status(200).json(data)
+    return res.status(200).json(sanitizeAnthropicResponse(data))
   } catch {
     return res.status(500).json({ error: 'Network error. Please try again.' })
   }

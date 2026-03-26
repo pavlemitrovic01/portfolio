@@ -29,9 +29,10 @@ Jedan `MutationObserver` preko `useCl3menzaBodyClass`; Hero, Header, Footer + Ap
 
 </details>
 
----
+## ARHIVA — Faza 2 (batch-evi 6–11)
 
-## FAZA 2 — Stabilnost, zaštita, infrastruktura
+<details>
+<summary>Završeni batch-evi (klikni za detalje)</summary>
 
 ### Batch 6 — Git checkpoint `[x]`
 Komituj sav nekomitirani rad iz batch-eva 3–5.
@@ -46,80 +47,140 @@ Fajlovi: `api/claude.ts`
 Režim: STANDARD | Rizik: srednji (LOCK zona)
 
 ### Batch 8 — SEO & Meta osnova `[x]`
-Konfiguriši GA4 sa pravim ID-om ili ukloni placeholder script.
-Dodaj `sitemap.xml`, `robots.txt`.
-Favicon set (16, 32, 180, 192, 512) + `site.webmanifest`.
-Proveri OG image rendering na social share.
+GA4 placeholder, `sitemap.xml`, `robots.txt`, favicon set, `site.webmanifest`, OG image.
 Fajlovi: `index.html`, `public/`
 Režim: STANDARD | Rizik: srednji
 
 ### Batch 9 — Accessibility audit `[x]`
-ARIA landmarks na svim sekcijama.
-Keyboard navigacija kroz mode switch (cl3menza ulaz/izlaz).
-Focus management pri mode tranziciji.
-Color contrast provera (tamna tema + muted tekst).
-Skip-to-content link.
+ARIA landmarks, keyboard nav, focus management, color contrast, skip-to-content.
 Fajlovi: `Header.tsx`, `App.tsx`, `Layout.tsx`, sekcije
 Režim: STANDARD | Rizik: nizak
 
 ### Batch 10 — Performance: lazy load i code split `[x]`
-`React.lazy` + `Suspense` za cl3menza sekcije (Systems, Projects, Flagship, Anatomy, Process, Stack, Testimonials).
-Lazy load HeroCl3menza (iframe + AI chat).
+`React.lazy` + `Suspense` za cl3menza sekcije. 9 chunk-ova.
 Fajlovi: `App.tsx`, `Hero.tsx`
 Režim: STANDARD | Rizik: srednji (LOCK zona)
-Verifikacija: prod build potvrđuje 9 odvojenih chunk-ova; `index.js` ne sadrži nijedan cl3menza modul.
-Chunk mapa: `HeroCl3menza` 7.35kB · `AnatomyOfBuild` 5.09kB · `Flagship` 4.14kB · ostali 1.6–2.3kB each.
 
 ### Batch 11 — CSS modularizacija `[x]`
-global.css (1823L) → base.css (92L) + layout.css (140L) + hero.css (553L) + overrides.css (808L) + sections.css (230L).
-global.css postaje orkestrator sa 5 @import linija. main.tsx nepromenjen.
+global.css → base.css + layout.css + hero.css + overrides.css + sections.css.
 Fajlovi: `src/styles/`
 Režim: STANDARD | Rizik: srednji
 
----
+</details>
 
-## FAZA 3 — Sadržaj i Polish
+## ARHIVA — Faza 3 (batch-evi 12–15)
 
-### Batch 12 — Sadržaj: placeholder popunjavanje `[~]`
-12A zatvoren: About neutralni bio, Contact Upwork/Fiverr → non-interactive span, Projects fake kartice uklonjene.
-12B pending: finalni About copy + pravi Upwork/Fiverr URL-ovi (čeka Pavle's input).
-Fajlovi: `About.tsx`, `Contact.tsx`
-Režim: LEAN | Rizik: nizak
+<details>
+<summary>Završeni batch-evi (klikni za detalje)</summary>
 
-### Batch 13 — Testimonials: real ili remove `[defer]`
-Realne recenzije trenutno nisu dostupne. Sekcija ostaje u kodu, popunjava se naknadno.
-Fajlovi: `Testimonials.tsx`
-Režim: LEAN | Rizik: nizak
-
-### Batch 15A — QA audit `[x]`
-Lighthouse mobile: Perf 62 / A11y 98 / Best Practices 100 / SEO 100.
-TBT 1,370ms (Framer Motion), FCP 2.7s, LCP 3.0s, CLS 0.
-Render-blocking Google Fonts: 813ms. Heading order invalid (h3 pre h2 u timeline).
-Firefox: not verified (nije dostupan u okruženju).
-Findings → Batch 14 targeted fixes.
+### Batch 12A — Content placeholders `[x]`
+About neutralni bio, Contact Upwork/Fiverr → non-interactive span, Projects fake kartice uklonjene.
 
 ### Batch 14 — Targeted fixes (iz QA) `[x]`
-1. Google Fonts: preload/onload non-blocking pattern — eliminisano 813ms render-blocking
-2. HeroNormal.tsx: h3.timeline-title → p.timeline-title — heading order FAIL→PASS
-Lighthouse delta: Perf 62→76, A11y 98→100, TBT 1370ms→420ms
-Fajlovi: `index.html`, `HeroNormal.tsx`
-Režim: LEAN | Rizik: nizak
+Google Fonts non-blocking, heading order fix.
+Lighthouse delta: Perf 62→76, A11y 98→100, TBT 1370ms→420ms.
+
+### Batch 15A — QA audit `[x]`
+Lighthouse mobile: Perf 76 / A11y 100 / Best Practices 100 / SEO 100.
 
 ### Batch 15B — Production gap audit `[x]`
-Production bio na b675f643 (12 commit-a iza lokalnog HEAD-a). Smoke na starom production aliasu.
-Confirmed: cl3menza.com = ECONNREFUSED (domena nije vezana za Vercel).
+Production sinhronizovan sa lokalnim HEAD-om.
 
-### Batch 15C — Push / deploy latest commits `[x]`
-git push origin main → b675f64..f2fc700 (12 commit-a).
-Vercel auto-deploy triggerovan, READY za ~15s. Production = local HEAD.
+### Batch 15C — Push / deploy `[x]`
+12 commit-a push-ovano, Vercel auto-deploy READY.
 
-### Batch 15D — Final production smoke test `[x]`
-Manual browser smoke (Edge) na https://portfolio-seven-eosin-21.vercel.app
-- header/nav, normal hero, cl3 switch, projects, contact, footer: ✅ sve OK
-- console: 0 errors | network: 0 failed requests
-- font fix, heading fix, content batch 12A: ✅ sve potvrđeno vizuelno
-- Testimonials placeholder: ℹ️ vidljiv, expected (Batch 13 deferred)
-- Firefox: not verified (nije dostupan u okruženju)
+### Batch 15D — Final smoke test `[x]`
+Manual browser smoke — sve OK, 0 errors, 0 failed requests.
+
+</details>
+
+---
+
+## FAZA 4 — Kvalitet, Sigurnost, Maintainability
+
+Cilj: podići projekat sa 7/10 na 8.5+ — testovi, security hardening, DX, performans.
+
+Redosled: 16 → 17 → 18 → 19 → 20 ↔ 21 (20 i 21 nezavisni, mogu paralelno).
+
+### Batch 16 — Vitest setup + API testovi `[x]`
+37/37 testova prolaze. typecheck čist. build ✓ 3.52s. dev server 0 errors.
+Dev deps: vitest, @vitest/coverage-v8, jsdom, @types/node.
+29 testova za api/claude.ts (validateBody 15, isRateLimited 5, handler 9).
+8 testova za useCl3menzaBodyClass (getCl3menzaBodyClass 3, subscribe 5).
+Bonus: tsconfig.node.json + DOM lib → fix pre-existing typecheck grešaka (fetch, process, Buffer).
+Fajlovi: `vitest.config.ts`, `api/__tests__/claude.test.ts`, `src/hooks/__tests__/useCl3menzaBodyClass.test.ts`, `api/claude.ts` (3 exports), `package.json`, `tsconfig.node.json`
+
+### Batch 17 — Mode switching integration test `[x]`
+46/46 testova prolaze. typecheck čist. build ✓ 3.98s. dev server 0 errors.
+Dev deps: @testing-library/react, @testing-library/jest-dom.
+9 testova u App.integration.test.tsx — initial render (2), aktivacija (4), deaktivacija (2), reduced motion (1).
+Napomena: MatrixRain uvek renderuje canvas — `reduceMotion` kontroliše samo animacioni loop, ne element.
+Fajlovi: `src/__tests__/App.integration.test.tsx`, `src/test-setup.ts`, `vitest.config.ts` (setupFiles), `package.json`
+
+### Batch 18 — API hardening v2 `[x]`
+52/52 testova prolaze. typecheck čist. build ✓ 3.61s. HeroCl3menza chunk 7.35→7.30kB.
+1. Model lockdown: ANTHROPIC_MODEL + MAX_TOKENS konstante, model validacija uklonjena iz validateBody, frontend ne šalje model/max_tokens.
+2. API key fail-fast: handler vraća 500 odmah ako ANTHROPIC_API_KEY nije setovan.
+3. Response sanitizacija: sanitizeAnthropicResponse() — strip HTML tagova samo iz content[].text blokova.
+4. Body forwarding cleanup: konstruiše čist objekat {model, max_tokens, messages, system} — extra klijentska polja ne prolaze.
+Novi testovi: missing API key (500), extra fields not forwarded, sanitize (5 testova).
+Fajlovi: `api/claude.ts`, `src/components/sections/HeroCl3menza.tsx`, `api/__tests__/claude.test.ts`
+
+### Batch 19 — Timer extraction + App.tsx cleanup `[ ]`
+Izvlači 60+ linija timer logike u custom hook. App.tsx postaje čist orkestrator.
+Zavisi od: Batch 17 (integration test pokriva refactor).
+
+**Scope:**
+- Napravi `src/hooks/useTerminalBoot.ts` — enkapsulira boot sekvencu (terminal lines, glitch, mode set, scroll, focus, announcement)
+- Hook prima: subscribe/get funkcije iz useCl3menzaBodyClass
+- Hook vraća: `{ cl3menzaMode, glitching, terminal, terminalLines, modeAnnouncement }`
+- Svi `useRef`, `setTimeout`, `setInterval`, cleanup interno u hooku
+- App.tsx koristi hook umesto inline logike
+- Opciono: izvuci MatrixRain u `src/components/canvas/MatrixRain.tsx`
+
+CORE: useTerminalBoot hook, App.tsx refactor
+FLEX: MatrixRain extraction
+FORBIDDEN: promena boot sekvence vizuala ili timing-a
+
+Fajlovi: `src/App.tsx`, novi `src/hooks/useTerminalBoot.ts`
+Režim: STANDARD | Rizik: srednji (LOCK zona App.tsx)
+Verify: Batch 17 integration testovi prolaze. App.tsx < 180 linija. Manual test oba moda.
+
+### Batch 20 — CSS tema refactor `[ ]`
+Najveći refactor — prebacivanje sa class-override pristupa na CSS custom properties toggle.
+Nezavisan od Batch 19/21, ali bolje posle test infrastrukture.
+
+**Scope:**
+- Definiši CSS custom property set u `base.css`: `:root { --bg-primary; --text-primary; --accent; ... }`
+- `body.cl3menza-mode` override-uje samo varijable, ne elemente
+- Zameni `body.cl3menza-mode .element { color: X }` sa `color: var(--text-primary)` u samim elementima
+- Cilj: `overrides.css` sa 808L → ~300L
+- Ne menjaj vizuelni output — čist refactor
+
+CORE: CSS variable definicije, migracija 60%+ override-a
+FLEX: potpuna eliminacija tematskih duplikata
+FORBIDDEN: promena boja, efekata, layout-a
+
+Fajlovi: `src/styles/base.css`, `src/styles/overrides.css`, `src/styles/sections.css`
+Režim: STANDARD | Rizik: srednji
+Verify: build OK, side-by-side vizuelna provera oba moda, Lighthouse stabilan.
+
+### Batch 21 — Canvas optimizacija + cl3menza prefetch `[ ]`
+Performans poboljšanja bez promene UX-a.
+Nezavisan od Batch 20, može paralelno.
+
+**Scope:**
+1. **Page Visibility API** — MatrixRain i ParticlesCanvas pauziraju kad tab nije aktivan (`document.hidden` u rAF loop)
+2. **Frame budget** — ako prethodni frame > 20ms, preskoči sledeći (sprečava jank na slabim uređajima)
+3. **Prefetch cl3menza chunks** — `onMouseEnter` na "Genius builder vibe" kartici triggeruje `import()` za HeroCl3menza i lazy sekcije. Instant tranzicija jer su chunk-ovi u cache-u.
+
+CORE: visibility pause, prefetch
+FLEX: frame budgeting
+FORBIDDEN: promena vizuala particle/matrix efekata
+
+Fajlovi: `src/App.tsx` (MatrixRain), `src/components/canvas/ParticlesCanvas.tsx`, `src/components/sections/TrustSignals.tsx`
+Režim: LEAN | Rizik: nizak
+Verify: DevTools Performance — nema rAF kad tab u pozadini. Network — chunk-ovi na hover pre klika.
 
 ---
 

@@ -51,8 +51,6 @@ export default function HeroCl3menza() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          model: 'claude-haiku-4-5-20251001',
-          max_tokens: 600,
           system: `You are cl3menza.ai — Pavle Mitrovic's AI presence embedded in his portfolio at cl3menza.com. You speak in the first person as cl3menza.ai. You are not a chatbot relaying messages — you ARE the direct channel to Pavle's work, knowledge and availability. Never imply you will "pass something along" or that Pavle is a separate party you communicate with.
 
 Language rule (CRITICAL):
