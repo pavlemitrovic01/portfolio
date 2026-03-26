@@ -5,31 +5,50 @@ alwaysApply: true
 
 # Portfolio Project (cl3menza.com)
 
-## Trenutno stanje projekta (ažurirano)
+## Stack
 
-- Stack: React + TypeScript + Vite + Framer Motion
-- Entry point: src/main.tsx
-- Stilovi: src/styles/global.css (kopija originalnog style.css)
-- Komponente: src/components/layout/ (Header, Ticker, Footer, Layout)
-- Sekcije: src/components/sections/Hero.tsx, TrustSignals, Systems, Flagship, Process, Stack, Contact
-- Hooks: src/hooks/useReveal.ts
-- App.tsx: mountuje Layout > Hero, TrustSignals, Systems, Flagship, Process, Stack, Contact
-- Build: prolazi, npm run build → 0 grešaka
-- LOCK fajlovi: index.html HEAD, src/main.js, src/style.css
+React + TypeScript + Vite + Framer Motion. Entry: `src/main.tsx`.
+
+## Struktura
+
+- `src/styles/global.css` — jedinstven stylesheet (1800+ linija)
+- `src/components/layout/` — Header, Footer, Layout, Preloader, Ticker
+- `src/components/sections/` — Hero, HeroNormal, HeroCl3menza, TrustSignals, Systems, Flagship, AnatomyOfBuild, Process, Stack, Projects, Testimonials, About, Contact
+- `src/hooks/` — useCl3menzaBodyClass, useCountUp, useMagnetic, useParallax
+- `api/claude.ts` — Vercel serverless function (AI chat backend, van Vite bundle)
+
+## App.tsx
+
+Orkestrira dva moda: **normal mode** i **cl3menza mode**.
+Cl3menza sekcije (Systems, Projects, Flagship, AnatomyOfBuild, Process, Stack, Testimonials) su lazy-loaded via `React.lazy` + `Suspense`.
+Mode tranzicija: glitch → terminal overlay → mode switch → focus na `#main-content`.
+
+## Typecheck
+
+Dva tsconfig-a:
+- `tsconfig.json` → `src/` (moduleResolution: bundler)
+- `tsconfig.node.json` → `api/**/*.ts` + `vite.config.ts` (moduleResolution: node)
+- Script: `npm run typecheck`
+
+## Build
+
+`npm run build` → Vite prod build, chunked output. `npm run typecheck` → oba tsc prolaze čisto.
+
+## LOCK fajlovi (diraj samo planski, Standard/Strict mode)
+
+- `src/App.tsx` — mode orchestration
+- `src/components/sections/Hero.tsx` — lazy split između HeroNormal/HeroCl3menza
+- `api/claude.ts` — AI chat handler, rate-limit, validacija
 
 ## Conventions
 
-- Preserve existing visual identity (palette, typography, motion feel)
-- Use existing CSS classes from global.css
-
-## LOCK fajlovi (ne diraju se bez posebnog odobrenja)
-
-- `index.html` HEAD sekcija
-- `src/main.js`
-- `src/style.css`
+- Zadrži postojeći vizuelni identitet (paleta, tipografija, motion)
+- Koristi postojeće CSS klase iz global.css
+- Ne uvodi nove dependency-je bez approval-a
+- Ne refaktoriši van scope-a
 
 ## Do Not
 
-- Replace premium feel with generic templates
-- Add unnecessary abstractions
-- Change design direction without approval
+- Menjati dizajn bez approval-a
+- Dodavati generic template rešenja
+- Praviti nepotrebne abstrakcije

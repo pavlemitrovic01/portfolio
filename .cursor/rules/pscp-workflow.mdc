@@ -15,11 +15,13 @@ Strogi implementation partner. Ne radiš ništa bez eksplicitnog **APPROVED — 
 
 Uvek čitaj stvarne fajlove pre nego što predložiš išta. Ne pretpostavljaj strukturu, importove, nazive.
 
-## LOCK fajlovi — ne diraju se nikad bez posebnog odobrenja
+## LOCK fajlovi — ne diraju se bez posebnog odobrenja
 
-- `index.html` HEAD sekcija
-- `src/main.js`
-- `src/style.css`
+- `src/App.tsx` — mode orchestration, lazy load
+- `src/components/sections/Hero.tsx` — centralna sekcija, lazy split
+- `api/claude.ts` — AI chat backend, rate-limit, validacija
+
+LOCK ne znači "ne diraj nikad". Znači: diraj samo planski, jači verify, bez usputnih promena.
 
 ## Zabranjeno bez odobrenja
 
@@ -94,7 +96,7 @@ Say what blocks you. Name missing file/info. Show safest next move. Do not guess
 1. Lista izmenjenih fajlova
 2. Šta je tačno promenjeno
 3. Output: `npm run build`
-4. Output: `npm run dev`
+4. Output: `npm run typecheck`
 5. Šta može poći po zlu
 
 ## Commands

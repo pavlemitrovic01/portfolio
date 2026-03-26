@@ -164,7 +164,7 @@ Važne istine:
 - sajt ima normal mode i cl3menza mode
 - ulaz u cl3menza mode je kartica **Genius builder vibe**
 - Hero u cl3menza mode sadrži project preview + AI chat
-- `api/claude.ts` je van standardnog src TS include puta — pazi pri radu
+- `api/claude.ts` je Vercel serverless function — van Vite bundle; ima sopstveni `tsconfig.node.json`
 
 ---
 
@@ -188,13 +188,11 @@ LOCK ne znači "ne diraj nikad". Znači:
 ## Current status (2026-03-26)
 
 Završena Faza 1 (batch-evi 1–5): anchor IDs, Hero copy, Hero refactor, mobile polish, nav sync.
+Faza 2 završena (batch-evi 6–10.5): git checkpoint, API hardening, SEO, a11y, lazy load, typecheck coverage + repo hygiene.
 Detalji → `docs/ROADMAP.md` arhiva.
 
-Trenutni fokus:
-- Faza 2 u toku — batch-evi 6–10 završeni
-
 Sledeći korak:
-- Batch 11: CSS modularizacija — razbij global.css (1813+ linija) u logičke module
+- Batch 11: CSS modularizacija — razbij global.css (1800+ linija) u logičke module
 
 ---
 

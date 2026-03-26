@@ -21,7 +21,7 @@ function anthropicProxy(apiKey: string): Plugin {
         for await (const chunk of req) {
           chunks.push(Buffer.from(chunk))
         }
-        const body = Buffer.concat(chunks).toString()
+        const body = Buffer.concat(chunks as unknown as Uint8Array[]).toString()
 
         try {
           const response = await fetch('https://api.anthropic.com/v1/messages', {
