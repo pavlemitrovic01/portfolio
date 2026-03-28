@@ -14,6 +14,13 @@
   --cyan:#78fff0;
   --gold:#d9b35b;
   --shadow:0 20px 80px rgba(0,0,0,.45);
+  --tile-border:rgba(255,255,255,.08);
+  --step-bg:linear-gradient(135deg,rgba(93,184,255,.16),rgba(124,109,255,.16));
+  --step-border:rgba(255,255,255,.08);
+  --kicker-color:var(--blue-2);
+  --eyebrow-bg:rgba(255,255,255,.05);
+  --eyebrow-border:rgba(255,255,255,.08);
+  --brand-glow:rgba(93,184,255,.55);
   --radius-xl:30px;
   --radius-lg:22px;
   --radius-md:16px;

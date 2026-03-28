@@ -23,21 +23,19 @@ vi.mock('../components/layout/Layout', async () => {
 })
 vi.mock('../components/layout/Preloader', () => ({ default: () => null }))
 
-vi.mock('../components/sections/Hero', async () => {
+vi.mock('../components/landing/LandingScene', async () => {
   const { createElement } = await import('react')
-  return { default: () => createElement('div', { 'data-testid': 'hero' }) }
-})
-vi.mock('../components/sections/TrustSignals', async () => {
-  const { createElement } = await import('react')
-  return { default: () => createElement('div', { 'data-testid': 'trust-signals' }) }
-})
-vi.mock('../components/sections/About', async () => {
-  const { createElement } = await import('react')
-  return { default: () => createElement('div', { 'data-testid': 'about' }) }
+  return { default: ({ cl3menzaMode }: { cl3menzaMode: boolean }) =>
+    createElement('div', { 'data-testid': 'landing-scene', 'data-cl3': String(cl3menzaMode) })
+  }
 })
 vi.mock('../components/sections/Contact', async () => {
   const { createElement } = await import('react')
   return { default: () => createElement('div', { 'data-testid': 'contact' }) }
+})
+vi.mock('../components/sections/HeroCl3menza', async () => {
+  const { createElement } = await import('react')
+  return { default: () => createElement('div', { 'data-testid': 'hero-cl3menza' }) }
 })
 vi.mock('../components/sections/Systems', async () => {
   const { createElement } = await import('react')
@@ -94,17 +92,20 @@ const BOOT_MS = 3500
 // --- Tests ---
 
 describe('App — initial render', () => {
-  it('renders normal mode sections', () => {
+  it('renders landing scene in normal mode', () => {
     render(<App />)
-    expect(screen.getByTestId('trust-signals')).toBeInTheDocument()
-    expect(screen.getByTestId('about')).toBeInTheDocument()
+    expect(screen.getByTestId('landing-scene')).toBeInTheDocument()
     expect(screen.queryByTestId('systems')).not.toBeInTheDocument()
   })
 
-  it('renders hero and contact regardless of mode', () => {
+  it('renders contact regardless of mode', () => {
     render(<App />)
-    expect(screen.getByTestId('hero')).toBeInTheDocument()
     expect(screen.getByTestId('contact')).toBeInTheDocument()
+  })
+
+  it('does not mount cl3 subtree before first activation', () => {
+    render(<App />)
+    expect(document.querySelector('.cl3-subtree')).not.toBeInTheDocument()
   })
 })
 
@@ -120,7 +121,7 @@ describe('App — cl3menza mode activation', () => {
     expect(document.querySelector('.terminal-overlay')).toBeInTheDocument()
   })
 
-  it('activates cl3menza mode after full boot sequence', async () => {
+  it('mounts cl3 subtree after boot completes', async () => {
     render(<App />)
 
     await act(async () => {
@@ -128,8 +129,8 @@ describe('App — cl3menza mode activation', () => {
       await vi.advanceTimersByTimeAsync(BOOT_MS)
     })
 
-    expect(screen.queryByTestId('trust-signals')).not.toBeInTheDocument()
     expect(screen.getByTestId('systems')).toBeInTheDocument()
+    expect(document.querySelector('.cl3-subtree--active')).toBeInTheDocument()
   })
 
   it('hides terminal overlay after boot completes', async () => {
@@ -156,7 +157,7 @@ describe('App — cl3menza mode activation', () => {
 })
 
 describe('App — cl3menza mode deactivation', () => {
-  it('restores normal mode after deactivation', async () => {
+  it('hides cl3 subtree but keeps it mounted after deactivation', async () => {
     render(<App />)
 
     await act(async () => {
@@ -169,8 +170,12 @@ describe('App — cl3menza mode deactivation', () => {
       await vi.advanceTimersByTimeAsync(1500)
     })
 
-    expect(screen.getByTestId('trust-signals')).toBeInTheDocument()
-    expect(screen.queryByTestId('systems')).not.toBeInTheDocument()
+    // cl3 subtree stays mounted but hidden (continuous scroll architecture)
+    expect(document.querySelector('.cl3-subtree--hidden')).toBeInTheDocument()
+    // sections still in DOM, just visually hidden
+    expect(screen.getByTestId('systems')).toBeInTheDocument()
+    // landing scene still visible
+    expect(screen.getByTestId('landing-scene')).toBeInTheDocument()
   })
 
   it('announces cl3menza mode deactivated for screen readers', async () => {
@@ -190,11 +195,8 @@ describe('App — cl3menza mode deactivation', () => {
   })
 })
 
-describe('App — reduced motion', () => {
-  it('mode switch still completes when reduced motion is enabled', async () => {
-    const framerMotion = await import('framer-motion')
-    vi.mocked(framerMotion.useReducedMotion).mockReturnValue(true)
-
+describe('App — accessibility', () => {
+  it('sets aria-hidden and inert on cl3 subtree when deactivated', async () => {
     render(<App />)
 
     await act(async () => {
@@ -202,9 +204,14 @@ describe('App — reduced motion', () => {
       await vi.advanceTimersByTimeAsync(BOOT_MS)
     })
 
-    expect(screen.getByText('cl3menza mode activated')).toBeInTheDocument()
-    expect(screen.queryByTestId('trust-signals')).not.toBeInTheDocument()
+    const subtree = document.querySelector('.cl3-subtree')
+    expect(subtree).not.toHaveAttribute('aria-hidden')
 
-    vi.mocked(framerMotion.useReducedMotion).mockReturnValue(null)
+    await act(async () => {
+      document.body.classList.remove('cl3menza-mode')
+      await vi.advanceTimersByTimeAsync(1500)
+    })
+
+    expect(subtree).toHaveAttribute('aria-hidden', 'true')
   })
 })

@@ -13,6 +13,17 @@ export default function TrustSignals() {
     }
   }
 
+  const prefetchCl3menzaChunks = () => {
+    import('./HeroCl3menza')
+    import('./Systems')
+    import('./Projects')
+    import('./Flagship')
+    import('./AnatomyOfBuild')
+    import('./Process')
+    import('./Stack')
+    import('./Testimonials')
+  }
+
   return (
     <section id="signals">
       <div className="container">
@@ -32,6 +43,7 @@ export default function TrustSignals() {
               role="button"
               tabIndex={0}
               onKeyDown={(e) => e.key === 'Enter' && activateCl3menza()}
+              onMouseEnter={prefetchCl3menzaChunks}
             >
               <div>
                 <span className="tile-stat" ref={ref2}>{val2}+</span>

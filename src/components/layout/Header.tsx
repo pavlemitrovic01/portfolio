@@ -43,8 +43,7 @@ export default function Header() {
         >
           {!cl3menzaMode ? (
             <>
-              <a href="#signals" onClick={closeMenu}>Signals</a>
-              <a href="#about" onClick={closeMenu}>About</a>
+              <a href="#landing" onClick={closeMenu}>Home</a>
               <a href="#contact" onClick={closeMenu}>Contact</a>
             </>
           ) : (

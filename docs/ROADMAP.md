@@ -126,61 +126,27 @@ Fajlovi: `src/__tests__/App.integration.test.tsx`, `src/test-setup.ts`, `vitest.
 Novi testovi: missing API key (500), extra fields not forwarded, sanitize (5 testova).
 Fajlovi: `api/claude.ts`, `src/components/sections/HeroCl3menza.tsx`, `api/__tests__/claude.test.ts`
 
-### Batch 19 — Timer extraction + App.tsx cleanup `[ ]`
-Izvlači 60+ linija timer logike u custom hook. App.tsx postaje čist orkestrator.
-Zavisi od: Batch 17 (integration test pokriva refactor).
+### Batch 19 — Timer extraction + App.tsx cleanup `[x]`
+52/52 testova prolaze. typecheck čist. build ✓ 4.41s. App.tsx 271→130 linija.
+useTerminalBoot enkapsulira sav boot/transition state, refs i timere.
+MatrixRain izvučen u `src/components/canvas/MatrixRain.tsx`.
+App.tsx je čist orkestrator — state, TERMINAL_LINES i interval logika su van fajla.
+Fajlovi: `src/App.tsx`, `src/hooks/useTerminalBoot.ts`, `src/components/canvas/MatrixRain.tsx`
 
-**Scope:**
-- Napravi `src/hooks/useTerminalBoot.ts` — enkapsulira boot sekvencu (terminal lines, glitch, mode set, scroll, focus, announcement)
-- Hook prima: subscribe/get funkcije iz useCl3menzaBodyClass
-- Hook vraća: `{ cl3menzaMode, glitching, terminal, terminalLines, modeAnnouncement }`
-- Svi `useRef`, `setTimeout`, `setInterval`, cleanup interno u hooku
-- App.tsx koristi hook umesto inline logike
-- Opciono: izvuci MatrixRain u `src/components/canvas/MatrixRain.tsx`
+### Batch 20 — CSS tema refactor `[x]`
+overrides.css 808→285L. 7 novih CSS varijabli (--tile-border, --step-bg/border, --kicker-color, --eyebrow-bg/border, --brand-glow).
+Migracije: hv-personal/iframe/word-glitch → hero.css; trust-stats/easter/matrix/terminal/fragment → sections.css; badge/glitch-shake → layout.css.
+Redundantni cl3 overrides uklonjeni (.tile::before, .brand::before, .eyebrow, .section-head .kicker, .process-step border, .project-main/.aside border).
+typecheck ✓ | build ✓ | 52/52 testova ✓ | computed styles verifikovani oba moda | 0 console errors.
+Fajlovi: `src/styles/base.css`, `overrides.css`, `hero.css`, `layout.css`, `sections.css`
 
-CORE: useTerminalBoot hook, App.tsx refactor
-FLEX: MatrixRain extraction
-FORBIDDEN: promena boot sekvence vizuala ili timing-a
 
-Fajlovi: `src/App.tsx`, novi `src/hooks/useTerminalBoot.ts`
-Režim: STANDARD | Rizik: srednji (LOCK zona App.tsx)
-Verify: Batch 17 integration testovi prolaze. App.tsx < 180 linija. Manual test oba moda.
-
-### Batch 20 — CSS tema refactor `[ ]`
-Najveći refactor — prebacivanje sa class-override pristupa na CSS custom properties toggle.
-Nezavisan od Batch 19/21, ali bolje posle test infrastrukture.
-
-**Scope:**
-- Definiši CSS custom property set u `base.css`: `:root { --bg-primary; --text-primary; --accent; ... }`
-- `body.cl3menza-mode` override-uje samo varijable, ne elemente
-- Zameni `body.cl3menza-mode .element { color: X }` sa `color: var(--text-primary)` u samim elementima
-- Cilj: `overrides.css` sa 808L → ~300L
-- Ne menjaj vizuelni output — čist refactor
-
-CORE: CSS variable definicije, migracija 60%+ override-a
-FLEX: potpuna eliminacija tematskih duplikata
-FORBIDDEN: promena boja, efekata, layout-a
-
-Fajlovi: `src/styles/base.css`, `src/styles/overrides.css`, `src/styles/sections.css`
-Režim: STANDARD | Rizik: srednji
-Verify: build OK, side-by-side vizuelna provera oba moda, Lighthouse stabilan.
-
-### Batch 21 — Canvas optimizacija + cl3menza prefetch `[ ]`
-Performans poboljšanja bez promene UX-a.
-Nezavisan od Batch 20, može paralelno.
-
-**Scope:**
-1. **Page Visibility API** — MatrixRain i ParticlesCanvas pauziraju kad tab nije aktivan (`document.hidden` u rAF loop)
-2. **Frame budget** — ako prethodni frame > 20ms, preskoči sledeći (sprečava jank na slabim uređajima)
-3. **Prefetch cl3menza chunks** — `onMouseEnter` na "Genius builder vibe" kartici triggeruje `import()` za HeroCl3menza i lazy sekcije. Instant tranzicija jer su chunk-ovi u cache-u.
-
-CORE: visibility pause, prefetch
-FLEX: frame budgeting
-FORBIDDEN: promena vizuala particle/matrix efekata
-
-Fajlovi: `src/App.tsx` (MatrixRain), `src/components/canvas/ParticlesCanvas.tsx`, `src/components/sections/TrustSignals.tsx`
-Režim: LEAN | Rizik: nizak
-Verify: DevTools Performance — nema rAF kad tab u pozadini. Network — chunk-ovi na hover pre klika.
+### Batch 21 — Canvas optimizacija + cl3menza prefetch `[x]`
+52/52 testova ✓. typecheck ✓. build ✓ 3.48s.
+1. Page Visibility API: MatrixRain + ParticlesCanvas pauziraju rAF kad `document.hidden`, restartuju na `visibilitychange`.
+2. Frame budget: ako frame > 20ms, preskoči sledeći rAF (sprečava jank na slabim uređajima).
+3. Prefetch: `onMouseEnter` na "Genius builder vibe" tile triggeruje `import()` za HeroCl3menza + 7 lazy sekcija.
+Fajlovi: `src/components/canvas/MatrixRain.tsx`, `src/components/canvas/ParticlesCanvas.tsx`, `src/components/sections/TrustSignals.tsx`
 
 ---
 

@@ -36,15 +36,15 @@ Format: datum → greška/problem → lekcija → primena → status → next re
 
 ---
 
-## 2026-03-26 — App terminal timers bez cleanup-a
+## 2026-03-26 — App terminal timers bez cleanup-a → Batch 19 ekstrakcija
 
 **PROBLEM:** `App.tsx` cl3menza ulaz pokretao `setInterval` / `setTimeout` bez čišćenja na unmount — StrictMode / lifecycle rizik i moguća upozorenja u konzoli.
 
-**LEKCIJA:** Čuvati id-eve u ref-u (`intervalId` + lista `timeoutIds`), jedna `clearModeTransitionTimers()` funkcija, poziv u cleanup-u efekta zajedno sa `unsubscribe` — isti UX timing, bez redesign-a toka.
+**LEKCIJA:** Čuvati id-eve u ref-u (`intervalId` + lista `timeoutIds`), jedna `clearModeTransitionTimers()` funkcija, poziv u cleanup-u efekta zajedno sa `unsubscribe` — isti UX timing, bez redesign-a toka. Batch 19 kompletno ekstrahovao logiku u `useTerminalBoot` hook — stress test (rapid toggle, reload mid-boot, deactivate mid-glitch) prošao bez ikakvih grešaka.
 
-**PRIMENA:** Bilo koji orchestration sa više async koraka na `MutationObserver` / body klasi: uvek eksplicitan cleanup.
+**PRIMENA:** Bilo koji orchestration sa više async koraka na `MutationObserver` / body klasi: uvek eksplicitan cleanup, best u zasebnom hooku.
 
-**STATUS:** RESOLVED (stability follow-up)
+**STATUS:** RESOLVED
 **NEXT REVIEW:** —
 
 ---

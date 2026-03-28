@@ -33,6 +33,8 @@ export default function ParticlesCanvas() {
     let particles: Particle[] = []
     let trail: TrailParticle[] = []
     let animFrameId: number
+    let paused = false
+    let skipNext = false
     const TRAIL_LIFETIME = 800
 
     function resize() {
@@ -73,7 +75,17 @@ export default function ParticlesCanvas() {
 
     function draw() {
       if (!canvas || !ctx) return
-      const now = performance.now()
+      if (document.hidden) {
+        paused = true
+        return
+      }
+      if (skipNext) {
+        skipNext = false
+        animFrameId = requestAnimationFrame(draw)
+        return
+      }
+      const frameStart = performance.now()
+      const now = frameStart
       ctx.clearRect(0, 0, window.innerWidth, window.innerHeight)
 
       // Draw trail particles
@@ -122,18 +134,28 @@ export default function ParticlesCanvas() {
         }
       })
 
+      if (performance.now() - frameStart > 20) skipNext = true
       animFrameId = requestAnimationFrame(draw)
+    }
+
+    const onVisibilityChange = () => {
+      if (!document.hidden && paused) {
+        paused = false
+        animFrameId = requestAnimationFrame(draw)
+      }
     }
 
     resize()
     draw()
     window.addEventListener('resize', resize)
     window.addEventListener('mousemove', onMouseMove)
+    document.addEventListener('visibilitychange', onVisibilityChange)
 
     return () => {
       cancelAnimationFrame(animFrameId)
       window.removeEventListener('resize', resize)
       window.removeEventListener('mousemove', onMouseMove)
+      document.removeEventListener('visibilitychange', onVisibilityChange)
     }
   }, [])
 

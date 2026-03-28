@@ -185,15 +185,16 @@ LOCK ne znači "ne diraj nikad". Znači:
 
 ---
 
-## Current status (2026-03-26)
+## Current status (2026-03-27)
 
 Roadmap Faza 1–3 završen (arhivirano). Faza 4 u toku.
-Batch 16–18 zatvoreni: 52 testova (34 API + 8 hooks + 9 integration + 1 skipped model), `npm test` = zeleno.
+Batch 16–21 zatvoreni: 52/52 testova zeleno. Canvas visibility pause + frame budget + prefetch završeni.
 Production: https://portfolio-seven-eosin-21.vercel.app — sve OK.
 Detalji → `docs/ROADMAP.md`.
 
 Sledeći korak:
-- **Batch 19**: Timer extraction — useTerminalBoot hook, App.tsx cleanup
+- Batch 12B: finalni About copy + pravi Upwork/Fiverr URL-ovi (čeka Pavle's input)
+- Config: cl3menza.com domain setup + GA4 real ID
 - Batch 12B: finalni About copy + pravi Upwork/Fiverr URL-ovi (čeka Pavle's input)
 - Config: cl3menza.com domain setup + GA4 real ID
 
