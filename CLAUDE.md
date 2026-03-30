@@ -185,16 +185,15 @@ LOCK ne znači "ne diraj nikad". Znači:
 
 ---
 
-## Current status (2026-03-27)
+## Current status (2026-03-30)
 
-Roadmap Faza 1–3 završen (arhivirano). Faza 4 u toku.
-Batch 16–21 zatvoreni: 52/52 testova zeleno. Canvas visibility pause + frame budget + prefetch završeni.
+Faza 1–4 završene (arhivirano). Faza 5 — cinematic landing — u toku.
+L5–L11 zatvoreni u root/main. Cursor-reactive efekti uklonjeni. Source-of-truth: root repo.
 Production: https://portfolio-seven-eosin-21.vercel.app — sve OK.
 Detalji → `docs/ROADMAP.md`.
 
 Sledeći korak:
-- Batch 12B: finalni About copy + pravi Upwork/Fiverr URL-ovi (čeka Pavle's input)
-- Config: cl3menza.com domain setup + GA4 real ID
+- L12: Cleanup + tests + docs + final integration
 - Batch 12B: finalni About copy + pravi Upwork/Fiverr URL-ovi (čeka Pavle's input)
 - Config: cl3menza.com domain setup + GA4 real ID
 

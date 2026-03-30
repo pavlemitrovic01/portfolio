@@ -444,7 +444,7 @@ Srednji — lako ode u jeftin ili prazan hero.
 
 ---
 
-### L10 — Header + Footer alignment `[ ]`
+### L10 — Header + Footer alignment `[x]`
 **GOAL**
 Normal mode mora dobiti ultra-minimal presence.
 Footer i header ne smeju više da vuku stari section mindset i mrtve linkove.
@@ -472,7 +472,7 @@ Nizak do srednji.
 
 ---
 
-### L11 — Micro-detail layers + density pass `[ ]`
+### L11 — Micro-detail layers + density pass `[x]`
 **GOAL**
 Zgusnuti scenu mikro-detaljima tako da konačno dobije puni “wow” nivo bez novih glavnih blokova.
 
