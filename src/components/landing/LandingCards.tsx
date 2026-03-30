@@ -36,11 +36,13 @@ const CARDS = [
 
 export default function LandingCards() {
   const fillRef = useRef<HTMLDivElement>(null)
+  const containerRef = useRef<HTMLDivElement>(null)
   const reduceMotion = useReducedMotion() === true
 
   useEffect(() => {
     const fill = fillRef.current
-    if (!fill || reduceMotion) return
+    const container = containerRef.current
+    if (!fill || !container || reduceMotion) return
     if (window.matchMedia('(max-width: 760px)').matches) return
 
     const zone = fill.closest('.lcards') as HTMLElement | null
@@ -55,6 +57,7 @@ export default function LandingCards() {
       const elapsed = vh - rect.top
       const progress = Math.min(1, Math.max(0, elapsed / total))
       fill.style.transform = `scaleY(${progress})`
+      container.style.setProperty('--lcards-progress', String(progress))
       rafId = null
     }
 
@@ -71,7 +74,7 @@ export default function LandingCards() {
   }, [reduceMotion])
 
   return (
-    <div className="lcards">
+    <div className="lcards" ref={containerRef}>
       {/* Path track running through all cards */}
       <div className="lcards-track" aria-hidden="true">
         <div className="lcards-fill" ref={fillRef} />

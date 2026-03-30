@@ -313,16 +313,18 @@
 
 .lpath-glow {
   position: absolute;
-  inset: -4px -6px;
+  inset: -4px -8px;
   background: linear-gradient(
     180deg,
     rgba(93, 184, 255, 0.35) 0%,
-    rgba(124, 109, 255, 0.25) 60%,
-    rgba(120, 255, 240, 0.20) 100%
+    rgba(124, 109, 255, 0.28) 60%,
+    rgba(120, 255, 240, 0.22) 100%
   );
-  filter: blur(8px);
+  filter: blur(10px);
   border-radius: 8px;
   pointer-events: none;
+  opacity: calc(0.35 + var(--lpath-progress, 0) * 0.55);
+  transition: opacity 0.1s linear;
 }
 
 .lpath-node {
@@ -334,6 +336,7 @@
   box-shadow: 0 0 12px rgba(93, 184, 255, 0.6);
   left: 50%;
   transform: translateX(-50%);
+  animation: lpath-pulse-top 3s ease-in-out infinite;
 }
 
 .lpath-node--top {
@@ -343,8 +346,40 @@
 .lpath-node--bottom {
   bottom: -5px;
   background: var(--cyan);
-  box-shadow: 0 0 12px rgba(120, 255, 240, 0.6);
+  box-shadow: 0 0 14px rgba(120, 255, 240, 0.7), 0 0 32px rgba(120, 255, 240, 0.25);
+  animation: lpath-pulse-bottom 2.4s ease-in-out infinite;
 }
+
+@keyframes lpath-pulse-top {
+  0%, 100% { box-shadow: 0 0 12px rgba(93, 184, 255, 0.6); }
+  50% { box-shadow: 0 0 20px rgba(93, 184, 255, 0.9), 0 0 36px rgba(93, 184, 255, 0.25); }
+}
+
+@keyframes lpath-pulse-bottom {
+  0%, 100% {
+    box-shadow: 0 0 14px rgba(120, 255, 240, 0.7), 0 0 32px rgba(120, 255, 240, 0.25);
+    transform: translateX(-50%) scale(1);
+  }
+  50% {
+    box-shadow: 0 0 22px rgba(120, 255, 240, 1), 0 0 48px rgba(120, 255, 240, 0.4);
+    transform: translateX(-50%) scale(1.35);
+  }
+}
+
+/* ── Path floating labels ── */
+.lpath-label {
+  position: absolute;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  font-family: "Space Grotesk", monospace;
+  color: rgba(93, 184, 255, 0.32);
+  pointer-events: none;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.lpath-label--left  { right: calc(50% + 18px); }
+.lpath-label--right { left:  calc(50% + 18px); }
 
 /* ── Baseline landing zones ── */
 .landing-path-zone,
@@ -544,6 +579,12 @@
   box-shadow: 0 0 10px rgba(93, 184, 255, 0.5);
   z-index: 1;
   pointer-events: none;
+  animation: lcards-junction-pulse 3s ease-in-out infinite;
+}
+
+@keyframes lcards-junction-pulse {
+  0%, 100% { box-shadow: 0 0 10px rgba(93, 184, 255, 0.5); }
+  50% { box-shadow: 0 0 16px rgba(93, 184, 255, 0.85), 0 0 28px rgba(93, 184, 255, 0.2); }
 }
 
 .lcard {
@@ -649,6 +690,8 @@
 }
 
 @media (max-width: 760px) {
+  .lpath-label { display: none; }
+
   .landing-activation {
     min-height: 35vh;
     padding: 40px 0 56px;
@@ -754,6 +797,17 @@
 
   .landing-activation-glow {
     display: none;
+  }
+
+  .lpath-node,
+  .lpath-node--bottom,
+  .lcard-junction {
+    animation: none;
+  }
+
+  .lpath-glow {
+    opacity: 0.5;
+    transition: none;
   }
 
   .cl3-subtree--hidden,
