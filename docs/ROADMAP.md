@@ -503,7 +503,7 @@ Srednji — balans između premium i prenatrpano.
 
 ---
 
-### L12 — Cleanup + tests + docs + final integration `[ ]`
+### L12 — Cleanup + tests + docs + final integration `[x]`
 **GOAL**
 Zatvoriti tranziciju u novu landing arhitekturu i očistiti zastarele delove.
 

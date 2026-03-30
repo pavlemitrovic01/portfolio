@@ -188,15 +188,16 @@ LOCK ne znači "ne diraj nikad". Znači:
 
 ## Current status (2026-03-30)
 
-Faza 1–4 završene (arhivirano). Faza 5 — cinematic landing — u toku.
-L5–L11 zatvoreni u root/main. Cursor-reactive efekti uklonjeni. Source-of-truth: root repo.
+Faza 1–5 završene. Cinematic landing arhitektura zatvorena (L5–L12).
+212/212 testova zeleno. Typecheck čist. Build ✓.
+Source-of-truth: root/main. Cursor-reactive efekti uklonjeni.
 Production: https://portfolio-seven-eosin-21.vercel.app — sve OK.
 Detalji → `docs/ROADMAP.md`.
 
 Sledeći korak:
-- L12: Cleanup + tests + docs + final integration
 - Batch 12B: finalni About copy + pravi Upwork/Fiverr URL-ovi (čeka Pavle's input)
 - Config: cl3menza.com domain setup + GA4 real ID
+- Legacy cleanup (Hero.tsx, HeroNormal.tsx, TrustSignals.tsx, About.tsx) — kad bude pravi momenat
 
 ---
 
