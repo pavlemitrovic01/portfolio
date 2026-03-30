@@ -4,6 +4,7 @@ import Layout from './components/layout/Layout'
 import LandingScene from './components/landing/LandingScene'
 import Contact from './components/sections/Contact'
 import Preloader from './components/layout/Preloader'
+import { useMagnetic } from './hooks/useMagnetic'
 import { useParallax } from './hooks/useParallax'
 import { subscribeCl3BodyClassMutations, getCl3menzaBodyClass } from './hooks/useCl3menzaBodyClass'
 import { useTerminalBoot } from './hooks/useTerminalBoot'
@@ -19,6 +20,7 @@ const Stack = lazy(() => import('./components/sections/Stack'))
 const Testimonials = lazy(() => import('./components/sections/Testimonials'))
 
 export default function App() {
+  useMagnetic()
   useParallax()
 
   const { cl3menzaMode, glitching, terminal, terminalLines, modeAnnouncement } =

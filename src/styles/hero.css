@@ -241,7 +241,7 @@
   background:linear-gradient(135deg, rgba(93,184,255,.22), rgba(124,109,255,.2));
   border-color:rgba(93,184,255,.3);
 }
-
+.magnetic{will-change:transform}
 
 .trust-pills{display:flex;gap:12px;flex-wrap:wrap;max-width:820px}
 .trust-pills span{
