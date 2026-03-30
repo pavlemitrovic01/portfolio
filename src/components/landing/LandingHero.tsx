@@ -101,12 +101,12 @@ export default function LandingHero({ onActivateCl3, onPrefetch }: LandingHeroPr
           <div className="landing-ctas">
             <a className="button primary magnetic" href="#landing-path">Explore the path</a>
             <button
-              className="button magnetic"
+              className="button ghost magnetic"
               type="button"
               onClick={onActivateCl3}
               onMouseEnter={onPrefetch}
             >
-              Enter cl3 mode
+              Skip to cl3 mode →
             </button>
           </div>
         </motion.div>

@@ -2,6 +2,7 @@ import LandingBackground from './LandingBackground'
 import LandingHero from './LandingHero'
 import LandingPath from './LandingPath'
 import LandingCards from './LandingCards'
+import LandingActivation from './LandingActivation'
 
 interface LandingSceneProps {
   cl3menzaMode: boolean
@@ -42,8 +43,8 @@ export default function LandingScene({ cl3menzaMode }: LandingSceneProps) {
           <LandingCards />
         </div>
 
-        {/* L6: Scroll-driven activation zone */}
-        <div className="landing-activation-zone" />
+        {/* L5: Scroll-driven activation zone */}
+        <LandingActivation cl3menzaMode={cl3menzaMode} onPrefetch={prefetchCl3menzaChunks} />
       </div>
     </section>
   )

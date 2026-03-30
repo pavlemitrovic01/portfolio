@@ -27,16 +27,20 @@
   position: absolute;
   inset: -20%;
   background:
-    radial-gradient(ellipse 600px 400px at 20% 15%, rgba(93,184,255,.12), transparent),
-    radial-gradient(ellipse 500px 350px at 75% 25%, rgba(124,109,255,.10), transparent),
-    radial-gradient(ellipse 400px 300px at 50% 70%, rgba(120,255,240,.06), transparent);
+    radial-gradient(ellipse 600px 400px at 20% 15%, rgba(93, 184, 255, 0.12), transparent),
+    radial-gradient(ellipse 500px 350px at 75% 25%, rgba(124, 109, 255, 0.10), transparent),
+    radial-gradient(ellipse 400px 300px at 50% 70%, rgba(120, 255, 240, 0.06), transparent);
   filter: blur(80px);
   animation: landing-nebula-drift 20s ease-in-out infinite alternate;
 }
 
 @keyframes landing-nebula-drift {
-  0% { transform: translate3d(0, 0, 0) scale(1) }
-  100% { transform: translate3d(20px, -15px, 0) scale(1.03) }
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  100% {
+    transform: translate3d(20px, -15px, 0) scale(1.03);
+  }
 }
 
 .landing-bg-vignette {
@@ -54,8 +58,8 @@
   border-radius: 999px;
   background: var(--eyebrow-bg);
   border: 1px solid var(--eyebrow-border);
-  color: rgba(245,247,251,.88);
-  box-shadow: 0 12px 30px rgba(0,0,0,.18);
+  color: rgba(245, 247, 251, 0.88);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
   margin-bottom: 24px;
   font-size: 13px;
 }
@@ -66,14 +70,14 @@
   height: 8px;
   border-radius: 50%;
   background: linear-gradient(135deg, var(--blue), var(--violet));
-  box-shadow: 0 0 16px rgba(93,184,255,.5);
+  box-shadow: 0 0 16px rgba(93, 184, 255, 0.5);
 }
 
 .landing-h1 {
   font-family: "Space Grotesk", Inter, sans-serif;
   font-size: clamp(3rem, 8vw, 8rem);
-  line-height: .88;
-  letter-spacing: -.07em;
+  line-height: 0.88;
+  letter-spacing: -0.07em;
   margin-bottom: 20px;
 }
 
@@ -86,14 +90,14 @@
   font-size: clamp(1.1rem, 2.5vw, 1.5rem);
   font-weight: 600;
   color: var(--blue-2);
-  letter-spacing: -.02em;
+  letter-spacing: -0.02em;
   margin-bottom: 12px;
 }
 
 .landing-sub {
   font-size: 17px;
   line-height: 1.8;
-  color: rgba(245,247,251,.72);
+  color: rgba(245, 247, 251, 0.72);
   max-width: 520px;
   margin-bottom: 28px;
 }
@@ -122,7 +126,7 @@
 
 .lhero-surname {
   cursor: default;
-  transition: color .2s;
+  transition: color 0.2s;
 }
 
 /* ── Portrait ── */
@@ -145,16 +149,22 @@
   position: absolute;
   inset: -30%;
   background:
-    radial-gradient(ellipse at 40% 30%, rgba(93,184,255,.22), transparent 55%),
-    radial-gradient(ellipse at 70% 70%, rgba(124,109,255,.16), transparent 50%);
+    radial-gradient(ellipse at 40% 30%, rgba(93, 184, 255, 0.22), transparent 55%),
+    radial-gradient(ellipse at 70% 70%, rgba(124, 109, 255, 0.16), transparent 50%);
   filter: blur(40px);
   z-index: 0;
   animation: lhero-glow-pulse 6s ease-in-out infinite alternate;
 }
 
 @keyframes lhero-glow-pulse {
-  0% { opacity: .7; transform: scale(1) }
-  100% { opacity: 1; transform: scale(1.06) }
+  0% {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1.06);
+  }
 }
 
 .lhero-portrait-placeholder {
@@ -163,9 +173,14 @@
   width: 100%;
   height: 100%;
   background:
-    linear-gradient(160deg, rgba(93,184,255,.10) 0%, rgba(124,109,255,.08) 50%, rgba(120,255,240,.06) 100%),
+    linear-gradient(
+      160deg,
+      rgba(93, 184, 255, 0.10) 0%,
+      rgba(124, 109, 255, 0.08) 50%,
+      rgba(120, 255, 240, 0.06) 100%
+    ),
     var(--bg-2);
-  border: 1px solid rgba(255,255,255,.10);
+  border: 1px solid rgba(255, 255, 255, 0.10);
   border-radius: inherit;
   display: flex;
   align-items: center;
@@ -176,8 +191,8 @@
   font-family: "Space Grotesk", sans-serif;
   font-size: clamp(3rem, 6vw, 5.5rem);
   font-weight: 700;
-  letter-spacing: -.04em;
-  color: rgba(255,255,255,.12);
+  letter-spacing: -0.04em;
+  color: rgba(255, 255, 255, 0.12);
   user-select: none;
 }
 
@@ -192,20 +207,27 @@
   background: var(--panel-2);
   border: 1px solid var(--line);
   font-size: 12px;
-  color: rgba(245,247,251,.82);
+  color: rgba(245, 247, 251, 0.82);
   backdrop-filter: blur(12px);
   white-space: nowrap;
 }
 
-.lhero-badge--tl { top: -16px; left: -12px; }
-.lhero-badge--br { bottom: -16px; right: -12px; }
+.lhero-badge--tl {
+  top: -16px;
+  left: -12px;
+}
+
+.lhero-badge--br {
+  bottom: -16px;
+  right: -12px;
+}
 
 .lhero-badge-dot {
   width: 7px;
   height: 7px;
   border-radius: 50%;
   background: var(--cyan);
-  box-shadow: 0 0 8px rgba(120,255,240,.7);
+  box-shadow: 0 0 8px rgba(120, 255, 240, 0.7);
   animation: pulse 2s ease-in-out infinite;
   flex-shrink: 0;
 }
@@ -225,7 +247,7 @@
   width: 2px;
   height: 100%;
   min-height: 280px;
-  background: rgba(93,184,255,.10);
+  background: rgba(93, 184, 255, 0.10);
   border-radius: 2px;
   overflow: visible;
 }
@@ -243,7 +265,12 @@
 .lpath-glow {
   position: absolute;
   inset: -4px -6px;
-  background: linear-gradient(180deg, rgba(93,184,255,.35) 0%, rgba(124,109,255,.25) 60%, rgba(120,255,240,.20) 100%);
+  background: linear-gradient(
+    180deg,
+    rgba(93, 184, 255, 0.35) 0%,
+    rgba(124, 109, 255, 0.25) 60%,
+    rgba(120, 255, 240, 0.20) 100%
+  );
   filter: blur(8px);
   border-radius: 8px;
   pointer-events: none;
@@ -255,19 +282,161 @@
   height: 10px;
   border-radius: 50%;
   background: var(--blue);
-  box-shadow: 0 0 12px rgba(93,184,255,.6);
+  box-shadow: 0 0 12px rgba(93, 184, 255, 0.6);
   left: 50%;
   transform: translateX(-50%);
 }
 
-.lpath-node--top    { top: -5px; }
-.lpath-node--bottom { bottom: -5px; background: var(--cyan); box-shadow: 0 0 12px rgba(120,255,240,.6); }
+.lpath-node--top {
+  top: -5px;
+}
 
-/* ── Placeholder zones (L3, L4, L6) ── */
+.lpath-node--bottom {
+  bottom: -5px;
+  background: var(--cyan);
+  box-shadow: 0 0 12px rgba(120, 255, 240, 0.6);
+}
+
+/* ── Baseline landing zones ── */
 .landing-path-zone,
-.landing-cards-zone,
-.landing-activation-zone {
+.landing-cards-zone {
   position: relative;
+}
+
+/* ── L5: Scroll-driven activation zone ── */
+.landing-activation {
+  --activation-progress: 0;
+  position: relative;
+  min-height: 50vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  padding: 72px 0 88px;
+  isolation: isolate;
+}
+
+.landing-activation::before {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 220px;
+  background: radial-gradient(
+    ellipse at 50% 80%,
+    rgba(93, 184, 255, calc(0.02 + (var(--activation-progress) * 0.10))) 0%,
+    rgba(124, 109, 255, calc(0.015 + (var(--activation-progress) * 0.07))) 35%,
+    rgba(120, 255, 240, calc(0.01 + (var(--activation-progress) * 0.06))) 55%,
+    transparent 75%
+  );
+  pointer-events: none;
+  z-index: -1;
+}
+
+.landing-activation-glow {
+  position: absolute;
+  inset: -40% -20%;
+  background:
+    radial-gradient(
+      ellipse 50% 60% at 50% 60%,
+      rgba(93, 184, 255, 0.18),
+      transparent
+    ),
+    radial-gradient(
+      ellipse 40% 50% at 50% 50%,
+      rgba(124, 109, 255, 0.14),
+      transparent
+    ),
+    radial-gradient(
+      ellipse 30% 40% at 50% 40%,
+      rgba(120, 255, 240, 0.10),
+      transparent
+    );
+  filter: blur(60px);
+  opacity: 0;
+  transform: scale(0.55);
+  pointer-events: none;
+  will-change: opacity, transform;
+}
+
+.landing-activation-line {
+  position: relative;
+  width: 2px;
+  height: 92px;
+  border-radius: 2px;
+  background: linear-gradient(
+    180deg,
+    rgba(93, 184, 255, calc(0.18 + (var(--activation-progress) * 0.24))),
+    rgba(120, 255, 240, calc(0.30 + (var(--activation-progress) * 0.44)))
+  );
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.04),
+    0 0 calc(10px + (var(--activation-progress) * 14px))
+      rgba(93, 184, 255, calc(0.10 + (var(--activation-progress) * 0.20))),
+    0 0 calc(24px + (var(--activation-progress) * 32px))
+      rgba(120, 255, 240, calc(0.06 + (var(--activation-progress) * 0.18)));
+}
+
+.landing-activation-line::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: -28px;
+  width: 2px;
+  height: 28px;
+  transform: translateX(-50%);
+  background: linear-gradient(180deg, rgba(93, 184, 255, 0), rgba(93, 184, 255, 0.34));
+  opacity: calc(0.3 + (var(--activation-progress) * 0.7));
+}
+
+.landing-activation-pulse {
+  position: absolute;
+  bottom: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--cyan);
+  box-shadow:
+    0 0 16px rgba(120, 255, 240, 0.7),
+    0 0 40px rgba(120, 255, 240, 0.3);
+  animation: activation-pulse 2s ease-in-out infinite;
+}
+
+@keyframes activation-pulse {
+  0%,
+  100% {
+    transform: translateX(-50%) scale(1);
+    opacity: 0.7;
+  }
+  50% {
+    transform: translateX(-50%) scale(1.4);
+    opacity: 1;
+  }
+}
+
+.landing-activation-hint {
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(245, 247, 251, calc(0.26 + (var(--activation-progress) * 0.46)));
+  text-align: center;
+  animation: activation-hint-fade 3s ease-in-out infinite;
+}
+
+@keyframes activation-hint-fade {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 0.72;
+  }
+}
+
+.landing-activation[data-cl3-active="true"] .landing-activation-hint {
+  color: rgba(120, 255, 240, 0.8);
 }
 
 /* ── L4: Story cards ── */
@@ -276,7 +445,6 @@
   padding: 0 0 56px;
 }
 
-/* Centered path track through all cards — aligns with .lpath above */
 .lcards-track {
   position: absolute;
   left: 50%;
@@ -284,7 +452,7 @@
   bottom: 0;
   width: 2px;
   transform: translateX(-50%);
-  background: rgba(93,184,255,.10);
+  background: rgba(93, 184, 255, 0.10);
   border-radius: 2px;
   pointer-events: none;
 }
@@ -299,7 +467,6 @@
   will-change: transform;
 }
 
-/* Each card row */
 .lcard-row {
   display: flex;
   align-items: center;
@@ -308,10 +475,14 @@
   min-height: 120px;
 }
 
-.lcard-row--left  { justify-content: flex-start; }
-.lcard-row--right { justify-content: flex-end; }
+.lcard-row--left {
+  justify-content: flex-start;
+}
 
-/* Junction dot on path at each card */
+.lcard-row--right {
+  justify-content: flex-end;
+}
+
 .lcard-junction {
   position: absolute;
   left: 50%;
@@ -321,12 +492,11 @@
   height: 8px;
   border-radius: 50%;
   background: var(--blue);
-  box-shadow: 0 0 10px rgba(93,184,255,.5);
+  box-shadow: 0 0 10px rgba(93, 184, 255, 0.5);
   z-index: 1;
   pointer-events: none;
 }
 
-/* Card — width leaves 32px gap to path on the near side */
 .lcard {
   width: calc(50% - 32px);
   background: var(--panel-2);
@@ -337,69 +507,78 @@
   position: relative;
 }
 
-/* Horizontal connector: left card → path (rightward) */
 .lcard-row--left .lcard::after {
-  content: '';
+  content: "";
   position: absolute;
   top: 50%;
   right: -32px;
   width: 32px;
   height: 1px;
-  background: linear-gradient(90deg, rgba(93,184,255,.25), rgba(93,184,255,.6));
+  background: linear-gradient(90deg, rgba(93, 184, 255, 0.25), rgba(93, 184, 255, 0.6));
   transform: translateY(-50%);
 }
 
-/* Horizontal connector: right card → path (leftward) */
 .lcard-row--right .lcard::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 50%;
   left: -32px;
   width: 32px;
   height: 1px;
-  background: linear-gradient(270deg, rgba(93,184,255,.25), rgba(93,184,255,.6));
+  background: linear-gradient(270deg, rgba(93, 184, 255, 0.25), rgba(93, 184, 255, 0.6));
   transform: translateY(-50%);
 }
 
-/* Card content */
 .lcard-label {
   display: block;
   font-size: 11px;
   font-weight: 600;
-  letter-spacing: .10em;
+  letter-spacing: 0.10em;
   text-transform: uppercase;
   color: var(--blue);
   margin-bottom: 10px;
-  opacity: .75;
+  opacity: 0.75;
 }
 
 .lcard-headline {
   font-family: "Space Grotesk", Inter, sans-serif;
   font-size: clamp(1rem, 1.6vw, 1.2rem);
   font-weight: 700;
-  letter-spacing: -.03em;
+  letter-spacing: -0.03em;
   line-height: 1.2;
   margin-bottom: 10px;
-  color: rgba(245,247,251,.95);
+  color: rgba(245, 247, 251, 0.95);
 }
 
 .lcard-body {
   font-size: 14px;
   line-height: 1.7;
-  color: rgba(245,247,251,.60);
+  color: rgba(245, 247, 251, 0.60);
 }
 
 /* ── cl3 subtree — continuous scroll architecture ── */
 .cl3-subtree--hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
   max-height: 0;
   overflow: hidden;
-  opacity: 0;
-  pointer-events: none;
+  transition:
+    opacity 0.55s ease,
+    visibility 0.55s ease,
+    max-height 0s 0.6s,
+    overflow 0s 0.6s;
 }
 
 .cl3-subtree--active {
   opacity: 1;
+  visibility: visible;
   pointer-events: auto;
+  max-height: 100000px;
+  overflow: visible;
+  transition:
+    opacity 0.55s ease,
+    visibility 0.55s ease;
 }
 
 /* ── Responsive ── */
@@ -421,7 +600,15 @@
 }
 
 @media (max-width: 760px) {
-  /* Path + cards fill: static on mobile — no JS animation */
+  .landing-activation {
+    min-height: 35vh;
+    padding: 40px 0 56px;
+  }
+
+  .landing-activation-line {
+    height: 60px;
+  }
+
   .lpath-fill,
   .lcards-fill {
     transform: scaleY(1) !important;
@@ -458,11 +645,21 @@
     gap: 10px;
   }
 
-  .lhero-badge--tl { top: -10px; left: 0; font-size: 11px; }
-  .lhero-badge--br { bottom: -10px; right: 0; font-size: 11px; }
+  .lhero-badge--tl {
+    top: -10px;
+    left: 0;
+    font-size: 11px;
+  }
 
-  /* Cards: stack vertically, hide centered path, show left-edge accent */
-  .lcards-track { display: none; }
+  .lhero-badge--br {
+    bottom: -10px;
+    right: 0;
+    font-size: 11px;
+  }
+
+  .lcards-track {
+    display: none;
+  }
 
   .lcard-row {
     padding: 14px 0;
@@ -475,11 +672,10 @@
 
   .lcard {
     width: 100%;
-    border-left: 2px solid rgba(93,184,255,.35);
+    border-left: 2px solid rgba(93, 184, 255, 0.35);
     border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
   }
 
-  /* Hide connectors and junction dots on mobile */
   .lcard-row--left .lcard::after,
   .lcard-row--right .lcard::before,
   .lcard-junction {
@@ -495,6 +691,24 @@
   .lpath-fill,
   .lcards-fill {
     transform: scaleY(1) !important;
+    transition: none;
+  }
+
+  .landing-activation-pulse {
+    animation: none;
+  }
+
+  .landing-activation-hint {
+    animation: none;
+    opacity: 0.5;
+  }
+
+  .landing-activation-glow {
+    display: none;
+  }
+
+  .cl3-subtree--hidden,
+  .cl3-subtree--active {
     transition: none;
   }
 }
