@@ -9,15 +9,6 @@ interface Particle {
   a: number
 }
 
-interface TrailParticle {
-  x: number
-  y: number
-  vx: number
-  vy: number
-  r: number
-  born: number
-}
-
 export default function ParticlesCanvas() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
@@ -31,11 +22,9 @@ export default function ParticlesCanvas() {
     if (!ctx) return
 
     let particles: Particle[] = []
-    let trail: TrailParticle[] = []
     let animFrameId: number
     let paused = false
     let skipNext = false
-    const TRAIL_LIFETIME = 800
 
     function resize() {
       if (!canvas || !ctx) return
@@ -59,20 +48,6 @@ export default function ParticlesCanvas() {
       )
     }
 
-    function onMouseMove(e: MouseEvent) {
-      const now = performance.now()
-      for (let i = 0; i < 3; i++) {
-        trail.push({
-          x: e.clientX + (Math.random() - 0.5) * 8,
-          y: e.clientY + (Math.random() - 0.5) * 8,
-          vx: (Math.random() - 0.5) * 0.6,
-          vy: (Math.random() - 0.5) * 0.6,
-          r: Math.random() * 3 + 3,
-          born: now,
-        })
-      }
-    }
-
     function draw() {
       if (!canvas || !ctx) return
       if (document.hidden) {
@@ -85,26 +60,7 @@ export default function ParticlesCanvas() {
         return
       }
       const frameStart = performance.now()
-      const now = frameStart
       ctx.clearRect(0, 0, window.innerWidth, window.innerHeight)
-
-      // Draw trail particles
-      trail = trail.filter(p => now - p.born < TRAIL_LIFETIME)
-      trail.forEach(p => {
-        const age = now - p.born
-        const progress = age / TRAIL_LIFETIME
-        const alpha = (1 - progress) * 0.8
-        const blur = progress * 6
-        p.x += p.vx
-        p.y += p.vy
-        ctx.save()
-        ctx.filter = `blur(${blur}px)`
-        ctx.beginPath()
-        ctx.fillStyle = `rgba(120, 255, 240, ${alpha})`
-        ctx.arc(p.x, p.y, p.r * (1 - progress * 0.5), 0, Math.PI * 2)
-        ctx.fill()
-        ctx.restore()
-      })
 
       // Draw ambient particles
       particles.forEach((p, i) => {
@@ -148,13 +104,11 @@ export default function ParticlesCanvas() {
     resize()
     draw()
     window.addEventListener('resize', resize)
-    window.addEventListener('mousemove', onMouseMove)
     document.addEventListener('visibilitychange', onVisibilityChange)
 
     return () => {
       cancelAnimationFrame(animFrameId)
       window.removeEventListener('resize', resize)
-      window.removeEventListener('mousemove', onMouseMove)
       document.removeEventListener('visibilitychange', onVisibilityChange)
     }
   }, [])
