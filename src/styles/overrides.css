@@ -179,7 +179,7 @@ body.cl3menza-mode {
   --eyebrow-border: rgba(120,255,240,.12);
   --brand-glow: rgba(120,255,240,.6);
 }
-body.cl3menza-mode body::after {
+body.cl3menza-mode::after {
   background:
     radial-gradient(circle at 22% 26%, rgba(120,255,240,.15), transparent 22%),
     radial-gradient(circle at 76% 62%, rgba(198,120,255,.12), transparent 20%),
