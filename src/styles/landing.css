@@ -595,8 +595,26 @@
   padding: 24px 28px;
   backdrop-filter: blur(12px);
   position: relative;
+  box-shadow:
+    0 4px 24px rgba(0, 0, 0, 0.28),
+    0 1px 0 rgba(255, 255, 255, 0.04) inset;
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease,
+    background 0.3s ease;
 }
 
+.lcard:hover {
+  border-color: rgba(93, 184, 255, 0.28);
+  background: rgba(11, 16, 24, 0.88);
+  box-shadow:
+    0 8px 40px rgba(0, 0, 0, 0.38),
+    0 0 0 1px rgba(93, 184, 255, 0.10),
+    0 0 32px rgba(93, 184, 255, 0.06),
+    0 1px 0 rgba(255, 255, 255, 0.06) inset;
+}
+
+/* Connector lines — brighter on card hover */
 .lcard-row--left .lcard::after {
   content: "";
   position: absolute;
@@ -604,8 +622,14 @@
   right: -32px;
   width: 32px;
   height: 1px;
-  background: linear-gradient(90deg, rgba(93, 184, 255, 0.25), rgba(93, 184, 255, 0.6));
+  background: linear-gradient(90deg, rgba(93, 184, 255, 0.22), rgba(93, 184, 255, 0.55));
   transform: translateY(-50%);
+  transition: opacity 0.3s ease;
+}
+
+.lcard-row--left .lcard:hover::after {
+  opacity: 1.5;
+  background: linear-gradient(90deg, rgba(93, 184, 255, 0.4), rgba(93, 184, 255, 0.85));
 }
 
 .lcard-row--right .lcard::before {
@@ -615,8 +639,13 @@
   left: -32px;
   width: 32px;
   height: 1px;
-  background: linear-gradient(270deg, rgba(93, 184, 255, 0.25), rgba(93, 184, 255, 0.6));
+  background: linear-gradient(270deg, rgba(93, 184, 255, 0.22), rgba(93, 184, 255, 0.55));
   transform: translateY(-50%);
+  transition: opacity 0.3s ease;
+}
+
+.lcard-row--right .lcard:hover::before {
+  background: linear-gradient(270deg, rgba(93, 184, 255, 0.4), rgba(93, 184, 255, 0.85));
 }
 
 .lcard-label {
