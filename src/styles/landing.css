@@ -128,6 +128,7 @@
   line-height: 0.88;
   letter-spacing: -0.07em;
   margin-bottom: 20px;
+  text-shadow: 0 2px 32px rgba(93, 184, 255, 0.08);
 }
 
 .landing-h1-line {
@@ -146,7 +147,7 @@
 .landing-sub {
   font-size: 17px;
   line-height: 1.8;
-  color: rgba(245, 247, 251, 0.72);
+  color: rgba(245, 247, 251, 0.76);
   max-width: 520px;
   margin-bottom: 28px;
 }
@@ -155,6 +156,24 @@
   display: flex;
   gap: 14px;
   flex-wrap: wrap;
+}
+
+.landing-ctas .button.primary:hover {
+  box-shadow:
+    0 16px 30px rgba(0, 0, 0, 0.2),
+    0 0 24px rgba(93, 184, 255, 0.12);
+}
+
+.landing-ctas .button.ghost {
+  background: transparent;
+  border-color: rgba(255, 255, 255, 0.08);
+  color: rgba(245, 247, 251, 0.68);
+}
+
+.landing-ctas .button.ghost:hover {
+  border-color: rgba(120, 255, 240, 0.22);
+  color: rgba(245, 247, 251, 0.95);
+  background: rgba(120, 255, 240, 0.04);
 }
 
 /* ── Hero grid ── */
@@ -191,15 +210,27 @@
   width: clamp(260px, 34vw, 420px);
   aspect-ratio: 3 / 4;
   border-radius: var(--radius-xl);
-  overflow: hidden;
+  overflow: visible;
+}
+
+/* Outer editorial frame */
+.lhero-portrait::before {
+  content: "";
+  position: absolute;
+  inset: -7px;
+  border: 1px solid rgba(93, 184, 255, 0.10);
+  border-radius: calc(var(--radius-xl) + 7px);
+  z-index: 2;
+  pointer-events: none;
 }
 
 .lhero-portrait-glow {
   position: absolute;
   inset: -30%;
   background:
-    radial-gradient(ellipse at 40% 30%, rgba(93, 184, 255, 0.22), transparent 55%),
-    radial-gradient(ellipse at 70% 70%, rgba(124, 109, 255, 0.16), transparent 50%);
+    radial-gradient(ellipse at 40% 30%, rgba(93, 184, 255, 0.24), transparent 55%),
+    radial-gradient(ellipse at 70% 70%, rgba(124, 109, 255, 0.18), transparent 50%),
+    radial-gradient(ellipse at 50% 50%, rgba(120, 255, 240, 0.06), transparent 60%);
   filter: blur(40px);
   z-index: 0;
   animation: lhero-glow-pulse 6s ease-in-out infinite alternate;
@@ -224,16 +255,34 @@
   background:
     linear-gradient(
       160deg,
-      rgba(93, 184, 255, 0.10) 0%,
-      rgba(124, 109, 255, 0.08) 50%,
-      rgba(120, 255, 240, 0.06) 100%
+      rgba(93, 184, 255, 0.12) 0%,
+      rgba(124, 109, 255, 0.09) 50%,
+      rgba(120, 255, 240, 0.07) 100%
     ),
     var(--bg-2);
-  border: 1px solid rgba(255, 255, 255, 0.10);
-  border-radius: inherit;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-xl);
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
+}
+
+/* Scan-line texture overlay */
+.lhero-portrait-placeholder::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 3px,
+      rgba(255, 255, 255, 0.015) 3px,
+      rgba(255, 255, 255, 0.015) 4px
+    );
+  pointer-events: none;
+  border-radius: inherit;
 }
 
 .lhero-portrait-initials {
@@ -259,6 +308,7 @@
   color: rgba(245, 247, 251, 0.82);
   backdrop-filter: blur(12px);
   white-space: nowrap;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.32);
 }
 
 .lhero-badge--tl {
