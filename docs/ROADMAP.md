@@ -285,7 +285,7 @@ Copy je i dalje placeholder i nije launch-final.
 
 ## AKTIVNI BATCH-EVI
 
-### L5 — Scroll-driven activation + cl3 transition `[ ]`
+### L5 — Scroll-driven activation + cl3 transition `[x]`
 **GOAL**
 Activation zona više ne sme biti prazan placeholder.
 Uvesti pravi scroll-driven ulaz u cl3menza mode i prirodan povratak nazad.
@@ -336,7 +336,7 @@ Visok — srce iskustva.
 
 ---
 
-### L6 — Ambijent background buildup `[ ]`
+### L6 — Ambijent background buildup `[x]`
 **GOAL**
 Pozadina mora dobiti dubinu i gustinu, ne samo nebula + vignette.
 
@@ -363,7 +363,7 @@ Srednji — lako ode u perf problem ili kič.
 
 ---
 
-### L7 — Energy path upgrade `[ ]`
+### L7 — Energy path upgrade `[x]`
 **GOAL**
 Path više ne sme delovati kao samo stabilna linija.
 Treba da postane energy trail koji vodi priču i pojačava se ka activation zoni.
@@ -391,7 +391,7 @@ Srednji — motion density i mobile fallback.
 
 ---
 
-### L8 — Card visual depth + hover `[ ]`
+### L8 — Card visual depth + hover `[x]`
 **GOAL**
 Kartice moraju preći iz baseline/story blokova u premium narrative panels.
 
@@ -417,7 +417,7 @@ Nizak do srednji — CSS-heavy batch.
 
 ---
 
-### L9 — Hero editorial polish + portrait `[ ]`
+### L9 — Hero editorial polish + portrait `[x]`
 **GOAL**
 Podignuti hero iz placeholder baseline-a u stvarni premium editorial entry point.
 

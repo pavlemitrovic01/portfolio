@@ -153,18 +153,19 @@ Aktivni plan → `docs/ROADMAP.md`
 Ključni fajlovi:
 - `src/main.tsx` — entry
 - `src/App.tsx` — orkestracija mode-a i sekcija
-- `src/components/sections/Hero.tsx` — centralna i najkompleksnija sekcija
-- `src/components/sections/TrustSignals.tsx` — trigger za ulaz u cl3menza mode
-- `src/components/layout/Header.tsx` — mode-aware header i izlaz iz cl3menza mode
-- `src/components/layout/Footer.tsx` — mode-aware footer nav
-- `src/styles/global.css` — glavni stylesheet
+- `src/components/landing/LandingScene.tsx` — primarna landing arhitektura (Faza 5)
+- `src/components/landing/LandingActivation.tsx` — scroll-driven ulaz u cl3menza mode
+- `src/components/layout/Header.tsx` — mode-aware header (normal: brand only; cl3: badge + nav)
+- `src/components/layout/Footer.tsx` — mode-aware footer (cl3 mode: nav; normal: bez nav)
+- `src/styles/` — modularni CSS: base.css, layout.css, hero.css, sections.css, overrides.css, landing.css
 - `api/claude.ts` — AI chat backend endpoint
 
 Važne istine:
-- sajt ima normal mode i cl3menza mode
-- ulaz u cl3menza mode je kartica **Genius builder vibe**
-- Hero u cl3menza mode sadrži project preview + AI chat
+- sajt ima normal mode (landing) i cl3menza mode (dublji sloj)
+- ulaz u cl3menza mode: scroll do LandingActivation zone ili CTA "Skip to cl3 mode →"
+- HeroCl3menza u cl3 mode sadrži project preview + AI chat
 - `api/claude.ts` je Vercel serverless function — van Vite bundle; ima sopstveni `tsconfig.node.json`
+- Hero.tsx / HeroNormal.tsx / TrustSignals.tsx su legacy — postoje ali nisu aktivni flow
 
 ---
 

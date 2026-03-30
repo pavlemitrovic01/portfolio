@@ -11,17 +11,19 @@ React + TypeScript + Vite + Framer Motion. Entry: `src/main.tsx`.
 
 ## Struktura
 
-- `src/styles/global.css` — jedinstven stylesheet (1800+ linija)
+- `src/styles/` — modularni CSS: base.css, layout.css, hero.css, sections.css, overrides.css, landing.css
+- `src/components/landing/` — LandingScene, LandingHero, LandingBackground, LandingPath, LandingCards, LandingActivation
 - `src/components/layout/` — Header, Footer, Layout, Preloader, Ticker
-- `src/components/sections/` — Hero, HeroNormal, HeroCl3menza, TrustSignals, Systems, Flagship, AnatomyOfBuild, Process, Stack, Projects, Testimonials, About, Contact
-- `src/hooks/` — useCl3menzaBodyClass, useCountUp, useMagnetic, useParallax
+- `src/components/sections/` — HeroCl3menza (aktivan), Hero/HeroNormal/TrustSignals (legacy), Systems, Flagship, AnatomyOfBuild, Process, Stack, Projects, Testimonials, About, Contact
+- `src/hooks/` — useCl3menzaBodyClass, useCountUp, useMagnetic (noop), useParallax, useTerminalBoot
 - `api/claude.ts` — Vercel serverless function (AI chat backend, van Vite bundle)
 
 ## App.tsx
 
-Orkestrira dva moda: **normal mode** i **cl3menza mode**.
-Cl3menza sekcije (Systems, Projects, Flagship, AnatomyOfBuild, Process, Stack, Testimonials) su lazy-loaded via `React.lazy` + `Suspense`.
-Mode tranzicija: glitch → terminal overlay → mode switch → focus na `#main-content`.
+Orkestrira dva moda: **normal mode** (landing) i **cl3menza mode** (dublji sloj).
+Normal mode: LandingScene (kontinualni scroll arhitektura).
+Cl3menza mode: lazy-loaded sekcije (Systems, Projects, Flagship, AnatomyOfBuild, Process, Stack, Testimonials) via `React.lazy` + `Suspense`. Mount-once pattern (`hasActivated`).
+Ulaz: scroll do LandingActivation zone ili CTA button. Izlaz: badge u headeru.
 
 ## Typecheck
 
@@ -37,13 +39,13 @@ Dva tsconfig-a:
 ## LOCK fajlovi (diraj samo planski, Standard/Strict mode)
 
 - `src/App.tsx` — mode orchestration
-- `src/components/sections/Hero.tsx` — lazy split između HeroNormal/HeroCl3menza
+- `src/components/landing/LandingActivation.tsx` — scroll-driven cl3 ulaz
 - `api/claude.ts` — AI chat handler, rate-limit, validacija
 
 ## Conventions
 
 - Zadrži postojeći vizuelni identitet (paleta, tipografija, motion)
-- Koristi postojeće CSS klase iz global.css
+- Koristi postojeće CSS klase iz src/styles/ modula (ne global.css — ne postoji)
 - Ne uvodi nove dependency-je bez approval-a
 - Ne refaktoriši van scope-a
 
