@@ -5,6 +5,7 @@ export default function LandingBackground() {
       <div className="landing-bg-depth" />
       <div className="landing-bg-dots" />
       <div className="landing-bg-zones" />
+      <div className="landing-bg-grid" />
       <div className="landing-bg-vignette" />
     </div>
   )

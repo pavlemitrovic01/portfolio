@@ -49,6 +49,16 @@
   background: radial-gradient(ellipse at center, transparent 40%, var(--bg) 100%);
 }
 
+.landing-bg-grid {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(93,184,255,.07) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: radial-gradient(ellipse 80% 70% at 50% 40%, rgba(0,0,0,.6) 0%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 40%, rgba(0,0,0,.6) 0%, transparent 100%);
+  pointer-events: none;
+}
+
 /* ── Deep glow layer — denser than nebula, sits below content ── */
 .landing-bg-depth {
   position: absolute;
@@ -375,6 +385,12 @@
   pointer-events: none;
   opacity: calc(0.35 + var(--lpath-progress, 0) * 0.55);
   transition: opacity 0.1s linear;
+  animation: lpath-shimmer 4s ease-in-out infinite;
+}
+
+@keyframes lpath-shimmer {
+  0%, 100% { filter: blur(10px); }
+  50%       { filter: blur(7px); }
 }
 
 .lpath-node {
@@ -887,6 +903,7 @@
   .lpath-glow {
     opacity: 0.5;
     transition: none;
+    animation: none;
   }
 
   .cl3-subtree--hidden,
