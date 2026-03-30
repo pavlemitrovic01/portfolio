@@ -51,7 +51,7 @@ function anthropicProxy(apiKey: string): Plugin {
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
-  const apiKey = env.VITE_ANTHROPIC_API_KEY || env.ANTHROPIC_API_KEY
+  const apiKey = env.ANTHROPIC_API_KEY
 
   return {
     root: '.',
