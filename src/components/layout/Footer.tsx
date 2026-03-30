@@ -32,24 +32,16 @@ export default function Footer() {
             <span>&copy; 2026 cl3menza.com</span>
             <span className="footer-elapsed">Built &middot; {days}d, {h}h {m.toString().padStart(2, '0')}m {s.toString().padStart(2, '0')}s</span>
           </div>
-          <nav className="footer-nav" aria-label="Footer navigation">
-            {cl3menzaMode ? (
-              <>
-                <a href="#offers">Systems</a>
-                <a href="#projects">Projects</a>
-                <a href="#project">Flagship</a>
-                <a href="#anatomy">Anatomy</a>
-                <a href="#process">Process</a>
-                <a href="#contact">Contact</a>
-              </>
-            ) : (
-              <>
-                <a href="#signals">Signals</a>
-                <a href="#about">About</a>
-                <a href="#contact">Contact</a>
-              </>
-            )}
-          </nav>
+          {cl3menzaMode && (
+            <nav className="footer-nav" aria-label="Footer navigation">
+              <a href="#offers">Systems</a>
+              <a href="#projects">Projects</a>
+              <a href="#project">Flagship</a>
+              <a href="#anatomy">Anatomy</a>
+              <a href="#process">Process</a>
+              <a href="#contact">Contact</a>
+            </nav>
+          )}
           <div className="footer-links">
             <a href="https://github.com/pavlemitrovic01/portfolio" target="_blank" rel="noopener noreferrer">GitHub</a>
             <a href="mailto:hello@cl3menza.com">hello@cl3menza.com</a>

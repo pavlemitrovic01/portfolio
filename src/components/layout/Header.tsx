@@ -22,41 +22,36 @@ export default function Header() {
             </button>
           )}
         </div>
-        <button
-          type="button"
-          className="mobile-nav-toggle"
-          aria-expanded={menuOpen}
-          aria-controls="header-topbar-nav"
-          aria-label={menuOpen ? 'Close menu' : 'Open menu'}
-          onClick={() => setMenuOpen((o) => !o)}
-        >
-          <span className="mobile-nav-toggle-bars" aria-hidden="true">
-            <span />
-            <span />
-            <span />
-          </span>
-        </button>
-        <nav
-          id="header-topbar-nav"
-          className={`topbar-nav${menuOpen ? ' is-open' : ''}`}
-          aria-label="Main navigation"
-        >
-          {!cl3menzaMode ? (
-            <>
-              <a href="#landing" onClick={closeMenu}>Home</a>
-              <a href="#contact" onClick={closeMenu}>Contact</a>
-            </>
-          ) : (
-            <>
+        {cl3menzaMode && (
+          <>
+            <button
+              type="button"
+              className="mobile-nav-toggle"
+              aria-expanded={menuOpen}
+              aria-controls="header-topbar-nav"
+              aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+              onClick={() => setMenuOpen((o) => !o)}
+            >
+              <span className="mobile-nav-toggle-bars" aria-hidden="true">
+                <span />
+                <span />
+                <span />
+              </span>
+            </button>
+            <nav
+              id="header-topbar-nav"
+              className={`topbar-nav${menuOpen ? ' is-open' : ''}`}
+              aria-label="Main navigation"
+            >
               <a href="#offers" onClick={closeMenu}>Systems</a>
               <a href="#projects" onClick={closeMenu}>Projects</a>
               <a href="#project" onClick={closeMenu}>Flagship</a>
               <a href="#anatomy" onClick={closeMenu}>Anatomy</a>
               <a href="#process" onClick={closeMenu}>Process</a>
               <a href="#contact" onClick={closeMenu}>Contact</a>
-            </>
-          )}
-        </nav>
+            </nav>
+          </>
+        )}
       </div>
     </header>
   )
