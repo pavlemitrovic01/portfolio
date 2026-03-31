@@ -119,23 +119,37 @@ export default function LandingActivation({
     }
   }, [onPrefetch, reduceMotion])
 
+  // ── Visual shell ──────────────────────────────────────────────
   return (
     <div
       ref={zoneRef}
       className="landing-activation"
+      id="landing-activation"
       data-cl3-active={cl3menzaMode ? 'true' : 'false'}
     >
-      <div
-        ref={glowRef}
-        className="landing-activation-glow"
-        aria-hidden="true"
-      />
+      {/* Scroll-driven energy glow — inner behavior owns this ref */}
+      <div ref={glowRef} className="landing-activation-glow" aria-hidden="true" />
+
+      {/* Visual content */}
+      <div className="lact-content">
+        <p className="lact-pre">Ready to build with the mind behind this?</p>
+        <p className="lact-sub">
+          Get ready to enter{' '}
+          <span className="lact-glitch" data-text="cl3menza">cl3menza</span>
+          {' '}mode
+        </p>
+        <div className="lact-heading" aria-label="cl3menza mode">
+          <span className="lact-brand">cl3menza</span>
+          <span className="lact-mode"> mode</span>
+          <span className="lact-dashes" aria-hidden="true"> ——</span>
+        </div>
+      </div>
+
+      {/* Scroll indicator — keeps existing classes for CSS continuity */}
       <div className="landing-activation-line" aria-hidden="true">
         <div className="landing-activation-pulse" />
       </div>
-      <p className="landing-activation-hint" aria-hidden="true">
-        Keep scrolling
-      </p>
+      <p className="landing-activation-hint" aria-hidden="true">Keep scrolling</p>
     </div>
   )
 }

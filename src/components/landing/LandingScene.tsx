@@ -1,3 +1,4 @@
+import { useRef } from 'react'
 import LandingBackground from './LandingBackground'
 import LandingHero from './LandingHero'
 import LandingPath from './LandingPath'
@@ -19,32 +20,41 @@ const prefetchCl3menzaChunks = () => {
   import('../sections/Testimonials')
 }
 
-const activateCl3menza = () => {
-  if (!document.body.classList.contains('cl3menza-mode')) {
-    document.body.classList.add('cl3menza-mode')
-  }
-}
-
 export default function LandingScene({ cl3menzaMode }: LandingSceneProps) {
+  // Shared ref: LandingPath reads scroll progress relative to this container
+  const journeyRef = useRef<HTMLDivElement>(null)
+
   return (
     <section className={`landing-scene${cl3menzaMode ? ' landing-scene--cl3' : ''}`} id="landing">
       <LandingBackground />
       <div className="landing-content container">
-        {/* L2: Hero */}
-        <LandingHero onActivateCl3={activateCl3menza} onPrefetch={prefetchCl3menzaChunks} />
 
-        {/* L3: Central light path */}
-        <div className="landing-path-zone" id="landing-path">
-          <LandingPath />
-        </div>
+        {/* Phase 1 — Hero: scene entry */}
+        <LandingHero onPrefetch={prefetchCl3menzaChunks} />
 
-        {/* L4: Story cards */}
-        <div className="landing-cards-zone">
+        {/* Phase 2 — Journey: unified path + quote + cards as one system */}
+        <div className="landing-journey-zone" id="landing-path" ref={journeyRef}>
+          {/* SVG S-curve + junction nodes */}
+          <LandingPath containerRef={journeyRef} />
+
+          {/* Editorial quote — left side, path curves right for card 1 */}
+          <blockquote className="journey-quote" aria-label="Portfolio philosophy">
+            <p>
+              The portfolio<br />
+              should feel like<br />
+              a mind at work,<br />
+              not just a page<br />
+              with nice blocks.
+            </p>
+          </blockquote>
+
+          {/* Cards — absolutely positioned at junction y-coordinates */}
           <LandingCards />
         </div>
 
-        {/* L5: Scroll-driven activation zone */}
+        {/* Phase 3 — Activation: scene culmination */}
         <LandingActivation cl3menzaMode={cl3menzaMode} onPrefetch={prefetchCl3menzaChunks} />
+
       </div>
     </section>
   )

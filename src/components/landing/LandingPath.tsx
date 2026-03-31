@@ -1,45 +1,60 @@
 import { useEffect, useRef } from 'react'
 import { useReducedMotion } from 'framer-motion'
 
-const LABELS = [
-  { pct: '20%', side: 'right', text: '§ 001' },
-  { pct: '52%', side: 'left', text: '§ 002' },
-  { pct: '80%', side: 'right', text: '§ 003' },
-] as const
+// S-curve: center → swing right → swing left → swing right → swing left → center
+// viewBox: 0 0 1000 1000 (preserveAspectRatio="none")
+const PATH_D =
+  'M 500 0 C 500 80 740 150 690 230 C 640 310 260 370 310 450 C 360 530 740 590 690 670 C 640 750 260 810 310 890 C 360 950 500 980 500 1000'
 
-export default function LandingPath() {
-  const fillRef = useRef<HTMLDivElement>(null)
-  const containerRef = useRef<HTMLDivElement>(null)
+// Junction nodes — CSS % positions matching the SVG curve inflection points
+// x: 690/1000=69%, 310/1000=31%  |  y: 230/1000=23%, 450/1000=45%, 670/1000=67%, 890/1000=89%
+export const JUNCTIONS = [
+  { left: '69%', top: '23%', side: 'right' as const },
+  { left: '31%', top: '45%', side: 'left' as const },
+  { left: '69%', top: '67%', side: 'right' as const },
+  { left: '31%', top: '89%', side: 'left' as const },
+]
+
+interface LandingPathProps {
+  containerRef: React.RefObject<HTMLDivElement | null>
+}
+
+export default function LandingPath({ containerRef }: LandingPathProps) {
+  const fillRef = useRef<SVGPathElement>(null)
   const reduceMotion = useReducedMotion() === true
 
   useEffect(() => {
     const fill = fillRef.current
+    if (!fill || reduceMotion) return
+
+    if (window.matchMedia('(max-width: 760px)').matches) {
+      // Mobile: static full fill
+      fill.style.strokeDasharray = ''
+      fill.style.strokeDashoffset = '0'
+      return
+    }
+
+    const totalLength = fill.getTotalLength()
+    fill.style.strokeDasharray = `${totalLength}`
+    fill.style.strokeDashoffset = `${totalLength}`
+
     const container = containerRef.current
-    if (!fill || !container || reduceMotion) return
-
-    // Mobile: static — no scroll listener
-    if (window.matchMedia('(max-width: 760px)').matches) return
-
-    const zone = fill.closest('.landing-path-zone') as HTMLElement | null
-    if (!zone) return
+    if (!container) return
 
     let rafId: number | null = null
 
     const update = () => {
-      const rect = zone.getBoundingClientRect()
+      rafId = null
+      const rect = container.getBoundingClientRect()
       const vh = window.innerHeight
       const total = rect.height + vh
       const elapsed = vh - rect.top
       const progress = Math.min(1, Math.max(0, elapsed / total))
-      fill.style.transform = `scaleY(${progress})`
-      container.style.setProperty('--lpath-progress', String(progress))
-      rafId = null
+      fill.style.strokeDashoffset = `${totalLength * (1 - progress)}`
     }
 
     const onScroll = () => {
-      if (rafId === null) {
-        rafId = requestAnimationFrame(update)
-      }
+      if (rafId === null) rafId = requestAnimationFrame(update)
     }
 
     update()
@@ -48,21 +63,37 @@ export default function LandingPath() {
       window.removeEventListener('scroll', onScroll)
       if (rafId !== null) cancelAnimationFrame(rafId)
     }
-  }, [reduceMotion])
+  }, [reduceMotion, containerRef])
 
   return (
-    <div className="lpath" ref={containerRef} aria-hidden="true">
-      <div className="lpath-track">
-        <div className="lpath-fill" ref={fillRef} />
-        <div className="lpath-glow" />
-      </div>
-      <div className="lpath-node lpath-node--top" />
-      <div className="lpath-node lpath-node--bottom" />
-      {LABELS.map(({ pct, side, text }) => (
-        <div key={text} className={`lpath-label lpath-label--${side}`} style={{ top: pct }}>
-          {text}
+    <>
+      {/* SVG: path lines only (circles omitted — DOM nodes below stay perfectly round) */}
+      <svg
+        className="journey-svg"
+        viewBox="0 0 1000 1000"
+        preserveAspectRatio="none"
+        aria-hidden="true"
+      >
+        {/* dim track */}
+        <path d={PATH_D} className="journey-track" vectorEffect="non-scaling-stroke" />
+        {/* scroll-driven colored fill */}
+        <path d={PATH_D} className="journey-fill" ref={fillRef} vectorEffect="non-scaling-stroke" />
+        {/* outer glow layer */}
+        <path d={PATH_D} className="journey-glow" vectorEffect="non-scaling-stroke" />
+      </svg>
+
+      {/* Junction nodes — absolute DOM divs (never distorted by SVG scaling) */}
+      {JUNCTIONS.map((j, i) => (
+        <div
+          key={i}
+          className="journey-junction"
+          style={{ left: j.left, top: j.top }}
+          aria-hidden="true"
+        >
+          <div className="journey-junction-halo" />
+          <div className="journey-junction-core" />
         </div>
       ))}
-    </div>
+    </>
   )
 }

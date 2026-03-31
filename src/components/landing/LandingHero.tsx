@@ -2,7 +2,6 @@ import { useRef, useEffect } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
 
 interface LandingHeroProps {
-  onActivateCl3: () => void
   onPrefetch: () => void
 }
 
@@ -15,7 +14,7 @@ const item = (reduceMotion: boolean) => ({
   visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] as const } },
 })
 
-export default function LandingHero({ onActivateCl3, onPrefetch }: LandingHeroProps) {
+export default function LandingHero({ onPrefetch }: LandingHeroProps) {
   const reduceMotion = useReducedMotion() === true
   const glitchRef = useRef<HTMLSpanElement>(null)
   const glitchingRef = useRef(false)
@@ -69,7 +68,7 @@ export default function LandingHero({ onActivateCl3, onPrefetch }: LandingHeroPr
 
   return (
     <div className="lhero">
-      {/* Left — copy */}
+      {/* Left — editorial copy */}
       <motion.div
         className="lhero-copy"
         variants={stagger}
@@ -88,45 +87,47 @@ export default function LandingHero({ onActivateCl3, onPrefetch }: LandingHeroPr
         </motion.div>
 
         <motion.div variants={it}>
-          <p className="landing-positioning">Full-stack developer. Product-minded builder.</p>
+          <p className="landing-positioning">
+            Full-stack developer with a builder mindset.
+          </p>
         </motion.div>
 
         <motion.div variants={it}>
           <p className="landing-sub">
-            I build digital products with depth, systems, and real execution.
+            Turning ideas into high-quality, no BS digital products that actually deliver value.
           </p>
         </motion.div>
 
         <motion.div variants={it}>
           <div className="landing-ctas">
-            <a className="button primary magnetic" href="#landing-path">Explore the path</a>
-            <button
-              className="button ghost magnetic"
-              type="button"
-              onClick={onActivateCl3}
+            <a className="button primary" href="#landing-path">
+              About me
+            </a>
+            <a
+              className="button ghost"
+              href="#landing-activation"
               onMouseEnter={onPrefetch}
             >
-              Skip to cl3 mode →
-            </button>
+              See my work
+            </a>
           </div>
         </motion.div>
       </motion.div>
 
-      {/* Right — portrait */}
+      {/* Right — portrait / scene visual anchor */}
       <motion.div
         className="lhero-portrait-wrap"
         initial={reduceMotion ? { opacity: 1 } : { opacity: 0, scale: 0.96 }}
         animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.7, delay: 0.35, ease: [0.22, 1, 0.36, 1] as const }}
+        transition={{ duration: 0.8, delay: 0.3, ease: [0.22, 1, 0.36, 1] as const }}
       >
         <div className="lhero-portrait">
           <div className="lhero-portrait-glow" aria-hidden="true" />
-          <div className="lhero-portrait-placeholder" aria-label="Portrait placeholder">
+          <div className="lhero-portrait-placeholder" aria-label="Portrait — Pavle Mitrovic">
             <span className="lhero-portrait-initials">PM</span>
           </div>
         </div>
 
-        {/* Floating micro-labels */}
         <div className="lhero-badge lhero-badge--tl" aria-hidden="true">
           <span className="lhero-badge-dot" />
           <span>Available for projects</span>
