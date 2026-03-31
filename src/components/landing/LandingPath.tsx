@@ -74,6 +74,20 @@ export default function LandingPath({ containerRef }: LandingPathProps) {
         preserveAspectRatio="none"
         aria-hidden="true"
       >
+        <defs>
+          {/* Subtle premium gradient: blue → violet → cyan along vertical path */}
+          <linearGradient id="journey-path-gradient" gradientUnits="userSpaceOnUse" x1="500" y1="0" x2="500" y2="1000">
+            <stop offset="0%"   stopColor="rgba(93,184,255,.95)" />
+            <stop offset="52%"  stopColor="rgba(124,109,255,.88)" />
+            <stop offset="100%" stopColor="rgba(120,255,240,.85)" />
+          </linearGradient>
+          {/* Matching ambient glow gradient — same hue progression, very low opacity */}
+          <linearGradient id="journey-glow-gradient" gradientUnits="userSpaceOnUse" x1="500" y1="0" x2="500" y2="1000">
+            <stop offset="0%"   stopColor="rgba(93,184,255,.22)" />
+            <stop offset="52%"  stopColor="rgba(124,109,255,.18)" />
+            <stop offset="100%" stopColor="rgba(120,255,240,.15)" />
+          </linearGradient>
+        </defs>
         {/* dim track */}
         <path d={PATH_D} className="journey-track" vectorEffect="non-scaling-stroke" />
         {/* scroll-driven colored fill */}

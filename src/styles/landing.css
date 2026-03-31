@@ -45,6 +45,41 @@
   background: radial-gradient(ellipse at center, transparent 40%, var(--bg) 100%);
 }
 
+/* Depth layer: subtle atmospheric brightening in the mid-page journey area */
+.landing-bg-depth {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 65% 45% at 50% 58%, rgba(93,184,255,.05), transparent),
+    radial-gradient(ellipse 45% 35% at 50% 68%, rgba(124,109,255,.04), transparent);
+  pointer-events: none;
+}
+
+/* Zones: accent pockets flanking card junction positions (left/right alternating) */
+.landing-bg-zones {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 28% 20% at 74% 32%, rgba(93,184,255,.055), transparent),
+    radial-gradient(ellipse 28% 20% at 26% 52%, rgba(124,109,255,.045), transparent),
+    radial-gradient(ellipse 28% 20% at 74% 72%, rgba(93,184,255,.055), transparent),
+    radial-gradient(ellipse 28% 20% at 26% 86%, rgba(124,109,255,.040), transparent);
+  pointer-events: none;
+}
+
+/* Dots: sparse scattered specks — deeper space feel, complements the grid */
+.landing-bg-dots {
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle, rgba(255,255,255,.35) 1px, transparent 1px),
+    radial-gradient(circle, rgba(93,184,255,.25) 1px, transparent 1px);
+  background-size: 130px 130px, 210px 210px;
+  background-position: 0 0, 65px 95px;
+  opacity: .22;
+  pointer-events: none;
+}
+
 .landing-bg-grid {
   position: absolute;
   inset: 0;
@@ -253,16 +288,16 @@
 
 .journey-fill {
   fill: none;
-  stroke: var(--blue);
+  stroke: url(#journey-path-gradient);
   stroke-width: 2;
-  opacity: .85;
+  opacity: .9;
 }
 
 .journey-glow {
   fill: none;
-  stroke: rgba(93,184,255,.18);
-  stroke-width: 14;
-  filter: blur(7px);
+  stroke: url(#journey-glow-gradient);
+  stroke-width: 16;
+  filter: blur(9px);
   animation: journey-glow-pulse 4s ease-in-out infinite;
 }
 
@@ -334,14 +369,17 @@
 .jcard {
   position: absolute;
   width: 36%;
-  background: rgba(10,16,30,.72);
-  border: 1px solid rgba(93,184,255,.13);
+  background: rgba(8,13,26,.78);
+  border: 1px solid rgba(93,184,255,.16);
   border-radius: var(--radius-lg);
   padding: 26px 30px;
-  backdrop-filter: blur(16px);
+  backdrop-filter: blur(20px);
   transform: translateY(-50%);
   z-index: 1;
-  box-shadow: 0 8px 40px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.04);
+  box-shadow:
+    0 8px 40px rgba(0,0,0,.45),
+    inset 0 1px 0 rgba(93,184,255,.10),
+    inset 0 0 32px rgba(93,184,255,.03);
 }
 
 .jcard--right { right: 3%; }
