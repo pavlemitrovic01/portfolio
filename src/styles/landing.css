@@ -27,9 +27,9 @@
   position: absolute;
   inset: -20%;
   background:
-    radial-gradient(ellipse 600px 400px at 20% 15%, rgba(93,184,255,.12), transparent),
-    radial-gradient(ellipse 500px 350px at 75% 25%, rgba(124,109,255,.10), transparent),
-    radial-gradient(ellipse 400px 300px at 50% 70%, rgba(120,255,240,.06), transparent);
+    radial-gradient(ellipse 700px 450px at 60% 22%, rgba(93,184,255,.14), transparent),
+    radial-gradient(ellipse 550px 380px at 38% 32%, rgba(124,109,255,.12), transparent),
+    radial-gradient(ellipse 420px 320px at 52% 52%, rgba(120,255,240,.06), transparent);
   filter: blur(80px);
   animation: landing-nebula-drift 20s ease-in-out infinite alternate;
 }
@@ -42,7 +42,7 @@
 .landing-bg-vignette {
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse at center, transparent 40%, var(--bg) 100%);
+  background: radial-gradient(ellipse at center, transparent 48%, var(--bg) 100%);
 }
 
 /* Depth layer: subtle atmospheric brightening in the mid-page journey area */
@@ -139,8 +139,8 @@
 
 .landing-sub {
   font-size: 17px;
-  line-height: 1.8;
-  color: rgba(245,247,251,.72);
+  line-height: 1.72;
+  color: rgba(245,247,251,.76);
   max-width: 520px;
   margin-bottom: 28px;
 }
@@ -151,6 +151,18 @@
   flex-wrap: wrap;
 }
 
+/* ── CTA overrides: landing-scene authority ── */
+.landing-ctas .button.primary {
+  background: linear-gradient(135deg, rgba(93,184,255,.28), rgba(124,109,255,.24));
+  border-color: rgba(93,184,255,.38);
+  box-shadow: 0 0 28px rgba(93,184,255,.14), inset 0 1px 0 rgba(93,184,255,.20);
+}
+
+.landing-ctas .button.ghost {
+  border-color: rgba(93,184,255,.28);
+  background: rgba(93,184,255,.05);
+}
+
 /* ── Hero: 2-column grid ── */
 .lhero {
   display: grid;
@@ -159,6 +171,20 @@
   align-items: center;
   min-height: calc(100vh - 120px);
   padding-top: 40px;
+  position: relative;
+}
+
+/* Hero → journey connector: faint vertical thread, desktop-only */
+.lhero::after {
+  content: '';
+  position: absolute;
+  bottom: -80px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2px;
+  height: 80px;
+  background: linear-gradient(180deg, rgba(93,184,255,.06), rgba(93,184,255,.18));
+  pointer-events: none;
 }
 
 .lhero-copy {
@@ -185,19 +211,19 @@
   width: clamp(260px, 34vw, 420px);
   aspect-ratio: 3 / 4;
   border-radius: var(--radius-xl);
-  /* Atmospheric blending: portrait fades into space background */
-  -webkit-mask-image: radial-gradient(ellipse 88% 92% at 55% 42%, black 38%, rgba(0,0,0,.6) 58%, transparent 82%);
-  mask-image: radial-gradient(ellipse 88% 92% at 55% 42%, black 38%, rgba(0,0,0,.6) 58%, transparent 82%);
+  /* Atmospheric blending: portrait dissolves into space background */
+  -webkit-mask-image: radial-gradient(ellipse 86% 90% at 53% 42%, black 34%, rgba(0,0,0,.5) 55%, transparent 76%);
+  mask-image: radial-gradient(ellipse 86% 90% at 53% 42%, black 34%, rgba(0,0,0,.5) 55%, transparent 76%);
 }
 
 .lhero-portrait-glow {
   position: absolute;
-  inset: -40%;
+  inset: -50%;
   background:
-    radial-gradient(ellipse at 45% 28%, rgba(93,184,255,.32), transparent 52%),
-    radial-gradient(ellipse at 68% 65%, rgba(124,109,255,.22), transparent 52%),
-    radial-gradient(ellipse at 52% 50%, rgba(120,255,240,.10), transparent 60%);
-  filter: blur(40px);
+    radial-gradient(ellipse at 42% 25%, rgba(93,184,255,.34), transparent 55%),
+    radial-gradient(ellipse at 70% 68%, rgba(124,109,255,.24), transparent 55%),
+    radial-gradient(ellipse at 52% 50%, rgba(120,255,240,.12), transparent 65%);
+  filter: blur(45px);
   z-index: 0;
   animation: lhero-glow-pulse 6s ease-in-out infinite alternate;
 }
@@ -213,12 +239,15 @@
   width: 100%;
   height: 100%;
   background:
-    linear-gradient(160deg, rgba(93,184,255,.12) 0%, rgba(124,109,255,.09) 50%, rgba(120,255,240,.07) 100%),
+    radial-gradient(ellipse 70% 60% at 35% 30%, rgba(93,184,255,.14), transparent 70%),
+    radial-gradient(ellipse 50% 50% at 60% 65%, rgba(124,109,255,.08), transparent 60%),
+    linear-gradient(160deg, rgba(93,184,255,.07) 0%, rgba(124,109,255,.05) 50%, rgba(120,255,240,.04) 100%),
     var(--bg-2);
   border-radius: inherit;
   display: flex;
   align-items: center;
   justify-content: center;
+  box-shadow: inset 0 0 60px rgba(0,0,0,.4), inset 0 -20px 40px rgba(0,0,0,.2);
 }
 
 .lhero-portrait-initials {
@@ -226,7 +255,7 @@
   font-size: clamp(3rem, 6vw, 5.5rem);
   font-weight: 700;
   letter-spacing: -.04em;
-  color: rgba(255,255,255,.10);
+  color: rgba(255,255,255,.05);
   user-select: none;
 }
 
@@ -354,6 +383,21 @@
   width: 36%;
   z-index: 1;
   pointer-events: none;
+  background: radial-gradient(ellipse 180% 160% at 10% 50%, rgba(93,184,255,.04), transparent);
+}
+
+.journey-quote::before {
+  content: '\201C';
+  position: absolute;
+  top: -0.25em;
+  left: -0.06em;
+  font-family: "Space Grotesk", Inter, sans-serif;
+  font-size: clamp(6rem, 11vw, 11rem);
+  font-weight: 700;
+  line-height: 1;
+  color: rgba(93,184,255,.07);
+  pointer-events: none;
+  user-select: none;
 }
 
 .journey-quote p {
@@ -438,7 +482,7 @@
 
 .landing-activation {
   position: relative;
-  min-height: 70vh;
+  min-height: 85vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -446,6 +490,20 @@
   gap: 0;
   padding: 80px 0 60px;
   text-align: center;
+  background-image: radial-gradient(ellipse 55% 22% at 50% 0%, rgba(93,184,255,.05), transparent);
+}
+
+/* Journey → activation connector thread */
+.landing-activation::before {
+  content: '';
+  position: absolute;
+  top: -100px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2px;
+  height: 100px;
+  background: linear-gradient(180deg, rgba(93,184,255,.08), rgba(93,184,255,.22));
+  pointer-events: none;
 }
 
 /* Scroll-driven energy glow — owned by inner behavior logic */
@@ -475,10 +533,10 @@
 }
 
 .lact-pre {
-  font-size: clamp(1rem, 1.8vw, 1.22rem);
+  font-size: clamp(1.1rem, 2vw, 1.4rem);
   font-weight: 500;
   color: rgba(245,247,251,.75);
-  letter-spacing: -.01em;
+  letter-spacing: .01em;
 }
 
 .lact-sub {
@@ -538,7 +596,7 @@
 
 .lact-brand {
   font-family: "Space Grotesk", Inter, sans-serif;
-  font-size: clamp(2.8rem, 6vw, 6rem);
+  font-size: clamp(4rem, 8.5vw, 9.5rem);
   font-weight: 700;
   letter-spacing: -.06em;
   color: rgba(245,247,251,.92);
@@ -547,10 +605,10 @@
 
 .lact-mode {
   font-family: "Space Grotesk", Inter, sans-serif;
-  font-size: clamp(2.8rem, 6vw, 6rem);
+  font-size: clamp(4rem, 8.5vw, 9.5rem);
   font-weight: 700;
   letter-spacing: -.06em;
-  color: rgba(245,247,251,.32);
+  color: rgba(245,247,251,.28);
   line-height: .95;
 }
 
@@ -631,8 +689,21 @@
    RESPONSIVE
 ══════════════════════════════════════════════════════════════ */
 
+/* ── 1280px: tighten activation heading so it stays within viewport ── */
+@media (max-width: 1280px) {
+  .lact-brand,
+  .lact-mode {
+    font-size: clamp(3.5rem, 7.5vw, 8rem);
+  }
+}
+
 /* ── Below 1080px: flow layout (stability over 1:1 match) ── */
 @media (max-width: 1080px) {
+  .lhero::after,
+  .landing-activation::before {
+    display: none;
+  }
+
   .landing-journey-zone {
     min-height: auto;
     display: flex;
@@ -698,6 +769,14 @@
   }
 }
 
+/* ── Tablet activation breathing room ── */
+@media (max-width: 768px) {
+  .landing-activation {
+    min-height: 62vh;
+    padding: 60px 0 44px;
+  }
+}
+
 /* ── Mobile ── */
 @media (max-width: 760px) {
   .landing-content {
@@ -708,6 +787,10 @@
   .lhero {
     padding-top: 20px;
     gap: 28px;
+  }
+
+  .lhero-portrait {
+    width: clamp(160px, 42vw, 240px);
   }
 
   .landing-h1 {
@@ -741,6 +824,11 @@
 
   .journey-quote p {
     font-size: clamp(1.1rem, 5vw, 1.5rem);
+  }
+
+  .lact-pre {
+    max-width: 88%;
+    text-wrap: balance;
   }
 
   .landing-activation {
