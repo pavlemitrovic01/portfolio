@@ -10,7 +10,7 @@
 .landing-content {
   position: relative;
   z-index: 1;
-  padding-top: 100px;
+  padding-top: 60px;
   padding-bottom: 100px;
 }
 
@@ -170,20 +170,20 @@
   gap: 48px 56px;
   align-items: center;
   min-height: calc(100vh - 120px);
-  padding-top: 40px;
+  padding-top: 0;
   position: relative;
 }
 
-/* Hero → journey connector: faint vertical thread, desktop-only */
+/* Hero → journey connector: vertical thread, desktop-only */
 .lhero::after {
   content: '';
   position: absolute;
   bottom: -80px;
-  left: 50%;
+  left: 65%;
   transform: translateX(-50%);
   width: 2px;
   height: 80px;
-  background: linear-gradient(180deg, rgba(93,184,255,.06), rgba(93,184,255,.18));
+  background: linear-gradient(180deg, rgba(93,184,255,.14), rgba(93,184,255,.32));
   pointer-events: none;
 }
 
@@ -295,7 +295,8 @@
 .landing-journey-zone {
   position: relative;
   min-height: 1500px;
-  margin-top: 80px;
+  margin-top: 48px;
+  counter-reset: jcard-counter;
 }
 
 /* ── SVG S-curve ── */
@@ -414,16 +415,19 @@
   position: absolute;
   width: 36%;
   background: rgba(8,13,26,.78);
-  border: 1px solid rgba(93,184,255,.16);
+  border: 1px solid rgba(93,184,255,.26);
   border-radius: var(--radius-lg);
   padding: 26px 30px;
   backdrop-filter: blur(20px);
   transform: translateY(-50%);
   z-index: 1;
+  counter-increment: jcard-counter;
+  transition: border-color .22s, box-shadow .22s;
   box-shadow:
-    0 8px 40px rgba(0,0,0,.45),
-    inset 0 1px 0 rgba(93,184,255,.10),
-    inset 0 0 32px rgba(93,184,255,.03);
+    0 12px 48px rgba(0,0,0,.55),
+    inset 0 2px 0 rgba(93,184,255,.28),
+    inset 0 0 40px rgba(93,184,255,.05),
+    0 0 0 1px rgba(93,184,255,.06);
 }
 
 .jcard--right { right: 3%; }
@@ -451,6 +455,52 @@
   height: 1px;
   background: linear-gradient(90deg, rgba(93,184,255,.55), rgba(93,184,255,.06));
   transform: translateY(-50%);
+}
+
+/* ── Card hover state ── */
+.jcard:hover {
+  border-color: rgba(93,184,255,.42);
+  box-shadow:
+    0 18px 60px rgba(0,0,0,.65),
+    inset 0 2px 0 rgba(93,184,255,.45),
+    inset 0 0 50px rgba(93,184,255,.08),
+    0 0 0 1px rgba(93,184,255,.12),
+    0 0 40px rgba(93,184,255,.08);
+}
+
+/* ── Number badges (counter via CSS counters, desktop only) ── */
+.jcard--right::after {
+  content: '0' counter(jcard-counter);
+  position: absolute;
+  top: -11px;
+  left: 20px;
+  font-family: "Space Grotesk", monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .14em;
+  color: rgba(93,184,255,.65);
+  background: rgba(6,10,20,.95);
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 1px solid rgba(93,184,255,.20);
+  line-height: 1.6;
+}
+
+.jcard--left::before {
+  content: '0' counter(jcard-counter);
+  position: absolute;
+  top: -11px;
+  right: 20px;
+  font-family: "Space Grotesk", monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .14em;
+  color: rgba(93,184,255,.65);
+  background: rgba(6,10,20,.95);
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 1px solid rgba(93,184,255,.20);
+  line-height: 1.6;
 }
 
 .jcard-icon {
@@ -502,7 +552,7 @@
   transform: translateX(-50%);
   width: 2px;
   height: 100px;
-  background: linear-gradient(180deg, rgba(93,184,255,.08), rgba(93,184,255,.22));
+  background: linear-gradient(180deg, rgba(93,184,255,.16), rgba(93,184,255,.34));
   pointer-events: none;
 }
 
@@ -601,6 +651,7 @@
   letter-spacing: -.06em;
   color: rgba(245,247,251,.92);
   line-height: .95;
+  transition: text-shadow .4s ease-out;
 }
 
 .lact-mode {
@@ -608,8 +659,9 @@
   font-size: clamp(4rem, 8.5vw, 9.5rem);
   font-weight: 700;
   letter-spacing: -.06em;
-  color: rgba(245,247,251,.28);
+  color: rgba(93,184,255,.55);
   line-height: .95;
+  transition: text-shadow .4s ease-out;
 }
 
 .lact-dashes {
@@ -635,6 +687,8 @@
   background: linear-gradient(180deg, rgba(93,184,255,.25), rgba(120,255,240,.5));
   border-radius: 2px;
   z-index: 1;
+  transform-origin: bottom center;
+  transition: transform .35s ease-out, filter .35s ease-out;
 }
 
 .landing-activation-pulse {
@@ -667,6 +721,79 @@
 @keyframes activation-hint-fade {
   0%, 100% { opacity: .35; }
   50%       { opacity: .65; }
+}
+
+/* ── Activation: scroll-driven buildup stages ── */
+
+/* Stage 1 — charging (progress > 55%) */
+.landing-activation[data-charging="true"] .landing-activation-line {
+  transform: scaleY(1.4);
+  filter: brightness(1.5);
+}
+
+.landing-activation[data-charging="true"] .lact-brand {
+  text-shadow: 0 0 30px rgba(245,247,251,.12);
+}
+
+.landing-activation[data-charging="true"] .lact-mode {
+  text-shadow: 0 0 25px rgba(93,184,255,.20);
+}
+
+/* Stage 2 — critical (progress > 85%) */
+.landing-activation[data-critical="true"] .landing-activation-line {
+  transform: scaleY(1.8);
+  filter: brightness(2.2);
+}
+
+.landing-activation[data-critical="true"] .lact-brand {
+  text-shadow: 0 0 40px rgba(245,247,251,.22), 0 0 80px rgba(93,184,255,.10);
+}
+
+.landing-activation[data-critical="true"] .lact-mode {
+  text-shadow: 0 0 40px rgba(93,184,255,.45), 0 0 80px rgba(93,184,255,.15);
+}
+
+/* Pulse: expanding halo ring */
+.landing-activation-pulse::after {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 1px solid rgba(120,255,240,0);
+  opacity: 0;
+  transform: scale(0.6);
+  transition: opacity .35s, transform .35s, border-color .35s;
+  pointer-events: none;
+}
+
+.landing-activation[data-charging="true"] .landing-activation-pulse::after {
+  opacity: 1;
+  transform: scale(1.5);
+  border-color: rgba(120,255,240,.35);
+}
+
+.landing-activation[data-critical="true"] .landing-activation-pulse::after {
+  opacity: 1;
+  transform: scale(2.2);
+  border-color: rgba(120,255,240,.55);
+}
+
+/* Heading vibration at critical threshold */
+@keyframes lact-vibrate {
+  0%, 100% { transform: translate(0, 0); }
+  10%  { transform: translate(-1px, 0); }
+  20%  { transform: translate(1px, -1px); }
+  30%  { transform: translate(0, 1px); }
+  40%  { transform: translate(-1px, -1px); }
+  50%  { transform: translate(1px, 0); }
+  60%  { transform: translate(-1px, 1px); }
+  70%  { transform: translate(0, -1px); }
+  80%  { transform: translate(1px, 0); }
+  90%  { transform: translate(-1px, -1px); }
+}
+
+.landing-activation[data-critical="true"] .lact-heading {
+  animation: lact-vibrate 0.12s linear infinite;
 }
 
 /* ── cl3 subtree — continuous scroll architecture ── */
@@ -717,6 +844,11 @@
 
   .journey-svg,
   .journey-junction {
+    display: none;
+  }
+
+  .jcard--right::after,
+  .jcard--left::before {
     display: none;
   }
 

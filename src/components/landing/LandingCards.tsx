@@ -76,6 +76,7 @@ function JCard({ card, top, reduceMotion }: JCardProps) {
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, margin: '-10%' }}
+      whileHover={reduceMotion ? {} : { y: -6, transition: { duration: 0.2, ease: 'easeOut' } }}
     >
       <div className="jcard-icon" aria-hidden="true">{card.icon}</div>
       <h3 className="jcard-headline">{card.headline}</h3>

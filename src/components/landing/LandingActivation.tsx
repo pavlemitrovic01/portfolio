@@ -41,11 +41,16 @@ export default function LandingActivation({
     const setProgressVisuals = (progress: number) => {
       zone.style.setProperty('--activation-progress', progress.toFixed(3))
 
-      if (glowRef.current && !reduceMotion) {
-        const opacity = 0.08 + progress * 0.92
-        const scale = 0.55 + progress * 0.45
-        glowRef.current.style.opacity = `${opacity}`
-        glowRef.current.style.transform = `scale(${scale})`
+      if (!reduceMotion) {
+        if (glowRef.current) {
+          const opacity = 0.08 + progress * 0.92
+          const scale = 0.55 + progress * 0.45
+          glowRef.current.style.opacity = `${opacity}`
+          glowRef.current.style.transform = `scale(${scale})`
+        }
+
+        zone.dataset.charging = progress > 0.55 ? 'true' : 'false'
+        zone.dataset.critical = progress > 0.85 ? 'true' : 'false'
       }
     }
 
