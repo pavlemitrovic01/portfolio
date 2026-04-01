@@ -229,6 +229,12 @@ body.cl3menza-mode .hero-visual {
   padding-top: 28px;
   min-height: calc(100vh - 160px);
 }
+body.cl3menza-mode .hv-iframe-wrap {
+  box-shadow:
+    0 0 0 1px rgba(120,255,240,.08),
+    0 0 48px rgba(120,255,240,.10),
+    0 0 90px rgba(120,255,240,.05);
+}
 body.cl3menza-mode .hv-chat {
   position: static;
   top: auto;
@@ -236,8 +242,8 @@ body.cl3menza-mode .hv-chat {
   transform: none;
   max-width: 100%;
   width: 100%;
-  border-color: rgba(120,255,240,.15);
-  box-shadow: 0 0 40px rgba(120,255,240,.08);
+  border-color: rgba(120,255,240,.18);
+  box-shadow: 0 0 32px rgba(120,255,240,.14), inset 0 1px 0 rgba(120,255,240,.06);
 }
 body.cl3menza-mode .aside-list div {
   border-color: rgba(120,255,240,.1);
