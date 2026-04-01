@@ -127,7 +127,33 @@ Format: datum → greška/problem → lekcija → primena → status → next re
 
 ---
 
-## 2026-03-24 — AI scope inflation
+## 2026-04-01 — CSS selector specificity trap u cl3 mode
+
+**PROBLEM:** `body.cl3menza-mode body::after` — nemoguć selektor. `body` ne može biti descendant `body.cl3menza-mode` jer je isti element. Ambient blob layer nikad nije prelazio na teal paletu.
+
+**LEKCIJA:** Pseudo-elementi na `body` u mode overrides pišu se kao `body.cl3menza-mode::after`, ne kao `body.cl3menza-mode body::after`. Pre override-a proveri da selektor uopšte može matchovati DOM strukturu.
+
+**PRIMENA:** Svaki override koji targetuje pseudo-element na `body` ili `html` — dvostruko proveri selektorsku logiku pre commita.
+
+**STATUS:** RESOLVED
+**NEXT REVIEW:** —
+
+---
+
+## 2026-04-01 — background vs background-image na elementima s postojećim bg
+
+**PROBLEM:** Korišćenje `background:` shorthand na elementu koji već ima background property može resetovati sve sub-properties (color, position, size, repeat, attachment, origin, clip) na default vrednosti.
+
+**LEKCIJA:** Kad dodaješ samo novi gradient na postojeći element, koristi `background-image:` umesto `background:`. Shorthand je bezbedan samo kad svesno pišeš kompletan novi background od nule.
+
+**PRIMENA:** L-Bridge batch — `.landing-activation` dobio `background-image:` umesto `background:`. Proveriti svaki batch koji dodaje gradient na element koji već ima bg definisan drugde.
+
+**STATUS:** ACTIVE
+**NEXT REVIEW:** 2026-07-01
+
+---
+
+## 2026-04-01 — AI scope inflation
 
 **PROBLEM:** AI lako predloži veći scope nego što je potreban.
 

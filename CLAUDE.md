@@ -153,19 +153,18 @@ Aktivni plan → `docs/ROADMAP.md`
 Ključni fajlovi:
 - `src/main.tsx` — entry
 - `src/App.tsx` — orkestracija mode-a i sekcija
-- `src/components/landing/LandingScene.tsx` — primarna landing arhitektura (Faza 5)
-- `src/components/landing/LandingActivation.tsx` — scroll-driven ulaz u cl3menza mode
-- `src/components/layout/Header.tsx` — mode-aware header (normal: brand only; cl3: badge + nav)
-- `src/components/layout/Footer.tsx` — mode-aware footer (cl3 mode: nav; normal: bez nav)
-- `src/styles/` — modularni CSS: base.css, layout.css, hero.css, sections.css, overrides.css, landing.css
+- `src/components/sections/Hero.tsx` — centralna i najkompleksnija sekcija
+- `src/components/sections/TrustSignals.tsx` — trigger za ulaz u cl3menza mode
+- `src/components/layout/Header.tsx` — mode-aware header i izlaz iz cl3menza mode
+- `src/components/layout/Footer.tsx` — mode-aware footer nav
+- `src/styles/global.css` — glavni stylesheet
 - `api/claude.ts` — AI chat backend endpoint
 
 Važne istine:
-- sajt ima normal mode (landing) i cl3menza mode (dublji sloj)
-- ulaz u cl3menza mode: scroll do LandingActivation zone ili CTA "Skip to cl3 mode →"
-- HeroCl3menza u cl3 mode sadrži project preview + AI chat
+- sajt ima normal mode i cl3menza mode
+- ulaz u cl3menza mode je kartica **Genius builder vibe**
+- Hero u cl3menza mode sadrži project preview + AI chat
 - `api/claude.ts` je Vercel serverless function — van Vite bundle; ima sopstveni `tsconfig.node.json`
-- Hero.tsx / HeroNormal.tsx / TrustSignals.tsx su legacy — postoje ali nisu aktivni flow
 
 ---
 
@@ -186,18 +185,22 @@ LOCK ne znači "ne diraj nikad". Znači:
 
 ---
 
-## Current status (2026-03-30)
+## Current status (2026-04-01)
 
-Faza 1–5 završene. Cinematic landing arhitektura zatvorena (L5–L12).
-212/212 testova zeleno. Typecheck čist. Build ✓.
-Source-of-truth: root/main. Cursor-reactive efekti uklonjeni.
-Production: https://portfolio-seven-eosin-21.vercel.app — sve OK.
+Roadmap Faza 1–3 završen (arhivirano). Faza 4 završena.
+Batch 16–21 zatvoreni: 53/53 testova zeleno.
+Landing polish završen: L-Activation, L-Polish, L-Hero CTA, L-Quote, L-Bridge, L-Nebula, L-Mobile-Fix.
+Cl3 audit + Cl3-Atmo batch završeni: broken ambient selector fix, iframe glow, chat glow.
+Lokalni repo: root main + worktree claude/vigilant-morse — oba sinhronizovana.
+Production: https://portfolio-seven-eosin-21.vercel.app — nije deployovano od Batch 15C.
 Detalji → `docs/ROADMAP.md`.
 
 Sledeći korak:
+- Lighthouse audit (lokalno, mobile + desktop)
+- Merge worktree promene u main → git push → Vercel auto-deploy
+- Production smoke test
 - Batch 12B: finalni About copy + pravi Upwork/Fiverr URL-ovi (čeka Pavle's input)
 - Config: cl3menza.com domain setup + GA4 real ID
-- Legacy cleanup (Hero.tsx, HeroNormal.tsx, TrustSignals.tsx, About.tsx) — kad bude pravi momenat
 
 ---
 
