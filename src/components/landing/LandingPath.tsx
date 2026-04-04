@@ -1,18 +1,19 @@
 import { useEffect, useRef } from 'react'
 import { useReducedMotion } from 'framer-motion'
 
-// S-curve: center → swing right → swing left → swing right → swing left → center
+// S-curve: portrait zone → swing right (1st junction) → swing left → swing right → swing left → center
+// Path starts at x=760 (76% — portrait zone) then descends into S-curve
 // viewBox: 0 0 1000 1000 (preserveAspectRatio="none")
 const PATH_D =
-  'M 500 0 C 500 80 740 150 690 230 C 640 310 260 370 310 450 C 360 530 740 590 690 670 C 640 750 260 810 310 890 C 360 950 500 980 500 1000'
+  'M 760 0 C 760 85 760 160 680 240 C 625 320 260 370 300 440 C 350 515 740 575 680 650 C 625 730 260 795 300 870 C 350 940 500 978 500 1000'
 
 // Junction nodes — CSS % positions matching the SVG curve inflection points
-// x: 690/1000=69%, 310/1000=31%  |  y: 230/1000=23%, 450/1000=45%, 670/1000=67%, 890/1000=89%
+// x: 680/1000=68%, 300/1000=30%  |  y: 240/1000=24%, 440/1000=44%, 650/1000=65%, 870/1000=87%
 export const JUNCTIONS = [
-  { left: '69%', top: '23%', side: 'right' as const },
-  { left: '31%', top: '45%', side: 'left' as const },
-  { left: '69%', top: '67%', side: 'right' as const },
-  { left: '31%', top: '89%', side: 'left' as const },
+  { left: '68%', top: '24%', side: 'right' as const },
+  { left: '30%', top: '44%', side: 'left' as const },
+  { left: '68%', top: '65%', side: 'right' as const },
+  { left: '30%', top: '87%', side: 'left' as const },
 ]
 
 interface LandingPathProps {
@@ -81,13 +82,21 @@ export default function LandingPath({ containerRef }: LandingPathProps) {
             <stop offset="52%"  stopColor="rgba(124,109,255,.88)" />
             <stop offset="100%" stopColor="rgba(120,255,240,.85)" />
           </linearGradient>
-          {/* Matching ambient glow gradient — same hue progression, very low opacity */}
+          {/* Ambient glow gradient — medium-strength hue progression */}
           <linearGradient id="journey-glow-gradient" gradientUnits="userSpaceOnUse" x1="500" y1="0" x2="500" y2="1000">
-            <stop offset="0%"   stopColor="rgba(93,184,255,.22)" />
-            <stop offset="52%"  stopColor="rgba(124,109,255,.18)" />
-            <stop offset="100%" stopColor="rgba(120,255,240,.15)" />
+            <stop offset="0%"   stopColor="rgba(93,184,255,.45)" />
+            <stop offset="52%"  stopColor="rgba(124,109,255,.38)" />
+            <stop offset="100%" stopColor="rgba(120,255,240,.32)" />
+          </linearGradient>
+          {/* Wide atmospheric bloom — soft wash for volumetric presence */}
+          <linearGradient id="journey-bloom-gradient" gradientUnits="userSpaceOnUse" x1="500" y1="0" x2="500" y2="1000">
+            <stop offset="0%"   stopColor="rgba(93,184,255,.18)" />
+            <stop offset="50%"  stopColor="rgba(124,109,255,.14)" />
+            <stop offset="100%" stopColor="rgba(120,255,240,.12)" />
           </linearGradient>
         </defs>
+        {/* atmospheric bloom — widest, softest layer */}
+        <path d={PATH_D} className="journey-bloom" vectorEffect="non-scaling-stroke" />
         {/* dim track */}
         <path d={PATH_D} className="journey-track" vectorEffect="non-scaling-stroke" />
         {/* scroll-driven colored fill */}

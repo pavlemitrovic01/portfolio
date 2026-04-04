@@ -27,9 +27,9 @@
   position: absolute;
   inset: -20%;
   background:
-    radial-gradient(ellipse 700px 450px at 60% 22%, rgba(93,184,255,.14), transparent),
-    radial-gradient(ellipse 550px 380px at 38% 32%, rgba(124,109,255,.12), transparent),
-    radial-gradient(ellipse 420px 320px at 52% 52%, rgba(120,255,240,.06), transparent);
+    radial-gradient(ellipse 700px 450px at 60% 22%, rgba(93,184,255,.18), transparent),
+    radial-gradient(ellipse 550px 380px at 38% 32%, rgba(124,109,255,.15), transparent),
+    radial-gradient(ellipse 420px 320px at 52% 52%, rgba(120,255,240,.08), transparent);
   filter: blur(80px);
   animation: landing-nebula-drift 20s ease-in-out infinite alternate;
 }
@@ -45,13 +45,15 @@
   background: radial-gradient(ellipse at center, transparent 48%, var(--bg) 100%);
 }
 
-/* Depth layer: subtle atmospheric brightening in the mid-page journey area */
+/* Depth layer: atmospheric coverage across full scene height */
 .landing-bg-depth {
   position: absolute;
   inset: 0;
   background:
     radial-gradient(ellipse 65% 45% at 50% 58%, rgba(93,184,255,.05), transparent),
-    radial-gradient(ellipse 45% 35% at 50% 68%, rgba(124,109,255,.04), transparent);
+    radial-gradient(ellipse 45% 35% at 50% 68%, rgba(124,109,255,.04), transparent),
+    radial-gradient(ellipse 55% 30% at 50% 82%, rgba(93,184,255,.04), transparent),
+    radial-gradient(ellipse 40% 25% at 50% 93%, rgba(124,109,255,.03), transparent);
   pointer-events: none;
 }
 
@@ -67,26 +69,41 @@
   pointer-events: none;
 }
 
-/* Dots: sparse scattered specks — deeper space feel, complements the grid */
+/* Starfield: multi-layer prime-spaced dots for organic scatter */
 .landing-bg-dots {
   position: absolute;
   inset: 0;
   background-image:
+    radial-gradient(circle, rgba(255,255,255,.55) 1px, transparent 1px),
     radial-gradient(circle, rgba(255,255,255,.35) 1px, transparent 1px),
-    radial-gradient(circle, rgba(93,184,255,.25) 1px, transparent 1px);
-  background-size: 130px 130px, 210px 210px;
-  background-position: 0 0, 65px 95px;
-  opacity: .22;
+    radial-gradient(circle, rgba(255,255,255,.22) 1px, transparent 1px),
+    radial-gradient(circle, rgba(93,184,255,.30) 1px, transparent 1px);
+  background-size:
+    173px 157px,
+    251px 229px,
+    127px 113px,
+    197px 179px;
+  background-position:
+    0 0,
+    47px 83px,
+    113px 61px,
+    29px 137px;
+  opacity: .32;
   pointer-events: none;
 }
 
+/* Sparse bright accent stars — occasional bright points */
 .landing-bg-grid {
   position: absolute;
   inset: 0;
-  background-image: radial-gradient(circle, rgba(93,184,255,.07) 1px, transparent 1px);
-  background-size: 44px 44px;
-  mask-image: radial-gradient(ellipse 80% 70% at 50% 40%, rgba(0,0,0,.6) 0%, transparent 100%);
-  -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 40%, rgba(0,0,0,.6) 0%, transparent 100%);
+  background-image:
+    radial-gradient(circle, rgba(255,255,255,.7) 1px, transparent 1.5px),
+    radial-gradient(circle, rgba(93,184,255,.5) 1px, transparent 1.5px);
+  background-size: 311px 293px, 397px 367px;
+  background-position: 67px 43px, 149px 191px;
+  opacity: .18;
+  mask-image: radial-gradient(ellipse 90% 80% at 50% 45%, rgba(0,0,0,.7) 0%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 90% 80% at 50% 45%, rgba(0,0,0,.7) 0%, transparent 100%);
   pointer-events: none;
 }
 
@@ -174,16 +191,17 @@
   position: relative;
 }
 
-/* Hero → journey connector: faint vertical thread, desktop-only */
+/* Hero → journey connector: thread from portrait zone to path top */
 .lhero::after {
   content: '';
   position: absolute;
   bottom: -80px;
-  left: 50%;
+  left: 76%;
   transform: translateX(-50%);
   width: 2px;
   height: 80px;
-  background: linear-gradient(180deg, rgba(93,184,255,.06), rgba(93,184,255,.18));
+  background: linear-gradient(180deg, rgba(93,184,255,.25), rgba(93,184,255,.55));
+  box-shadow: 0 0 8px rgba(93,184,255,.20);
   pointer-events: none;
 }
 
@@ -311,28 +329,38 @@
 
 .journey-track {
   fill: none;
-  stroke: rgba(93,184,255,.10);
+  stroke: rgba(93,184,255,.15);
   stroke-width: 2;
 }
 
 .journey-fill {
   fill: none;
   stroke: url(#journey-path-gradient);
-  stroke-width: 2;
-  opacity: .9;
+  stroke-width: 2.5;
+  opacity: 1;
+}
+
+/* Wide atmospheric bloom — deepest layer, gives the volumetric light-wash */
+.journey-bloom {
+  fill: none;
+  stroke: url(#journey-bloom-gradient);
+  stroke-width: 70;
+  filter: blur(32px);
+  opacity: .35;
+  pointer-events: none;
 }
 
 .journey-glow {
   fill: none;
   stroke: url(#journey-glow-gradient);
-  stroke-width: 16;
-  filter: blur(9px);
+  stroke-width: 28;
+  filter: blur(14px);
   animation: journey-glow-pulse 4s ease-in-out infinite;
 }
 
 @keyframes journey-glow-pulse {
-  0%, 100% { opacity: .45; }
-  50%       { opacity: .8; }
+  0%, 100% { opacity: .6; }
+  50%       { opacity: 1; }
 }
 
 /* ── Junction nodes (DOM divs — always perfectly circular) ── */
@@ -346,33 +374,33 @@
 
 .journey-junction-core {
   position: absolute;
-  width: 12px;
-  height: 12px;
+  width: 16px;
+  height: 16px;
   border-radius: 50%;
-  background: var(--blue);
-  box-shadow: 0 0 14px rgba(93,184,255,.8), 0 0 28px rgba(93,184,255,.35);
+  background: radial-gradient(circle, rgba(255,255,255,.95) 0%, var(--blue) 55%, rgba(93,184,255,.6) 100%);
+  box-shadow: 0 0 18px rgba(93,184,255,.9), 0 0 38px rgba(93,184,255,.5), 0 0 60px rgba(93,184,255,.2);
   transform: translate(-50%, -50%);
   animation: junction-pulse 3s ease-in-out infinite;
 }
 
 .journey-junction-halo {
   position: absolute;
-  width: 30px;
-  height: 30px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
-  border: 1px solid rgba(93,184,255,.22);
+  border: 1px solid rgba(93,184,255,.30);
   transform: translate(-50%, -50%);
   animation: junction-halo 3s ease-in-out infinite;
 }
 
 @keyframes junction-pulse {
-  0%, 100% { box-shadow: 0 0 14px rgba(93,184,255,.8), 0 0 28px rgba(93,184,255,.35); }
-  50%       { box-shadow: 0 0 22px rgba(93,184,255,1), 0 0 44px rgba(93,184,255,.5); }
+  0%, 100% { box-shadow: 0 0 18px rgba(93,184,255,.9), 0 0 38px rgba(93,184,255,.5), 0 0 60px rgba(93,184,255,.2); }
+  50%       { box-shadow: 0 0 28px rgba(255,255,255,.8), 0 0 52px rgba(93,184,255,.7), 0 0 80px rgba(93,184,255,.3); }
 }
 
 @keyframes junction-halo {
-  0%, 100% { opacity: .3;  transform: translate(-50%, -50%) scale(1); }
-  50%       { opacity: .65; transform: translate(-50%, -50%) scale(1.25); }
+  0%, 100% { opacity: .35; transform: translate(-50%, -50%) scale(1); }
+  50%       { opacity: .75; transform: translate(-50%, -50%) scale(1.3); }
 }
 
 /* ── Editorial quote ── */
@@ -412,22 +440,33 @@
 /* ── Journey cards — absolute, tied to junction y-coordinates ── */
 .jcard {
   position: absolute;
-  width: 36%;
-  background: rgba(8,13,26,.78);
-  border: 1px solid rgba(93,184,255,.16);
+  width: 42%;
+  background: rgba(8,13,26,.82);
+  border: 1px solid rgba(93,184,255,.20);
   border-radius: var(--radius-lg);
-  padding: 26px 30px;
+  padding: 0;
+  overflow: hidden;
   backdrop-filter: blur(20px);
   transform: translateY(-50%);
   z-index: 1;
   box-shadow:
-    0 8px 40px rgba(0,0,0,.45),
-    inset 0 1px 0 rgba(93,184,255,.10),
-    inset 0 0 32px rgba(93,184,255,.03);
+    0 8px 40px rgba(0,0,0,.50),
+    inset 0 1px 0 rgba(93,184,255,.12),
+    inset 0 0 32px rgba(93,184,255,.04),
+    inset -24px 0 48px rgba(93,184,255,.04);
 }
 
 .jcard--right { right: 3%; }
 .jcard--left  { left: 3%; }
+
+/* Cards with real visual asset — stronger right-edge presence */
+.jcard--has-visual {
+  box-shadow:
+    0 8px 40px rgba(0,0,0,.55),
+    inset 0 1px 0 rgba(93,184,255,.15),
+    inset 0 0 32px rgba(93,184,255,.05),
+    inset -32px 0 64px rgba(93,184,255,.08);
+}
 
 /* Connector: right card → junction (going leftward from card edge) */
 .jcard--right::before {
@@ -439,6 +478,7 @@
   height: 1px;
   background: linear-gradient(270deg, rgba(93,184,255,.55), rgba(93,184,255,.06));
   transform: translateY(-50%);
+  z-index: 2;
 }
 
 /* Connector: left card → junction (going rightward from card edge) */
@@ -451,29 +491,90 @@
   height: 1px;
   background: linear-gradient(90deg, rgba(93,184,255,.55), rgba(93,184,255,.06));
   transform: translateY(-50%);
+  z-index: 2;
 }
 
-.jcard-icon {
-  font-size: 20px;
+/* Layer 1 — inner visual content (screenshot background) */
+.jcard-visual {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-size: cover;
+  background-position: center right;
+  background-repeat: no-repeat;
+  filter: brightness(0.70) saturate(0.80) contrast(1.05);
+  pointer-events: none;
+}
+
+/* Layer 2 — dark glass overlay: heavy left, opens right */
+.jcard-glass {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(8,13,26,.95) 0%,
+    rgba(8,13,26,.88) 35%,
+    rgba(8,13,26,.60) 60%,
+    rgba(8,13,26,.28) 100%
+  );
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Layer 3 — right-edge light wash: directional blue/white from path */
+.jcard-glass::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 55%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent 0%, rgba(93,184,255,.06) 60%, rgba(120,200,255,.10) 100%);
+  pointer-events: none;
+}
+
+/* Content — above overlay */
+.jcard-content {
+  position: relative;
+  z-index: 2;
+  padding: 24px 28px;
+}
+
+/* Header row — icon badge inline with headline */
+.jcard-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   margin-bottom: 12px;
-  display: block;
-  line-height: 1;
+}
+
+/* Icon badge — small dark rounded container */
+.jcard-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: rgba(93,184,255,.08);
+  border: 1px solid rgba(93,184,255,.14);
+  color: rgba(245,247,251,.85);
+  flex-shrink: 0;
 }
 
 .jcard-headline {
   font-family: "Space Grotesk", Inter, sans-serif;
-  font-size: clamp(.92rem, 1.35vw, 1.12rem);
+  font-size: clamp(1rem, 1.5vw, 1.25rem);
   font-weight: 700;
   letter-spacing: -.03em;
   line-height: 1.22;
-  margin-bottom: 10px;
   color: rgba(245,247,251,.95);
 }
 
 .jcard-body {
-  font-size: 13.5px;
+  font-size: 14px;
   line-height: 1.72;
-  color: rgba(245,247,251,.55);
+  color: rgba(245,247,251,.62);
 }
 
 /* ══════════════════════════════════════════════════════════════
@@ -490,19 +591,19 @@
   gap: 0;
   padding: 80px 0 60px;
   text-align: center;
-  background-image: radial-gradient(ellipse 55% 22% at 50% 0%, rgba(93,184,255,.05), transparent);
 }
 
 /* Journey → activation connector thread */
 .landing-activation::before {
   content: '';
   position: absolute;
-  top: -100px;
+  top: -160px;
   left: 50%;
   transform: translateX(-50%);
   width: 2px;
-  height: 100px;
-  background: linear-gradient(180deg, rgba(93,184,255,.08), rgba(93,184,255,.22));
+  height: 160px;
+  background: linear-gradient(180deg, rgba(93,184,255,.22), rgba(93,184,255,.48));
+  box-shadow: 0 0 6px rgba(93,184,255,.18);
   pointer-events: none;
 }
 
@@ -511,9 +612,9 @@
   position: absolute;
   inset: -40% -20%;
   background:
-    radial-gradient(ellipse 50% 60% at 50% 60%, rgba(93,184,255,.18), transparent),
-    radial-gradient(ellipse 40% 50% at 50% 50%, rgba(124,109,255,.14), transparent),
-    radial-gradient(ellipse 30% 40% at 50% 40%, rgba(120,255,240,.10), transparent);
+    radial-gradient(ellipse 50% 60% at 50% 60%, rgba(93,184,255,.24), transparent),
+    radial-gradient(ellipse 40% 50% at 50% 50%, rgba(124,109,255,.18), transparent),
+    radial-gradient(ellipse 30% 40% at 50% 40%, rgba(120,255,240,.14), transparent);
   filter: blur(60px);
   opacity: 0;
   transform: scale(0.55);
@@ -535,7 +636,7 @@
 .lact-pre {
   font-size: clamp(1.1rem, 2vw, 1.4rem);
   font-weight: 500;
-  color: rgba(245,247,251,.75);
+  color: rgba(245,247,251,.82);
   letter-spacing: .01em;
 }
 
@@ -550,6 +651,7 @@
   position: relative;
   display: inline-block;
   color: var(--blue);
+  text-shadow: 0 0 12px rgba(93,184,255,.5), 0 0 28px rgba(93,184,255,.2);
 }
 
 .lact-glitch::before,
@@ -601,6 +703,7 @@
   letter-spacing: -.06em;
   color: rgba(245,247,251,.92);
   line-height: .95;
+  text-shadow: 0 0 20px rgba(93,184,255,.3), 0 0 50px rgba(93,184,255,.12);
 }
 
 .lact-mode {
@@ -814,8 +917,11 @@
   }
 
   .jcard {
-    padding: 20px;
     max-width: 100%;
+  }
+
+  .jcard-content {
+    padding: 20px;
   }
 
   .jcard--right {
@@ -850,7 +956,8 @@
 @media (prefers-reduced-motion: reduce) {
   .landing-bg-nebula     { animation: none; }
   .lhero-portrait-glow   { animation: none; opacity: .7; }
-  .journey-glow          { animation: none; opacity: .4; }
+  .journey-bloom          { opacity: .25; }
+  .journey-glow          { animation: none; opacity: .5; }
   .journey-junction-core { animation: none; }
   .journey-junction-halo { animation: none; opacity: .3; }
   .journey-fill          { stroke-dasharray: none !important; stroke-dashoffset: 0 !important; }
