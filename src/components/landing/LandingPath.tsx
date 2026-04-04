@@ -5,15 +5,15 @@ import { useReducedMotion } from 'framer-motion'
 // Path starts at x=760 (76% — portrait zone) then descends into S-curve
 // viewBox: 0 0 1000 1000 (preserveAspectRatio="none")
 const PATH_D =
-  'M 760 0 C 760 80 760 150 690 230 C 640 310 260 370 310 450 C 360 530 740 590 690 670 C 640 750 260 810 310 890 C 360 950 500 980 500 1000'
+  'M 760 0 C 760 85 760 160 680 240 C 625 320 260 370 300 440 C 350 515 740 575 680 650 C 625 730 260 795 300 870 C 350 940 500 978 500 1000'
 
 // Junction nodes — CSS % positions matching the SVG curve inflection points
-// x: 690/1000=69%, 310/1000=31%  |  y: 230/1000=23%, 450/1000=45%, 670/1000=67%, 890/1000=89%
+// x: 680/1000=68%, 300/1000=30%  |  y: 240/1000=24%, 440/1000=44%, 650/1000=65%, 870/1000=87%
 export const JUNCTIONS = [
-  { left: '69%', top: '23%', side: 'right' as const },
-  { left: '31%', top: '45%', side: 'left' as const },
-  { left: '69%', top: '67%', side: 'right' as const },
-  { left: '31%', top: '89%', side: 'left' as const },
+  { left: '68%', top: '24%', side: 'right' as const },
+  { left: '30%', top: '44%', side: 'left' as const },
+  { left: '68%', top: '65%', side: 'right' as const },
+  { left: '30%', top: '87%', side: 'left' as const },
 ]
 
 interface LandingPathProps {

@@ -66,7 +66,7 @@ const CARDS: readonly CardData[] = [
 ]
 
 // Absolute top positions matching JUNCTIONS in LandingPath.tsx
-const CARD_TOPS = ['23%', '45%', '67%', '89%'] as const
+const CARD_TOPS = ['24%', '44%', '65%', '87%'] as const
 
 export default function LandingCards() {
   const reduceMotion = useReducedMotion() === true

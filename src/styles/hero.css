@@ -10,7 +10,31 @@
   gap:34px;
   align-items:center;
   min-height:calc(100vh - 120px);
+  position:relative;
 }
+
+/* Space atmosphere — visual continuity from landing nebula */
+.hero-grid::before{
+  content:'';
+  position:absolute;
+  inset:-30%;
+  background:
+    radial-gradient(ellipse 700px 450px at 65% 25%, rgba(93,184,255,.13), transparent),
+    radial-gradient(ellipse 500px 380px at 32% 38%, rgba(124,109,255,.10), transparent),
+    radial-gradient(ellipse 380px 300px at 54% 58%, rgba(120,255,240,.06), transparent);
+  filter:blur(75px);
+  pointer-events:none;
+  z-index:0;
+  animation:hero-nebula-drift 18s ease-in-out infinite alternate;
+}
+
+@keyframes hero-nebula-drift{
+  0%  { transform:translate3d(0,0,0) scale(1) }
+  100%{ transform:translate3d(16px,-12px,0) scale(1.02) }
+}
+
+/* Ensure hero-grid children sit above the pseudo-element */
+.hero-grid > *{ position:relative; z-index:1; }
 .eyebrow{
   display:inline-flex;
   align-items:center;

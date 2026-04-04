@@ -440,7 +440,7 @@
 /* ── Journey cards — absolute, tied to junction y-coordinates ── */
 .jcard {
   position: absolute;
-  width: 40%;
+  width: 42%;
   background: rgba(8,13,26,.82);
   border: 1px solid rgba(93,184,255,.20);
   border-radius: var(--radius-lg);
