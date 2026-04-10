@@ -66,7 +66,6 @@ vi.mock('../components/sections/Testimonials', async () => {
   return { default: () => createElement('div', { 'data-testid': 'testimonials' }) }
 })
 
-vi.mock('../hooks/useMagnetic', () => ({ useMagnetic: vi.fn() }))
 vi.mock('../hooks/useParallax', () => ({ useParallax: vi.fn() }))
 
 // --- Environment setup ---

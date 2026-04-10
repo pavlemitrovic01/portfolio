@@ -1,6 +1,7 @@
 import { defineConfig, loadEnv } from 'vite'
 import react from '@vitejs/plugin-react'
 import type { Plugin } from 'vite'
+import { ANTHROPIC_MODEL, MAX_TOKENS, SYSTEM_PROMPT } from './api/constants'
 
 function anthropicProxy(apiKey: string): Plugin {
   return {
@@ -21,18 +22,25 @@ function anthropicProxy(apiKey: string): Plugin {
         for await (const chunk of req) {
           chunks.push(Buffer.from(chunk))
         }
-        const body = Buffer.concat(chunks as unknown as Uint8Array[]).toString()
+        const rawBody = Buffer.concat(chunks as unknown as Uint8Array[]).toString()
 
         try {
+          const parsed = JSON.parse(rawBody)
+          const anthropicBody = JSON.stringify({
+            model: ANTHROPIC_MODEL,
+            max_tokens: MAX_TOKENS,
+            system: SYSTEM_PROMPT,
+            messages: parsed.messages,
+          })
+
           const response = await fetch('https://api.anthropic.com/v1/messages', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
               'x-api-key': apiKey,
               'anthropic-version': '2023-06-01',
-              'anthropic-dangerous-direct-browser-access': 'true',
             },
-            body,
+            body: anthropicBody,
           })
           const data = await response.text()
           res.writeHead(response.status, {

@@ -17,11 +17,6 @@ const TERMINAL_LINES = [
   '// welcome to cl3menza mode',
 ]
 
-type TimerBag = {
-  intervalId: ReturnType<typeof setInterval> | null
-  timeoutIds: ReturnType<typeof setTimeout>[]
-}
-
 export function useTerminalBoot(
   subscribe: (cb: () => void) => () => void,
   get: () => boolean,
@@ -31,149 +26,98 @@ export function useTerminalBoot(
   const [terminal, setTerminal] = useState(false)
   const [terminalLines, setTerminalLines] = useState<string[]>([])
   const [modeAnnouncement, setModeAnnouncement] = useState('')
-
   const cl3menzaModeRef = useRef(false)
   const hasBootedRef = useRef(false)
-  const timersRef = useRef<TimerBag>({
-    intervalId: null,
-    timeoutIds: [],
-  })
+  const modeTransitionTimersRef = useRef<{
+    intervalId: ReturnType<typeof setInterval> | null
+    timeoutIds: ReturnType<typeof setTimeout>[]
+  }>({ intervalId: null, timeoutIds: [] })
 
   useEffect(() => {
     cl3menzaModeRef.current = cl3menzaMode
   }, [cl3menzaMode])
 
   useEffect(() => {
-    const focusMainContent = () => {
-      document.getElementById('main-content')?.focus()
-    }
-
-    const clearTransitionTimers = () => {
-      const bag = timersRef.current
-
-      if (bag.intervalId !== null) {
-        clearInterval(bag.intervalId)
-        bag.intervalId = null
+    const clearModeTransitionTimers = () => {
+      const slot = modeTransitionTimersRef.current
+      if (slot.intervalId !== null) {
+        clearInterval(slot.intervalId)
+        slot.intervalId = null
       }
-
-      bag.timeoutIds.forEach(clearTimeout)
-      bag.timeoutIds = []
+      slot.timeoutIds.forEach(clearTimeout)
+      slot.timeoutIds = []
     }
 
-    const pushTimeout = (timeoutId: ReturnType<typeof setTimeout>) => {
-      timersRef.current.timeoutIds.push(timeoutId)
-    }
-
-    const runFullBootEntry = () => {
-      clearTransitionTimers()
-
-      hasBootedRef.current = true
-      setModeAnnouncement('')
-      setGlitching(false)
-      setTerminalLines([])
-      setTerminal(true)
-
-      let idx = 0
-      const iv = setInterval(() => {
-        idx += 1
-        setTerminalLines(TERMINAL_LINES.slice(0, idx))
-
-        if (idx >= TERMINAL_LINES.length) {
-          clearInterval(iv)
-          timersRef.current.intervalId = null
-
-          const t1 = setTimeout(() => {
-            setTerminal(false)
-            setGlitching(true)
-            cl3menzaModeRef.current = true
-            setCl3menzaMode(true)
-
-            const t2 = setTimeout(() => {
-              setGlitching(false)
-              setModeAnnouncement('cl3menza mode activated')
-              focusMainContent()
-            }, 1200)
-
-            pushTimeout(t2)
-          }, 400)
-
-          pushTimeout(t1)
-        }
-      }, 120)
-
-      timersRef.current.intervalId = iv
-    }
-
-    const runQuickEntry = () => {
-      clearTransitionTimers()
-      setTerminal(false)
-      setGlitching(false)
-      setTerminalLines([])
-      cl3menzaModeRef.current = true
-      setCl3menzaMode(true)
-      setModeAnnouncement('cl3menza mode activated')
-    }
-
-    const runQuietExit = () => {
-      clearTransitionTimers()
-      setTerminal(false)
-      setGlitching(false)
-      cl3menzaModeRef.current = false
-      setCl3menzaMode(false)
-      setModeAnnouncement('cl3menza mode deactivated')
-    }
-
-    const runManualExit = () => {
-      clearTransitionTimers()
-      setTerminal(false)
-      setGlitching(true)
-      cl3menzaModeRef.current = false
-      setCl3menzaMode(false)
-
-      const t = setTimeout(() => {
-        setGlitching(false)
-        setModeAnnouncement('cl3menza mode deactivated')
-        focusMainContent()
-      }, 1200)
-
-      pushTimeout(t)
-    }
-
-    const unsubscribe = subscribe(() => {
+    const unsub = subscribe(() => {
       const isActive = get()
       const internal = cl3menzaModeRef.current
 
       if (isActive && !internal) {
         if (hasBootedRef.current) {
-          runQuickEntry()
+          // Subsequent activation — quick re-entry, no boot
+          cl3menzaModeRef.current = true
+          setCl3menzaMode(true)
+          setModeAnnouncement('cl3menza mode activated')
         } else {
-          runFullBootEntry()
+          // First activation — full boot sequence → fragment explosion
+          hasBootedRef.current = true
+          setTerminalLines([])
+          setTerminal(true)
+          let idx = 0
+          const iv = setInterval(() => {
+            idx++
+            setTerminalLines(TERMINAL_LINES.slice(0, idx))
+            if (idx >= TERMINAL_LINES.length) {
+              clearInterval(iv)
+              modeTransitionTimersRef.current.intervalId = null
+              const t1 = setTimeout(() => {
+                setTerminal(false)
+                setGlitching(true)
+                cl3menzaModeRef.current = true
+                setCl3menzaMode(true)
+                const t2 = setTimeout(() => {
+                  setGlitching(false)
+                  setModeAnnouncement('cl3menza mode activated')
+                  document.getElementById('main-content')?.focus()
+                }, 1200)
+                modeTransitionTimersRef.current.timeoutIds.push(t2)
+              }, 400)
+              modeTransitionTimersRef.current.timeoutIds.push(t1)
+            }
+          }, 120)
+          modeTransitionTimersRef.current.intervalId = iv
         }
-        return
-      }
-
-      if (!isActive && internal) {
+      } else if (!isActive && internal) {
         const quiet = 'cl3Quiet' in document.body.dataset
         if (quiet) {
           delete document.body.dataset.cl3Quiet
-          runQuietExit()
+        }
+
+        if (quiet) {
+          // Scroll-driven deactivation — no fragment, just fade
+          cl3menzaModeRef.current = false
+          setCl3menzaMode(false)
+          setModeAnnouncement('cl3menza mode deactivated')
         } else {
-          runManualExit()
+          // Manual deactivation (header badge) — fragment explosion
+          setGlitching(true)
+          cl3menzaModeRef.current = false
+          setCl3menzaMode(false)
+          const t = setTimeout(() => {
+            setGlitching(false)
+            setModeAnnouncement('cl3menza mode deactivated')
+            document.getElementById('main-content')?.focus()
+          }, 1200)
+          modeTransitionTimersRef.current.timeoutIds.push(t)
         }
       }
     })
 
     return () => {
-      clearTransitionTimers()
-      unsubscribe()
+      clearModeTransitionTimers()
+      unsub()
     }
   }, []) // subscribe/get are stable module-level references
 
-  return {
-    cl3menzaMode,
-    glitching,
-    terminal,
-    terminalLines,
-    modeAnnouncement,
-  }
+  return { cl3menzaMode, glitching, terminal, terminalLines, modeAnnouncement }
 }

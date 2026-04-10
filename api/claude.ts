@@ -1,8 +1,19 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
+import { ANTHROPIC_MODEL, MAX_TOKENS, SYSTEM_PROMPT } from './constants'
 
-// --- Backend constants (never client-controlled) ---
-const ANTHROPIC_MODEL = 'claude-haiku-4-5-20251001'
-const MAX_TOKENS = 600
+export { SYSTEM_PROMPT }
+
+// --- CORS ---
+const ALLOWED_ORIGINS = [
+  'https://cl3menza.com',
+  'https://www.cl3menza.com',
+  'https://portfolio-seven-eosin-21.vercel.app',
+]
+
+function resolveOrigin(origin: string | undefined): string | null {
+  if (!origin) return null
+  return ALLOWED_ORIGINS.includes(origin) ? origin : null
+}
 
 // --- Rate limiter (in-memory, best-effort on Vercel warm instances) ---
 const RATE_LIMIT = 15
@@ -36,10 +47,34 @@ export function isRateLimited(ip: string): boolean {
   return false
 }
 
+// Upstash-backed rate limit — uses REST API directly (no npm dep).
+// Falls back to in-memory isRateLimited if env vars are not configured.
+async function checkRateLimit(ip: string): Promise<boolean> {
+  const url = process.env.UPSTASH_REDIS_REST_URL
+  const token = process.env.UPSTASH_REDIS_REST_TOKEN
+  if (!url || !token) return isRateLimited(ip)
+
+  try {
+    const key = `portfolio:rl:${ip}`
+    const res = await fetch(`${url}/pipeline`, {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify([
+        ['INCR', key],
+        ['EXPIRE', key, '60', 'NX'],
+      ]),
+    })
+    if (!res.ok) return isRateLimited(ip)
+    const results = (await res.json()) as Array<{ result: number }>
+    return results[0].result > RATE_LIMIT
+  } catch {
+    return isRateLimited(ip)
+  }
+}
+
 // --- Input validation ---
 const MAX_MESSAGES = 30
 const MAX_MESSAGE_LENGTH = 2000
-const MAX_SYSTEM_LENGTH = 4000
 
 export function validateBody(body: unknown): string | null {
   if (!body || typeof body !== 'object' || Array.isArray(body)) {
@@ -47,6 +82,9 @@ export function validateBody(body: unknown): string | null {
   }
 
   const b = body as Record<string, unknown>
+
+  // System prompt is server-side only — reject if client sends it
+  if ('system' in b) return 'system field not allowed'
 
   if (!Array.isArray(b.messages)) return 'Invalid messages'
   if (b.messages.length > MAX_MESSAGES) return 'Too many messages'
@@ -57,11 +95,6 @@ export function validateBody(body: unknown): string | null {
     if (m.role !== 'user' && m.role !== 'assistant') return 'Invalid message role'
     if (typeof m.content !== 'string') return 'Invalid message content'
     if (m.content.length > MAX_MESSAGE_LENGTH) return 'Message too long'
-  }
-
-  if (b.system !== undefined) {
-    if (typeof b.system !== 'string') return 'Invalid system prompt'
-    if (b.system.length > MAX_SYSTEM_LENGTH) return 'System prompt too long'
   }
 
   return null
@@ -93,6 +126,27 @@ export function _resetRateLimitMap(): void {
 
 // --- Handler ---
 export default async function handler(req: VercelRequest, res: VercelResponse) {
+  const origin = req.headers.origin as string | undefined
+  const allowedOrigin = resolveOrigin(origin)
+
+  // Reject requests from unknown cross-origin sources
+  if (origin && !allowedOrigin) {
+    return res.status(403).json({ error: 'Forbidden' })
+  }
+
+  // Set CORS headers for whitelisted origins
+  if (allowedOrigin) {
+    res.setHeader('Access-Control-Allow-Origin', allowedOrigin)
+    res.setHeader('Vary', 'Origin')
+  }
+
+  // CORS preflight
+  if (req.method === 'OPTIONS') {
+    res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS')
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type')
+    return res.status(204).end()
+  }
+
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' })
   }
@@ -103,7 +157,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   const ip = getClientIp(req)
-  if (isRateLimited(ip)) {
+  if (await checkRateLimit(ip)) {
     return res.status(429).json({ error: 'Too many requests. Please wait a moment.' })
   }
 
@@ -113,14 +167,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   const b = req.body as Record<string, unknown>
-  const anthropicBody: Record<string, unknown> = {
-    model: ANTHROPIC_MODEL,
-    max_tokens: MAX_TOKENS,
-    messages: b.messages,
-  }
-  if (typeof b.system === 'string') {
-    anthropicBody.system = b.system
-  }
 
   try {
     const response = await fetch('https://api.anthropic.com/v1/messages', {
@@ -130,7 +176,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         'x-api-key': apiKey,
         'anthropic-version': '2023-06-01',
       },
-      body: JSON.stringify(anthropicBody),
+      body: JSON.stringify({
+        model: ANTHROPIC_MODEL,
+        max_tokens: MAX_TOKENS,
+        system: SYSTEM_PROMPT,
+        messages: b.messages,
+      }),
     })
 
     if (!response.ok) {

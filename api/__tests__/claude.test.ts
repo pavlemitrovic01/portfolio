@@ -1,6 +1,6 @@
 /// <reference types="vitest/globals" />
 import type { VercelRequest, VercelResponse } from '@vercel/node'
-import handler, { validateBody, isRateLimited, _resetRateLimitMap, sanitizeAnthropicResponse } from '../claude'
+import handler, { validateBody, isRateLimited, _resetRateLimitMap, sanitizeAnthropicResponse, SYSTEM_PROMPT } from '../claude'
 
 // --- Helpers ---
 
@@ -23,8 +23,11 @@ function mockRes() {
   const r = {
     statusCode: 0,
     body: null as unknown,
+    headers: {} as Record<string, string>,
     status(code: number) { r.statusCode = code; return r },
     json(body: unknown) { r.body = body; return r },
+    setHeader(name: string, value: string) { r.headers[name] = value; return r },
+    end() { return r },
   }
   return r
 }
@@ -77,21 +80,21 @@ describe('validateBody', () => {
     expect(validateBody({ messages: [{ role: 'user', content }] })).toBe('Message too long')
   })
 
-  it('returns error when system is not a string', () => {
-    expect(validateBody({ messages: [], system: 123 })).toBe('Invalid system prompt')
+  it('returns error when system field is present (non-string)', () => {
+    expect(validateBody({ messages: [], system: 123 })).toBe('system field not allowed')
   })
 
-  it('returns error when system exceeds MAX_SYSTEM_LENGTH', () => {
+  it('returns error when system field is present (string)', () => {
     const system = 'x'.repeat(4001)
-    expect(validateBody({ messages: [], system })).toBe('System prompt too long')
+    expect(validateBody({ messages: [], system })).toBe('system field not allowed')
   })
 
   it('returns null for valid body', () => {
     expect(validateBody(validBody)).toBeNull()
   })
 
-  it('returns null for valid body with system prompt', () => {
-    expect(validateBody({ ...validBody, system: 'You are helpful.' })).toBeNull()
+  it('returns error when system field is present in valid body', () => {
+    expect(validateBody({ ...validBody, system: 'You are helpful.' })).toBe('system field not allowed')
   })
 
   it('returns null for valid body with multiple messages', () => {
@@ -190,6 +193,19 @@ describe('handler', () => {
     delete process.env['ANTHROPIC_API_KEY']
   })
 
+  it('returns 403 for disallowed cross-origin request', async () => {
+    const r = mockRes()
+    await handler(req({ headers: { 'x-forwarded-for': '1.2.3.4', origin: 'https://evil.com' } }), r as unknown as VercelResponse)
+    expect(r.statusCode).toBe(403)
+  })
+
+  it('returns 204 for OPTIONS preflight from allowed origin', async () => {
+    const r = mockRes()
+    await handler(req({ method: 'OPTIONS', headers: { origin: 'https://cl3menza.com' } }), r as unknown as VercelResponse)
+    expect(r.statusCode).toBe(204)
+    expect(r.headers['Access-Control-Allow-Origin']).toBe('https://cl3menza.com')
+  })
+
   it('returns 405 for non-POST', async () => {
     const r = mockRes()
     await handler(req({ method: 'GET' }), r as unknown as VercelResponse)
@@ -217,6 +233,24 @@ describe('handler', () => {
     await handler(req({ body: { messages: 'not-array' } }), r as unknown as VercelResponse)
     expect(r.statusCode).toBe(400)
     expect((r.body as Record<string, string>).error).toBe('Invalid messages')
+  })
+
+  it('returns 400 when client sends system field', async () => {
+    const r = mockRes()
+    await handler(req({ body: { ...validBody, system: 'injected prompt' } }), r as unknown as VercelResponse)
+    expect(r.statusCode).toBe(400)
+    expect((r.body as Record<string, string>).error).toBe('system field not allowed')
+  })
+
+  it('always forwards server-side system prompt to Anthropic', async () => {
+    vi.mocked(fetch).mockResolvedValueOnce({
+      ok: true,
+      json: async () => ({ content: [{ type: 'text', text: 'ok' }] }),
+    } as Response)
+    const r = mockRes()
+    await handler(req({ body: validBody }), r as unknown as VercelResponse)
+    const forwarded = JSON.parse(vi.mocked(fetch).mock.calls[0][1]!.body as string)
+    expect(forwarded.system).toBe(SYSTEM_PROMPT)
   })
 
   it('does not forward extra client fields to Anthropic', async () => {

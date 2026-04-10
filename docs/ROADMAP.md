@@ -181,3 +181,75 @@ Realne recenzije nisu dostupne. Sekcija ostaje, popunjava se naknadno.
 ### Config pending (van batch sistema)
 - cl3menza.com → Vercel domain config + DNS setup
 - GA4 Measurement ID → zameni G-XXXXXXXXXX sa pravim ID-om
+
+---
+
+## FAZA 5 — Landing redesign + produkciona priprema
+
+Cilj: vizuelno uskladiti landing sa referencom, srediti tehničke dugove otkrivene u audit-u, i deployovati.
+
+---
+
+### Batch L-Portrait — Cinematic hero portrait `[x]`
+Zamena placeholder-a pravom slikom. Cinematic fade-out mask, saturate/contrast filter, cyan glow iza leđa.
+Fajlovi: `LandingHero.tsx`, `landing.css`, `public/pavle-portrait.jpg`
+
+### Batch L-Path — SVG path refactor `[x]`
+Framer Motion scroll-driven `pathLength` umesto manual RAF. Nativni SVG neonGlow/orbGlow filteri. Cyan `#00E5FF` stroke. Ghost path + 5 animiranih orbova sa scroll thresholds.
+Fajlovi: `LandingPath.tsx`, `landing.css`, `LandingCards.tsx`
+
+### Batch L-Layout — Hero layout fix `[x]`
+Vračen CSS grid na `.lhero` (1fr 1fr). Uklonjene nefunkcionalne Tailwind klase iz JSX. Portrait pozicioniranje usklađeno sa referencom. Journey zona overlap sa hero-om (-200px margin).
+Fajlovi: `LandingHero.tsx`, `landing.css`
+
+---
+
+### Batch P-Images — Optimizacija slika `[ ]`
+**KRITIČNO — 15.8MB PNG → WebP.**
+- Konvertovati sve 5 slika u WebP format: `card-*.png` (4x ~4MB) + `pavle-portrait.jpg`
+- Dodati `srcset` i `width`/`height` atribute na `<img>` (CLS fix)
+- Ciljane veličine: card slike max 400KB, portrait max 300KB
+- Lighthouse Performance score direktno zavisi od ovoga
+Fajlovi: `public/card-*.webp`, `public/pavle-portrait.webp`, `LandingCards.tsx`, `LandingHero.tsx`
+Režim: LEAN | Rizik: nizak
+
+### Batch P-OG — OG image `[ ]`
+`og-image.png` je referenciran u `index.html` ali ne postoji u `/public/` → 404 na social share.
+- Napraviti OG sliku (1200×630px) sa imenom, titulom i vizuelnim identitetom sajta
+- Dodati fajl u `public/`
+Fajlovi: `public/og-image.png`, `index.html` (verifikacija)
+Režim: LEAN | Rizik: nizak
+
+### Batch P-Content — Sadržaj i kredibilitet `[ ]`
+Čeka Pavlov input za tekst i URL-ove.
+- **Testimoniali:** Zameniti 3 placeholder quote-a pravim recenzijama klijenata (ili ukloniti sekciju)
+- **Upwork/Fiverr dugmad:** Zameniti mrtve `<span>` elemente pravim `<a href="...">` linkovima sa realnim profilima
+- **About copy:** Pavlova priča u About sekciji
+- **System prompt konzistentnost:** "Started in 2025" vs "8 years experience" — uskladiti
+Fajlovi: `Testimonials.tsx`, `LandingActivation.tsx`, `About.tsx`, `HeroCl3menza.tsx`
+Režim: LEAN | Rizik: nizak
+
+### Batch P-API — API bezbednost `[ ]`
+- **CORS:** Dodati origin whitelist u `api/claude.ts` (samo cl3menza.com domena)
+- **System prompt server-side:** Premestiti hardkodiran system prompt iz `HeroCl3menza.tsx` u `api/claude.ts` — klijent ne sme da šalje sistem prompt
+- **Rate limiting:** Zameniti in-memory `Map` sa Upstash Redis ili Vercel Edge Middleware (in-memory ne radi na serverless)
+Fajlovi: `api/claude.ts`, `HeroCl3menza.tsx`
+Režim: STANDARD | Rizik: srednji (LOCK zona)
+
+### Batch P-DeadCode — Cleanup tehničkog duga `[ ]`
+- Obrisati `useMagnetic.ts` hook (no-op) i import u `App.tsx`
+- Obrisati mrtve CSS klase (~200 linija): `.hv-personal*`, `.lhero-badge*`, `.lhero-portrait-cinematic` (ako nije u upotrebi), `.journey-track`, `.journey-fill`, `.journey-bloom`, `.journey-glow`, `.journey-junction-core`
+- Reorganizovati `hero.css` (695 linija) — izvući `buttons.css`, `grid.css`, `chat.css` u zasebne fajlove
+- Popravi `aria-hidden` bez vrednosti na `<canvas>` za particle
+- Dodati `aria-label` na chat input u `HeroCl3menza.tsx`
+- Fiksirati `useParallax` — ukloniti `.glow` selektor koji nema matchove u DOM-u
+Fajlovi: `App.tsx`, `useMagnetic.ts`, `useParallax.ts`, `landing.css`, `hero.css`, `HeroCl3menza.tsx`
+Režim: STANDARD | Rizik: nizak
+
+### Batch P-Deploy — Push + deploy + smoke test `[ ]`
+- `git add` + `git commit` svih promena iz Faze 5
+- `git push origin main` → Vercel auto-deploy
+- Production smoke test: OG share, chat API, cl3menza mode, mobile
+- Lighthouse audit na produkciji (mobile + desktop)
+Fajlovi: git operacije
+Režim: LEAN | Rizik: nizak

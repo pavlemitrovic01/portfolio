@@ -1,4 +1,6 @@
-import { motion, useReducedMotion } from 'framer-motion'
+import { useState } from 'react'
+import { motion, useReducedMotion, useTransform, useMotionValueEvent } from 'framer-motion'
+import type { MotionValue } from 'framer-motion'
 import type { ReactNode } from 'react'
 
 /* ── Inline SVG icons — white line style matching reference ── */
@@ -37,40 +39,43 @@ interface CardData {
 const CARDS: readonly CardData[] = [
   {
     side: 'right',
+    icon: IconBolt,
+    headline: 'How it started',
+    body: 'My first real connection to development started when I was around 12, running Counter-Strike servers and paying attention to the part most players never think about. I was not only interested in playing the game — I kept getting pulled toward plugins, server behavior, and the way gameplay could be shaped from behind the scenes. On COD, Public, Deathmatch servers, I was already editing and adjusting parts of the experience because I wanted more than just the default version of things. That was the beginning: not just enjoying systems, but wanting to understand them, change them, and make them feel better.',
+    image: '/card-systems.webp',
+  },
+  {
+    side: 'left',
     icon: IconCode,
-    headline: 'Coding since 2016',
-    body: "With over 8 years of experience — I've been a problem solver, builder, and engineering lead. I've worked across startup turns and have a knack for making digital systems tick.",
-    image: '/card-coding.png',
+    headline: 'Curiosity turned into persistence',
+    body: 'After those servers were gone, that same curiosity followed me into Minecraft. I kept noticing broken logic, strange plugin behavior, bugs in scripts, and all the hidden parts of a server that most people never look at. I was the type to chase the exact script, open it up, and stay with the problem until I understood what was actually wrong. At one point, I spent an entire month fixing a single issue because I refused to leave it half-understood. That persistence eventually led me into a server\'s development team, where programming stopped being something distant and started becoming something real.',
+    image: '/card-coding.webp',
+  },
+  {
+    side: 'right',
+    icon: IconGear,
+    headline: 'Life pulled me away from it',
+    body: 'Later, life went in a different direction. I finished culinary school, started working, and slowly drifted away from programming and development as a daily part of my life. Work took over, time disappeared, and for a while that side of me stayed in the background. But the instinct never really left. Even while doing other jobs, there was always a part of me that wanted to return to building, solving, and working on something that depended on logic, discipline, and my own standards instead of routine.',
+    image: '/card-builder.webp',
   },
   {
     side: 'left',
     icon: IconRocket,
-    headline: 'Product thinking',
-    body: 'Driven by user empathy, market insights, and robust execution I turn vague ideas into clear, impactful digital experiences.',
-    image: '/card-product-thinking.png',
-  },
-  {
-    side: 'right',
-    icon: IconBolt,
-    headline: 'Real builder vibe',
-    body: 'I ship full-stack products with a doer mentality and no bullshit. Ideas are good, execution with polish and speed is better.',
-    image: '/card-builder.png',
-  },
-  {
-    side: 'left',
-    icon: IconGear,
-    headline: 'Systems thinker',
-    body: 'Methodical approach to architecting scalable and robust execution that solve real problems. I build with a system-level perspective.',
-    image: '/card-systems.png',
+    headline: 'Then I came back seriously',
+    body: 'That comeback happened when I finally reached the point where I knew I did not want to build my life around average work and average outcomes. I left my job, tried recruiting, realized it was not my path, and came back to programming with real intent. I sat down at my computer and made a simple decision: I would not get up until I had built something real. Twenty-seven hours later, I had the first serious foundation of what would become padrinobudva.com. About a month and a half later, it was live — with a working ordering flow, admin system, and Bankart payment integration. That project mattered because it turned everything into proof.',
+    image: '/card-product-thinking.webp',
   },
 ]
 
-// Absolute top positions matching JUNCTIONS in LandingPath.tsx
-const CARD_TOPS = ['24%', '44%', '65%', '87%'] as const
+// Absolute top positions matching JUNCTIONS in LandingPath.tsx (viewBox 0 0 1000 3000)
+// Exact orb y-positions: cy / viewBox-height = 700/3000, 1300/3000, 1900/3000, 2500/3000
+const CARD_TOPS = ['23.33%', '43.33%', '63.33%', '83.33%'] as const
 
-export default function LandingCards() {
-  const reduceMotion = useReducedMotion() === true
+interface LandingCardsProps {
+  cardOrbProgress: MotionValue<number>[]
+}
 
+export default function LandingCards({ cardOrbProgress }: LandingCardsProps) {
   return (
     <>
       {CARDS.map((card, i) => (
@@ -78,7 +83,7 @@ export default function LandingCards() {
           key={i}
           card={card}
           top={CARD_TOPS[i]}
-          reduceMotion={reduceMotion}
+          orbProgress={cardOrbProgress[i]}
         />
       ))}
     </>
@@ -88,31 +93,32 @@ export default function LandingCards() {
 interface JCardProps {
   card: CardData
   top: string
-  reduceMotion: boolean
+  orbProgress: MotionValue<number>
 }
 
-function JCard({ card, top, reduceMotion }: JCardProps) {
+function JCard({ card, top, orbProgress }: JCardProps) {
   const isRight = card.side === 'right'
+  const reduceMotion = useReducedMotion() === true
+  const [revealed, setRevealed] = useState(false)
 
-  const variants = {
-    hidden: reduceMotion
-      ? { opacity: 1, x: 0 }
-      : { opacity: 0, x: isRight ? 28 : -28 },
-    visible: {
-      opacity: 1,
-      x: 0,
-      transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] as const },
-    },
-  }
+  const opacityMotion = useTransform(orbProgress, [0, 0.6], [0, 1])
+  const xMotion = useTransform(orbProgress, [0, 0.8], [isRight ? 22 : -22, 0])
+  const scaleMotion = useTransform(orbProgress, [0, 0.8], [0.97, 1])
+
+  useMotionValueEvent(orbProgress, 'change', (v) => {
+    if (v >= 0.9 && !revealed) setRevealed(true)
+  })
 
   return (
     <motion.div
       className={`jcard jcard--${card.side}${card.image ? ' jcard--has-visual' : ''}`}
-      style={{ top }}
-      variants={variants}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, margin: '-10%' }}
+      style={{
+        top,
+        y: '-50%',
+        opacity: reduceMotion ? 1 : revealed ? 1 : opacityMotion,
+        x: reduceMotion ? 0 : revealed ? 0 : xMotion,
+        scale: reduceMotion ? 1 : revealed ? 1 : scaleMotion,
+      }}
     >
       {/* Layer 1 — inner visual content (screenshot) */}
       {card.image && (

@@ -163,3 +163,16 @@ Format: datum → greška/problem → lekcija → primena → status → next re
 
 **STATUS:** ACTIVE
 **NEXT REVIEW:** 2026-04-24
+
+---
+
+## 2026-04-05 — Framer Motion useScroll offset sintaksa
+
+**PROBLEM:** `useScroll({ offset: ["start center", "end bottom"] })` javlja TypeScript grešku — `"end bottom"` nije validan offset string u Framer Motion tipovima.
+
+**LEKCIJA:** Framer Motion koristi apsolutne Edge vrednosti za intersection observer: `"start"`, `"center"`, `"end"`. Ispravna sintaksa za dno kontejnera je `"end end"`, ne `"end bottom"`.
+
+**PRIMENA:** Uvek koristi apsolutne vrednosti (`start`, `center`, `end`) za `useScroll` offset. Ne koristiti sinonime poput `bottom` ili `top` — Framer Motion ih ne prepoznaje.
+
+**STATUS:** RESOLVED
+**NEXT REVIEW:** —

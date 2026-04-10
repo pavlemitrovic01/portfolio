@@ -3,6 +3,7 @@ import { motion, useReducedMotion } from 'framer-motion'
 
 interface LandingHeroProps {
   onPrefetch: () => void
+  onStepInside: () => void
 }
 
 const stagger = {
@@ -14,7 +15,7 @@ const item = (reduceMotion: boolean) => ({
   visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] as const } },
 })
 
-export default function LandingHero({ onPrefetch }: LandingHeroProps) {
+export default function LandingHero({ onPrefetch, onStepInside }: LandingHeroProps) {
   const reduceMotion = useReducedMotion() === true
   const glitchRef = useRef<HTMLSpanElement>(null)
   const glitchingRef = useRef(false)
@@ -76,7 +77,7 @@ export default function LandingHero({ onPrefetch }: LandingHeroProps) {
         animate="visible"
       >
         <motion.div variants={it}>
-          <div className="landing-eyebrow">Digital product engineer · Serbia → Global</div>
+          <div className="landing-eyebrow">Full-stack product engineer · Serbia → Global</div>
         </motion.div>
 
         <motion.div variants={it}>
@@ -88,53 +89,54 @@ export default function LandingHero({ onPrefetch }: LandingHeroProps) {
 
         <motion.div variants={it}>
           <p className="landing-positioning">
-            Full-stack developer with a builder mindset.
+            Full-stack developer focused on product thinking, clean systems, and premium execution.
           </p>
         </motion.div>
 
         <motion.div variants={it}>
           <p className="landing-sub">
-            Turning ideas into high-quality, no BS digital products that actually deliver value.
+            I build digital products that do not just look good — they feel intentional, work cleanly, and hold up in the real world.
           </p>
         </motion.div>
 
         <motion.div variants={it}>
           <div className="landing-ctas">
-            <a className="button primary" href="#landing-path">
-              About me
-            </a>
+            <button className="button ghost" type="button" onClick={onStepInside} onMouseEnter={onPrefetch}>
+              Step Inside
+            </button>
             <a
-              className="button ghost"
-              href="#landing-activation"
-              onMouseEnter={onPrefetch}
+              href="#landing-path"
+              className="lhero-scroll-cue"
+              aria-label="Scroll to explore the story"
             >
-              See my work
+              <span>Curious? Scroll down</span>
+              <span className="lhero-scroll-cue-arrow" aria-hidden="true">↓</span>
             </a>
           </div>
         </motion.div>
       </motion.div>
 
-      {/* Right — portrait / scene visual anchor */}
+      {/* Right — Cinematic Portrait with Fade-out */}
       <motion.div
-        className="lhero-portrait-wrap"
-        initial={reduceMotion ? { opacity: 1 } : { opacity: 0, scale: 0.96 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.8, delay: 0.3, ease: [0.22, 1, 0.36, 1] as const }}
+        initial={reduceMotion ? { opacity: 1 } : { opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1.2, delay: 0.4, ease: [0.22, 1, 0.36, 1] as const }}
+        className="lhero-portrait-cinematic"
+        style={{
+          maskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 95%)',
+          WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 95%)',
+        }}
       >
-        <div className="lhero-portrait">
-          <div className="lhero-portrait-glow" aria-hidden="true" />
-          <div className="lhero-portrait-placeholder" aria-label="Portrait — Pavle Mitrovic">
-            <span className="lhero-portrait-initials">PM</span>
-          </div>
-        </div>
+        <img
+          src="/pavle-portrait.webp"
+          alt="Pavle Mitrovic"
+          className="lhero-portrait-img"
+          width="900"
+          height="1350"
+        />
 
-        <div className="lhero-badge lhero-badge--tl" aria-hidden="true">
-          <span className="lhero-badge-dot" />
-          <span>Available for projects</span>
-        </div>
-        <div className="lhero-badge lhero-badge--br" aria-hidden="true">
-          <span>Serbia → Global</span>
-        </div>
+        {/* Cyan glow behind shoulders */}
+        <div className="lhero-portrait-cyan-glow" aria-hidden="true" />
       </motion.div>
     </div>
   )
