@@ -120,7 +120,7 @@ export default function LandingHero({ onPrefetch, onStepInside }: LandingHeroPro
       <motion.div
         initial={reduceMotion ? { opacity: 1 } : { opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 1.2, delay: 0.4, ease: [0.22, 1, 0.36, 1] as const }}
+        transition={{ duration: 0.9, delay: 0, ease: [0.22, 1, 0.36, 1] as const }}
         className="lhero-portrait-cinematic"
         style={{
           maskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 95%)',
@@ -133,6 +133,8 @@ export default function LandingHero({ onPrefetch, onStepInside }: LandingHeroPro
           className="lhero-portrait-img"
           width="900"
           height="1350"
+          fetchPriority="high"
+          decoding="auto"
         />
 
         {/* Cyan glow behind shoulders */}

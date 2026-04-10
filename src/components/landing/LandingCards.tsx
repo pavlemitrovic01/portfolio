@@ -122,11 +122,9 @@ function JCard({ card, top, orbProgress }: JCardProps) {
     >
       {/* Layer 1 — inner visual content (screenshot) */}
       {card.image && (
-        <div
-          className="jcard-visual"
-          aria-hidden="true"
-          style={{ backgroundImage: `url(${card.image})` }}
-        />
+        <div className="jcard-visual" aria-hidden="true">
+          <img src={card.image} alt="" loading="lazy" width="800" height="600" />
+        </div>
       )}
 
       {/* Layer 2 — dark glass overlay (left heavy, opens right) */}
@@ -136,7 +134,7 @@ function JCard({ card, top, orbProgress }: JCardProps) {
       <div className="jcard-content">
         <div className="jcard-header">
           <span className="jcard-icon" aria-hidden="true">{card.icon}</span>
-          <h3 className="jcard-headline">{card.headline}</h3>
+          <h2 className="jcard-headline">{card.headline}</h2>
         </div>
         <p className="jcard-body">{card.body}</p>
       </div>
