@@ -9,7 +9,7 @@ export default function Process() {
             <div className="kicker">How I work</div>
             <h2 className="title">The polish matters, but the trust comes from structure.</h2>
           </div>
-          <p className="copy">This is the serious counterweight to all the motion. It tells the client that behind the visuals there is process, logic, judgment and the ability to make good product decisions.</p>
+          <p className="copy">The motion earns attention. The process earns trust.</p>
         </MotionReveal>
         <div className="process-grid">
           <MotionReveal><article className="process-step"><div className="step">1</div><h3>Understand the business goal</h3><p>Before any design or code, I map the real objective — what the product needs to do, who it's for, and what success actually looks like.</p></article></MotionReveal>

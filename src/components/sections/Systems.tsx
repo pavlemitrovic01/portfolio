@@ -9,7 +9,7 @@ export default function Systems() {
             <div className="kicker">Systems I build</div>
             <h2 className="title">A premium offer set, without the usual freelancer cliché layout.</h2>
           </div>
-          <p className="copy">The portfolio should still tell people what you do — but in a way that feels like a world-class digital studio, not a standard service grid. These are meant to read like capabilities, not cheap packages.</p>
+          <p className="copy">End-to-end digital product capabilities — from first pixel to production deploy.</p>
         </MotionReveal>
         <div className="grid-4">
           <MotionReveal><article className="tile"><div><div className="icon">A</div><h3>Premium Business Websites</h3><p>High-trust websites that make brands feel serious, elevated and modern from the first second.</p></div></article></MotionReveal>

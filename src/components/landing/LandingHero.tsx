@@ -112,13 +112,13 @@ export default function LandingHero({ onPrefetch, onStepInside }: LandingHeroPro
 
         <motion.div variants={it}>
           <p className="landing-positioning">
-            Full-stack developer focused on product thinking, clean systems, and premium execution.
+            Product-minded developer. Clean systems, sharp execution.
           </p>
         </motion.div>
 
         <motion.div variants={it}>
           <p className="landing-sub">
-            I build digital products that do not just look good — they feel intentional, work cleanly, and hold up in the real world.
+            I build digital products that feel intentional, work cleanly, and hold up in the real world.
           </p>
         </motion.div>
 

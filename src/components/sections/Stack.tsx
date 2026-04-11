@@ -9,7 +9,7 @@ export default function Stack() {
             <div className="kicker">Execution layer</div>
             <h2 className="title">Technical proof, presented with premium restraint.</h2>
           </div>
-          <p className="copy">The stack should support authority, not turn the page into a resume. It should reassure the client that the visuals are backed by serious implementation ability.</p>
+          <p className="copy">Real tools, real depth. Every visual decision is backed by serious implementation.</p>
         </MotionReveal>
         <div className="stack-grid">
           <MotionReveal><article className="tile"><div><div className="icon">R</div><h3>React</h3><p>Flexible modern frontend execution with room for custom high-end interactive experiences.</p></div></article></MotionReveal>

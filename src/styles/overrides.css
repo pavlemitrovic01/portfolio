@@ -157,9 +157,9 @@ body.cl3menza-mode {
   --bg-3: #06090f;
   --panel: rgba(8,18,32,.72);
   --panel-2: rgba(4,12,24,.88);
-  --line: rgba(120,255,240,.08);
-  --line-strong: rgba(120,255,240,.18);
-  --tile-border: rgba(120,255,240,.1);
+  --line: rgba(120,255,240,.11);
+  --line-strong: rgba(120,255,240,.22);
+  --tile-border: rgba(120,255,240,.13);
   --step-bg: linear-gradient(135deg, rgba(120,255,240,.2), rgba(198,120,255,.15));
   --step-border: rgba(120,255,240,.25);
   --kicker-color: #78fff0;
@@ -169,9 +169,9 @@ body.cl3menza-mode {
 }
 body.cl3menza-mode::after {
   background:
-    radial-gradient(circle at 22% 26%, rgba(120,255,240,.15), transparent 22%),
-    radial-gradient(circle at 76% 62%, rgba(198,120,255,.12), transparent 20%),
-    radial-gradient(circle at 52% 18%, rgba(255,120,196,.08), transparent 18%);
+    radial-gradient(circle at 22% 26%, rgba(120,255,240,.18), transparent 22%),
+    radial-gradient(circle at 76% 62%, rgba(198,120,255,.14), transparent 20%),
+    radial-gradient(circle at 52% 18%, rgba(255,120,196,.10), transparent 18%);
 }
 body.cl3menza-mode header {
   background: rgba(2,4,8,.72);

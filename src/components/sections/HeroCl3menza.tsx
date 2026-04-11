@@ -85,7 +85,7 @@ export default function HeroCl3menza() {
           <div className="role">Digital Product Engineer</div>
         </motion.div>
         <motion.div variants={itemVariants}>
-          <p className="lead">From Padrino Budva's ordering system to premium business websites — I build digital products that work as well as they look. Based in Serbia, working globally.</p>
+          <p className="lead">From Padrino Budva's ordering system to premium business websites — I build digital products end to end. Based in Serbia, working globally.</p>
         </motion.div>
         <motion.div variants={itemVariants}>
           <div className="hero-actions">

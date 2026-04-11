@@ -9,7 +9,7 @@ export default function Flagship() {
             <div className="kicker">Flagship case study</div>
             <h2 className="title">One real project. Full stack. Shipped to production.</h2>
           </div>
-          <p className="copy">This section is intentionally large and layered. It should communicate that you can take a real business idea and turn it into a premium digital product with customer-facing quality and back-office logic.</p>
+          <p className="copy">A real business needed a real product. This is what I built — ordering flow, payments, admin tools, and a public face that earns trust on first load.</p>
         </MotionReveal>
         <div className="project-grid">
           <div>

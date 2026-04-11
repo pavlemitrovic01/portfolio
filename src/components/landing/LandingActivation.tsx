@@ -132,9 +132,9 @@ export default function LandingActivation({
 
       {/* Visual content */}
       <div className="lact-content">
-        <p className="lact-pre">Ready to build with the mind behind this?</p>
+        <p className="lact-pre">Want to see how I build?</p>
         <p className="lact-sub">
-          Get ready to enter{' '}
+          Entering{' '}
           <span className="lact-glitch" data-text="cl3menza">cl3menza</span>
           {' '}mode
         </p>
