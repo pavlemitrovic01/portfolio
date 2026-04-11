@@ -1021,6 +1021,7 @@
 /* ── Reduced motion ── */
 @media (prefers-reduced-motion: reduce) {
   .landing-bg-nebula     { animation: none; }
+  .beam-residue          { animation: none; }
   .lhero-portrait-cyan-glow { display: none; }
   .journey-junction--activated .journey-junction-halo { animation: none; }
   .lact-glitch::before,
