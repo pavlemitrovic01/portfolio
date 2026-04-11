@@ -410,6 +410,26 @@
 .jcard--right { right: 3%; }
 .jcard--left  { left: 3%; }
 
+/* Edge light — tih, samo revealed state, veze karticu za beam */
+.jcard--right.jcard--revealed {
+  border-left: 1px solid rgba(0,229,255,.20);
+  box-shadow:
+    0 8px 40px rgba(0,0,0,.50),
+    inset 0 1px 0 rgba(93,184,255,.12),
+    inset 0 0 32px rgba(93,184,255,.04),
+    inset -24px 0 48px rgba(93,184,255,.04),
+    inset 1px 0 12px rgba(0,229,255,.06);
+}
+.jcard--left.jcard--revealed {
+  border-right: 1px solid rgba(0,229,255,.20);
+  box-shadow:
+    0 8px 40px rgba(0,0,0,.50),
+    inset 0 1px 0 rgba(93,184,255,.12),
+    inset 0 0 32px rgba(93,184,255,.04),
+    inset -24px 0 48px rgba(93,184,255,.04),
+    inset -1px 0 12px rgba(0,229,255,.06);
+}
+
 /* Cards with real visual asset — stronger right-edge presence */
 .jcard--has-visual {
   box-shadow:

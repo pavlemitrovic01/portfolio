@@ -40,28 +40,28 @@ const CARDS: readonly CardData[] = [
   {
     side: 'right',
     icon: IconBolt,
-    headline: 'How it started',
+    headline: 'The First Pull',
     body: 'My first real connection to development started when I was around 12, running Counter-Strike servers and paying attention to the part most players never think about. I was not only interested in playing the game — I kept getting pulled toward plugins, server behavior, and the way gameplay could be shaped from behind the scenes. On COD, Public, Deathmatch servers, I was already editing and adjusting parts of the experience because I wanted more than just the default version of things. That was the beginning: not just enjoying systems, but wanting to understand them, change them, and make them feel better.',
     image: '/card-systems.webp',
   },
   {
     side: 'left',
     icon: IconCode,
-    headline: 'Curiosity turned into persistence',
+    headline: 'Obsession as Method',
     body: 'After those servers were gone, that same curiosity followed me into Minecraft. I kept noticing broken logic, strange plugin behavior, bugs in scripts, and all the hidden parts of a server that most people never look at. I was the type to chase the exact script, open it up, and stay with the problem until I understood what was actually wrong. At one point, I spent an entire month fixing a single issue because I refused to leave it half-understood. That persistence eventually led me into a server\'s development team, where programming stopped being something distant and started becoming something real.',
     image: '/card-coding.webp',
   },
   {
     side: 'right',
     icon: IconGear,
-    headline: 'Life pulled me away from it',
+    headline: 'Life Interrupted',
     body: 'Later, life went in a different direction. I finished culinary school, started working, and slowly drifted away from programming and development as a daily part of my life. Work took over, time disappeared, and for a while that side of me stayed in the background. But the instinct never really left. Even while doing other jobs, there was always a part of me that wanted to return to building, solving, and working on something that depended on logic, discipline, and my own standards instead of routine.',
     image: '/card-builder.webp',
   },
   {
     side: 'left',
     icon: IconRocket,
-    headline: 'Then I came back seriously',
+    headline: 'Back With Proof',
     body: 'That comeback happened when I finally reached the point where I knew I did not want to build my life around average work and average outcomes. I left my job, tried recruiting, realized it was not my path, and came back to programming with real intent. I sat down at my computer and made a simple decision: I would not get up until I had built something real. Twenty-seven hours later, I had the first serious foundation of what would become padrinobudva.com. About a month and a half later, it was live — with a working ordering flow, admin system, and Bankart payment integration. That project mattered because it turned everything into proof.',
     image: '/card-product-thinking.webp',
   },
@@ -101,23 +101,22 @@ function JCard({ card, top, orbProgress }: JCardProps) {
   const reduceMotion = useReducedMotion() === true
   const [revealed, setRevealed] = useState(false)
 
-  const opacityMotion = useTransform(orbProgress, [0, 0.6], [0, 1])
-  const xMotion = useTransform(orbProgress, [0, 0.8], [isRight ? 22 : -22, 0])
-  const scaleMotion = useTransform(orbProgress, [0, 0.8], [0.97, 1])
+  // Delayed entry: connector draws first (0→0.45), card follows (0.45→0.95)
+  const opacityMotion = useTransform(orbProgress, [0.45, 0.95], [0, 1])
+  const xMotion      = useTransform(orbProgress, [0.45, 0.95], [isRight ? 18 : -18, 0])
 
   useMotionValueEvent(orbProgress, 'change', (v) => {
-    if (v >= 0.9 && !revealed) setRevealed(true)
+    if (v >= 0.95 && !revealed) setRevealed(true)
   })
 
   return (
     <motion.div
-      className={`jcard jcard--${card.side}${card.image ? ' jcard--has-visual' : ''}`}
+      className={`jcard jcard--${card.side}${card.image ? ' jcard--has-visual' : ''}${revealed ? ' jcard--revealed' : ''}`}
       style={{
         top,
         y: '-50%',
         opacity: reduceMotion ? 1 : revealed ? 1 : opacityMotion,
         x: reduceMotion ? 0 : revealed ? 0 : xMotion,
-        scale: reduceMotion ? 1 : revealed ? 1 : scaleMotion,
       }}
     >
       {/* Layer 1 — inner visual content (screenshot) */}
