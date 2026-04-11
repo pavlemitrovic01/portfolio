@@ -244,6 +244,25 @@
   z-index: -1;
 }
 
+/* ── Hero portrait parallax wrapper ── */
+.lhero-portrait-parallax {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+
+/* Ambient beam-edge light on portrait left side */
+.lhero-portrait-cinematic::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(0,229,255,.05) 0%, transparent 28%);
+  pointer-events: none;
+  z-index: 1;
+}
+
 /* ── Hero: floating micro-badges ── */
 .lhero-badge {
   position: absolute;
@@ -254,10 +273,12 @@
   border-radius: 999px;
   background: var(--panel-2);
   border: 1px solid var(--line);
+  font-family: 'Courier New', Courier, monospace;
   font-size: 12px;
   color: rgba(245,247,251,.82);
   backdrop-filter: blur(12px);
   white-space: nowrap;
+  pointer-events: none;
 }
 
 .lhero-badge--tl { top: -16px; left: -12px; }
@@ -564,14 +585,25 @@
   position: absolute;
   inset: -40% -20%;
   background:
-    radial-gradient(ellipse 50% 60% at 50% 60%, rgba(93,184,255,.24), transparent),
-    radial-gradient(ellipse 40% 50% at 50% 50%, rgba(124,109,255,.18), transparent),
-    radial-gradient(ellipse 30% 40% at 50% 40%, rgba(120,255,240,.14), transparent);
+    radial-gradient(ellipse 50% 60% at 50% 60%, rgba(93,184,255,.32), transparent),
+    radial-gradient(ellipse 40% 50% at 50% 50%, rgba(124,109,255,.22), transparent),
+    radial-gradient(ellipse 30% 40% at 50% 40%, rgba(120,255,240,.18), transparent);
   filter: blur(60px);
   opacity: 0;
   transform: scale(0.55);
   pointer-events: none;
   will-change: opacity, transform;
+}
+
+/* Scroll-driven vignette — deepens as activation zone approaches */
+.landing-activation::after {
+  content: '';
+  position: absolute;
+  inset: -30% -15%;
+  background: radial-gradient(ellipse at 50% 50%, transparent 35%, rgba(4,8,18,.80) 88%);
+  pointer-events: none;
+  opacity: var(--activation-progress, 0);
+  z-index: 0;
 }
 
 /* Visual content shell */

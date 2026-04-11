@@ -1,17 +1,15 @@
 import { useState, useEffect, useRef } from 'react'
 
+// Boot lines: 11 × 100ms = 1.1s + 400ms pause + 1.2s glitch ≈ 2.7s total
 const TERMINAL_LINES = [
   '> initializing cl3menza.os v2.1.78...',
-  '> scanning environment... ✓',
-  '> loading react@19.0.0 ✓',
-  '> loading framer-motion@12.0.0 ✓',
-  '> loading typescript@5.0.0 ✓',
-  '> loading supabase-js@2.0.0 ✓',
-  '> injecting glitch-identity.css ✓',
-  '> calibrating particle engine ✓',
-  '> mounting premium.config ✓',
-  '> overriding default.theme ✓',
-  '> enabling cl3menza-mode ████████████ 100%',
+  '> environment check... ✓',
+  '> loading react@19 ✓',
+  '> loading typescript@5 ✓',
+  '> loading framer-motion@12 ✓',
+  '> connecting supabase ✓',
+  '> building system ✓',
+  '> enabling cl3menza-mode ████████ 100%',
   '> SYSTEM READY.',
   '',
   '// welcome to cl3menza mode',
@@ -84,7 +82,7 @@ export function useTerminalBoot(
               }, 400)
               modeTransitionTimersRef.current.timeoutIds.push(t1)
             }
-          }, 120)
+          }, 100)
           modeTransitionTimersRef.current.intervalId = iv
         }
       } else if (!isActive && internal) {

@@ -1,6 +1,8 @@
 import { useRef, useEffect } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
 
+const MQ_PARALLAX = '(pointer: fine) and (min-width: 1081px)'
+
 interface LandingHeroProps {
   onPrefetch: () => void
   onStepInside: () => void
@@ -19,10 +21,12 @@ export default function LandingHero({ onPrefetch, onStepInside }: LandingHeroPro
   const reduceMotion = useReducedMotion() === true
   const glitchRef = useRef<HTMLSpanElement>(null)
   const glitchingRef = useRef(false)
+  const parallaxRef = useRef<HTMLDivElement>(null)
   const orig = 'Mitrovic'
   const targ = 'cl3menza'
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$%'
 
+  /* ── Surname glitch on hover ── */
   useEffect(() => {
     const el = glitchRef.current
     if (!el || reduceMotion) return
@@ -63,6 +67,25 @@ export default function LandingHero({ onPrefetch, onStepInside }: LandingHeroPro
       el.removeEventListener('mouseenter', handleEnter)
       el.removeEventListener('mouseleave', handleLeave)
     }
+  }, [reduceMotion])
+
+  /* ── Portrait parallax — desktop + fine pointer only, max ±3px ── */
+  useEffect(() => {
+    if (reduceMotion) return
+    if (!window.matchMedia(MQ_PARALLAX).matches) return
+    const el = parallaxRef.current
+    if (!el) return
+
+    const handle = (e: MouseEvent) => {
+      const cx = window.innerWidth / 2
+      const cy = window.innerHeight / 2
+      const x = ((e.clientX - cx) / cx) * 3
+      const y = ((e.clientY - cy) / cy) * 2
+      el.style.transform = `translate(${x.toFixed(2)}px, ${y.toFixed(2)}px)`
+    }
+
+    window.addEventListener('mousemove', handle, { passive: true })
+    return () => window.removeEventListener('mousemove', handle)
   }, [reduceMotion])
 
   const it = item(reduceMotion)
@@ -116,7 +139,7 @@ export default function LandingHero({ onPrefetch, onStepInside }: LandingHeroPro
         </motion.div>
       </motion.div>
 
-      {/* Right — Cinematic Portrait with Fade-out */}
+      {/* Right — Cinematic Portrait */}
       <motion.div
         initial={reduceMotion ? { opacity: 1 } : { opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -127,15 +150,24 @@ export default function LandingHero({ onPrefetch, onStepInside }: LandingHeroPro
           WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 95%)',
         }}
       >
-        <img
-          src="/pavle-portrait.webp"
-          alt="Pavle Mitrovic"
-          className="lhero-portrait-img"
-          width="900"
-          height="1350"
-          fetchPriority="high"
-          decoding="auto"
-        />
+        {/* Parallax layer — moves with mouse on desktop */}
+        <div ref={parallaxRef} className="lhero-portrait-parallax">
+          <img
+            src="/pavle-portrait.webp"
+            alt="Pavle Mitrovic"
+            className="lhero-portrait-img"
+            width="900"
+            height="1350"
+            fetchPriority="high"
+            decoding="auto"
+          />
+
+          {/* Floating version badge */}
+          <div className="lhero-badge lhero-badge--tl" aria-hidden="true">
+            <span className="lhero-badge-dot" />
+            <span>v2.1.78</span>
+          </div>
+        </div>
 
         {/* Cyan glow behind shoulders */}
         <div className="lhero-portrait-cyan-glow" aria-hidden="true" />
