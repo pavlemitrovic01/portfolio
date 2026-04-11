@@ -253,16 +253,6 @@
   will-change: transform;
 }
 
-/* Ambient beam-edge light on portrait left side */
-.lhero-portrait-cinematic::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(90deg, rgba(0,229,255,.05) 0%, transparent 28%);
-  pointer-events: none;
-  z-index: 1;
-}
-
 /* ── Hero: floating micro-badges ── */
 .lhero-badge {
   position: absolute;

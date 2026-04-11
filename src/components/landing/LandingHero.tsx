@@ -161,12 +161,6 @@ export default function LandingHero({ onPrefetch, onStepInside }: LandingHeroPro
             fetchPriority="high"
             decoding="auto"
           />
-
-          {/* Floating version badge */}
-          <div className="lhero-badge lhero-badge--tl" aria-hidden="true">
-            <span className="lhero-badge-dot" />
-            <span>v2.1.78</span>
-          </div>
         </div>
 
         {/* Cyan glow behind shoulders */}
