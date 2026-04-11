@@ -68,42 +68,26 @@
   pointer-events: none;
 }
 
-/* Starfield: multi-layer prime-spaced dots for organic scatter */
-.landing-bg-dots {
+/* Starfield canvas — Canvas-based, variable star sizes + bright accent stars */
+.starfield-canvas {
   position: absolute;
-  inset: 0;
-  background-image:
-    radial-gradient(circle, rgba(255,255,255,.55) 1px, transparent 1px),
-    radial-gradient(circle, rgba(255,255,255,.35) 1px, transparent 1px),
-    radial-gradient(circle, rgba(255,255,255,.22) 1px, transparent 1px),
-    radial-gradient(circle, rgba(93,184,255,.30) 1px, transparent 1px);
-  background-size:
-    173px 157px,
-    251px 229px,
-    127px 113px,
-    197px 179px;
-  background-position:
-    0 0,
-    47px 83px,
-    113px 61px,
-    29px 137px;
-  opacity: .32;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
   pointer-events: none;
+  z-index: 0;
 }
 
-/* Sparse bright accent stars — occasional bright points */
-.landing-bg-grid {
-  position: absolute;
-  inset: 0;
-  background-image:
-    radial-gradient(circle, rgba(255,255,255,.7) 1px, transparent 1.5px),
-    radial-gradient(circle, rgba(93,184,255,.5) 1px, transparent 1.5px);
-  background-size: 311px 293px, 397px 367px;
-  background-position: 67px 43px, 149px 191px;
-  opacity: .18;
-  mask-image: radial-gradient(ellipse 90% 80% at 50% 45%, rgba(0,0,0,.7) 0%, transparent 100%);
-  -webkit-mask-image: radial-gradient(ellipse 90% 80% at 50% 45%, rgba(0,0,0,.7) 0%, transparent 100%);
-  pointer-events: none;
+/* Cosmic residue — energy micro-traces along the beam */
+.beam-residue {
+  animation: beam-residue-flicker 3.5s ease-in-out infinite alternate both;
+}
+
+@keyframes beam-residue-flicker {
+  0%   { opacity: 0.04; }
+  55%  { opacity: 0.22; }
+  100% { opacity: 0.06; }
 }
 
 /* ── Hero: eyebrow pill ── */
