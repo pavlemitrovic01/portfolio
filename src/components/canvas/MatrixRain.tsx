@@ -1,7 +1,12 @@
 import { useEffect, useRef } from 'react'
 import { useReducedMotion } from 'framer-motion'
 
-const MatrixRain: React.FC = () => {
+interface MatrixRainProps {
+  /** Column divisor — higher value = fewer columns = lower density. Default 14 (terminal). Use 23 for CL3 background. */
+  columnDivisor?: number
+}
+
+const MatrixRain: React.FC<MatrixRainProps> = ({ columnDivisor = 14 }) => {
   const reduceMotion = useReducedMotion() === true
   const canvasRef = useRef<HTMLCanvasElement>(null)
   useEffect(() => {
@@ -14,7 +19,7 @@ const MatrixRain: React.FC = () => {
     canvas.height = window.innerHeight
     const chars = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ<>{}[]|/\\+=~^%$#@!?'
     const fontSize = 14
-    const cols = Math.floor(canvas.width / fontSize)
+    const cols = Math.floor(canvas.width / columnDivisor)
     const drops: number[] = Array(cols).fill(1)
     let animId: number
     let paused = false
@@ -72,8 +77,8 @@ const MatrixRain: React.FC = () => {
       cancelAnimationFrame(animId)
       document.removeEventListener('visibilitychange', onVisibilityChange)
     }
-  }, [reduceMotion])
-  return <canvas ref={canvasRef} className="matrix-canvas" aria-hidden />
+  }, [reduceMotion, columnDivisor])
+  return <canvas ref={canvasRef} className="matrix-canvas" aria-hidden="true" />
 }
 
 export default MatrixRain

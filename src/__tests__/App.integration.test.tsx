@@ -7,13 +7,19 @@ import App from '../App'
 
 vi.mock('framer-motion', async () => {
   const { createElement } = await import('react')
+  const motionEl = (tag: string) =>
+    ({ children, ...rest }: React.HTMLAttributes<HTMLElement>) =>
+      createElement(tag, rest as React.HTMLAttributes<HTMLElement>, children)
   return {
     motion: {
-      div: ({ children, ...rest }: React.HTMLAttributes<HTMLDivElement>) =>
-        createElement('div', rest as React.HTMLAttributes<HTMLDivElement>, children),
+      div: motionEl('div'),
+      h1: motionEl('h1'),
+      p: motionEl('p'),
     },
     AnimatePresence: ({ children }: { children: React.ReactNode }) => children,
     useReducedMotion: vi.fn(() => null),
+    useScroll: vi.fn(() => ({ scrollYProgress: { get: () => 0 } })),
+    useTransform: vi.fn(() => 0),
   }
 })
 
@@ -33,37 +39,21 @@ vi.mock('../components/sections/Contact', async () => {
   const { createElement } = await import('react')
   return { default: () => createElement('div', { 'data-testid': 'contact' }) }
 })
-vi.mock('../components/sections/HeroCl3menza', async () => {
+vi.mock('../components/sections/Arrival', async () => {
   const { createElement } = await import('react')
-  return { default: () => createElement('div', { 'data-testid': 'hero-cl3menza' }) }
+  return { default: () => createElement('div', { 'data-testid': 'arrival' }) }
 })
-vi.mock('../components/sections/Systems', async () => {
+vi.mock('../components/sections/PullQuote', async () => {
   const { createElement } = await import('react')
-  return { default: () => createElement('div', { 'data-testid': 'systems' }) }
+  return { default: () => createElement('div', { 'data-testid': 'pull-quote' }) }
 })
-vi.mock('../components/sections/Projects', async () => {
+vi.mock('../components/sections/TheBuild', async () => {
   const { createElement } = await import('react')
-  return { default: () => createElement('div', { 'data-testid': 'projects' }) }
+  return { default: () => createElement('div', { 'data-testid': 'the-build' }) }
 })
-vi.mock('../components/sections/Flagship', async () => {
+vi.mock('../components/sections/TheSystem', async () => {
   const { createElement } = await import('react')
-  return { default: () => createElement('div', { 'data-testid': 'flagship' }) }
-})
-vi.mock('../components/sections/AnatomyOfBuild', async () => {
-  const { createElement } = await import('react')
-  return { default: () => createElement('div', { 'data-testid': 'anatomy' }) }
-})
-vi.mock('../components/sections/Process', async () => {
-  const { createElement } = await import('react')
-  return { default: () => createElement('div', { 'data-testid': 'process' }) }
-})
-vi.mock('../components/sections/Stack', async () => {
-  const { createElement } = await import('react')
-  return { default: () => createElement('div', { 'data-testid': 'stack' }) }
-})
-vi.mock('../components/sections/Testimonials', async () => {
-  const { createElement } = await import('react')
-  return { default: () => createElement('div', { 'data-testid': 'testimonials' }) }
+  return { default: () => createElement('div', { 'data-testid': 'the-system' }) }
 })
 
 vi.mock('../hooks/useParallax', () => ({ useParallax: vi.fn() }))
@@ -94,7 +84,7 @@ describe('App — initial render', () => {
   it('renders landing scene in normal mode', () => {
     render(<App />)
     expect(screen.getByTestId('landing-scene')).toBeInTheDocument()
-    expect(screen.queryByTestId('systems')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('arrival')).not.toBeInTheDocument()
   })
 
   it('renders contact regardless of mode', () => {
@@ -128,7 +118,7 @@ describe('App — cl3menza mode activation', () => {
       await vi.advanceTimersByTimeAsync(BOOT_MS)
     })
 
-    expect(screen.getByTestId('systems')).toBeInTheDocument()
+    expect(screen.getByTestId('arrival')).toBeInTheDocument()
     expect(document.querySelector('.cl3-subtree--active')).toBeInTheDocument()
   })
 
@@ -171,8 +161,8 @@ describe('App — cl3menza mode deactivation', () => {
 
     // cl3 subtree stays mounted but hidden (continuous scroll architecture)
     expect(document.querySelector('.cl3-subtree--hidden')).toBeInTheDocument()
-    // sections still in DOM, just visually hidden
-    expect(screen.getByTestId('systems')).toBeInTheDocument()
+    // chambers still in DOM, just visually hidden
+    expect(screen.getByTestId('arrival')).toBeInTheDocument()
     // landing scene still visible
     expect(screen.getByTestId('landing-scene')).toBeInTheDocument()
   })

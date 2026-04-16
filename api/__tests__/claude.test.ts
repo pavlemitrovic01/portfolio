@@ -1,6 +1,7 @@
 /// <reference types="vitest/globals" />
 import type { VercelRequest, VercelResponse } from '@vercel/node'
-import handler, { validateBody, isRateLimited, _resetRateLimitMap, sanitizeAnthropicResponse, SYSTEM_PROMPT } from '../claude'
+import handler, { validateBody, isRateLimited, _resetRateLimitMap, sanitizeAnthropicResponse } from '../claude'
+import { SYSTEM_PROMPT } from '../constants'
 
 // --- Helpers ---
 

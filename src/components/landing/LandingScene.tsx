@@ -14,14 +14,10 @@ interface LandingSceneProps {
 }
 
 const prefetchCl3menzaChunks = () => {
-  import('../sections/HeroCl3menza')
-  import('../sections/Systems')
-  import('../sections/Projects')
-  import('../sections/Flagship')
-  import('../sections/AnatomyOfBuild')
-  import('../sections/Process')
-  import('../sections/Stack')
-  import('../sections/Testimonials')
+  import('../sections/Arrival')
+  import('../sections/PullQuote')
+  import('../sections/TheBuild')
+  import('../sections/TheSystem')
 }
 
 export default function LandingScene({ cl3menzaMode }: LandingSceneProps) {

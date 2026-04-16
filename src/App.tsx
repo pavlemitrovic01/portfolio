@@ -9,14 +9,10 @@ import { subscribeCl3BodyClassMutations, getCl3menzaBodyClass } from './hooks/us
 import { useTerminalBoot } from './hooks/useTerminalBoot'
 import MatrixRain from './components/canvas/MatrixRain'
 
-const HeroCl3menza = lazy(() => import('./components/sections/HeroCl3menza'))
-const Systems = lazy(() => import('./components/sections/Systems'))
-const Projects = lazy(() => import('./components/sections/Projects'))
-const Flagship = lazy(() => import('./components/sections/Flagship'))
-const AnatomyOfBuild = lazy(() => import('./components/sections/AnatomyOfBuild'))
-const Process = lazy(() => import('./components/sections/Process'))
-const Stack = lazy(() => import('./components/sections/Stack'))
-const Testimonials = lazy(() => import('./components/sections/Testimonials'))
+const Arrival = lazy(() => import('./components/sections/Arrival'))
+const PullQuote = lazy(() => import('./components/sections/PullQuote'))
+const TheBuild = lazy(() => import('./components/sections/TheBuild'))
+const TheSystem = lazy(() => import('./components/sections/TheSystem'))
 
 export default function App() {
   useParallax()
@@ -37,22 +33,24 @@ export default function App() {
       <LandingScene cl3menzaMode={cl3menzaMode} />
 
       {hasActivated && (
-        <div
-          className={`cl3-subtree ${cl3menzaMode ? 'cl3-subtree--active' : 'cl3-subtree--hidden'}`}
-          aria-hidden={!cl3menzaMode || undefined}
-          inert={!cl3menzaMode || undefined}
-        >
-          <Suspense fallback={<div className="lazy-fallback" />}>
-            <HeroCl3menza />
-            <Systems />
-            <Projects />
-            <Flagship />
-            <AnatomyOfBuild />
-            <Process />
-            <Stack />
-            <Testimonials />
-          </Suspense>
-        </div>
+        <>
+          <div
+            className={`cl3-atmosphere${cl3menzaMode ? ' cl3-atmosphere--active' : ''}`}
+            aria-hidden="true"
+          />
+          <div
+            className={`cl3-subtree ${cl3menzaMode ? 'cl3-subtree--active' : 'cl3-subtree--hidden'}`}
+            aria-hidden={!cl3menzaMode || undefined}
+            inert={!cl3menzaMode || undefined}
+          >
+            <Suspense fallback={<div className="lazy-fallback" />}>
+              <Arrival />
+              <PullQuote />
+              <TheBuild />
+              <TheSystem />
+            </Suspense>
+          </div>
+        </>
       )}
 
       <Contact />

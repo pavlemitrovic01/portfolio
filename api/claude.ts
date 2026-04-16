@@ -1,8 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 import { ANTHROPIC_MODEL, MAX_TOKENS, SYSTEM_PROMPT } from './constants'
 
-export { SYSTEM_PROMPT }
-
 // --- CORS ---
 const ALLOWED_ORIGINS = [
   'https://cl3menza.com',

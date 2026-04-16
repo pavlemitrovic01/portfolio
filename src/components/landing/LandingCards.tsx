@@ -34,6 +34,8 @@ interface CardData {
   headline: string
   body: string
   image?: string  // Layer 1 — inner visual content (screenshot asset)
+  imgW?: number
+  imgH?: number
 }
 
 const CARDS: readonly CardData[] = [
@@ -43,6 +45,7 @@ const CARDS: readonly CardData[] = [
     headline: 'The First Pull',
     body: 'My first real connection to development started when I was around 12, running Counter-Strike servers and paying attention to the part most players never think about. I was not only interested in playing the game — I kept getting pulled toward plugins, server behavior, and the way gameplay could be shaped from behind the scenes. On COD, Public, Deathmatch servers, I was already editing and adjusting parts of the experience because I wanted more than just the default version of things. That was the beginning: not just enjoying systems, but wanting to understand them, change them, and make them feel better.',
     image: '/card-systems.webp',
+    imgW: 1200, imgH: 799,
   },
   {
     side: 'left',
@@ -50,6 +53,7 @@ const CARDS: readonly CardData[] = [
     headline: 'Obsession as Method',
     body: 'After those servers were gone, that same curiosity followed me into Minecraft. I kept noticing broken logic, strange plugin behavior, bugs in scripts, and all the hidden parts of a server that most people never look at. I was the type to chase the exact script, open it up, and stay with the problem until I understood what was actually wrong. At one point, I spent an entire month fixing a single issue because I refused to leave it half-understood. That persistence eventually led me into a server\'s development team, where programming stopped being something distant and started becoming something real.',
     image: '/card-coding.webp',
+    imgW: 1200, imgH: 799,
   },
   {
     side: 'right',
@@ -57,6 +61,7 @@ const CARDS: readonly CardData[] = [
     headline: 'Life Interrupted',
     body: 'Later, life went in a different direction. I finished culinary school, started working, and slowly drifted away from programming and development as a daily part of my life. Work took over, time disappeared, and for a while that side of me stayed in the background. But the instinct never really left. Even while doing other jobs, there was always a part of me that wanted to return to building, solving, and working on something that depended on logic, discipline, and my own standards instead of routine.',
     image: '/card-builder.webp',
+    imgW: 1200, imgH: 438,
   },
   {
     side: 'left',
@@ -64,6 +69,7 @@ const CARDS: readonly CardData[] = [
     headline: 'Back With Proof',
     body: 'That comeback happened when I finally reached the point where I knew I did not want to build my life around average work and average outcomes. I left my job, tried recruiting, realized it was not my path, and came back to programming with real intent. I sat down at my computer and made a simple decision: I would not get up until I had built something real. Twenty-seven hours later, I had the first serious foundation of what would become padrinobudva.com. About a month and a half later, it was live — with a working ordering flow, admin system, and Bankart payment integration. That project mattered because it turned everything into proof.',
     image: '/card-product-thinking.webp',
+    imgW: 1200, imgH: 799,
   },
 ]
 
@@ -122,7 +128,7 @@ function JCard({ card, top, orbProgress }: JCardProps) {
       {/* Layer 1 — inner visual content (screenshot) */}
       {card.image && (
         <div className="jcard-visual" aria-hidden="true">
-          <img src={card.image} alt="" loading="lazy" width="800" height="600" />
+          <img src={card.image} alt="" loading="lazy" width={card.imgW ?? 1200} height={card.imgH ?? 799} />
         </div>
       )}
 

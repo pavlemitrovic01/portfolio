@@ -169,9 +169,8 @@ body.cl3menza-mode {
 }
 body.cl3menza-mode::after {
   background:
-    radial-gradient(circle at 22% 26%, rgba(120,255,240,.18), transparent 22%),
-    radial-gradient(circle at 76% 62%, rgba(198,120,255,.14), transparent 20%),
-    radial-gradient(circle at 52% 18%, rgba(255,120,196,.10), transparent 18%);
+    radial-gradient(circle at 22% 26%, rgba(120,255,240,.10), transparent 22%),
+    radial-gradient(circle at 76% 62%, rgba(198,120,255,.08), transparent 20%);
 }
 body.cl3menza-mode header {
   background: rgba(2,4,8,.72);
@@ -183,9 +182,6 @@ body.cl3menza-mode .ticker {
 body.cl3menza-mode .ticker span::before {
   color: var(--cyan);
 }
-body.cl3menza-mode .tile {
-  background: rgba(8,18,32,.6);
-}
 body.cl3menza-mode .button.primary {
   background: linear-gradient(135deg, rgba(120,255,240,.22), rgba(198,120,255,.18));
   border-color: rgba(120,255,240,.35);
@@ -196,56 +192,60 @@ body.cl3menza-mode .button {
   border-color: rgba(120,255,240,.2);
   color: rgba(120,255,240,.8);
 }
-body.cl3menza-mode .trust-stats {
-  border-color: rgba(120,255,240,.12);
-  background: rgba(120,255,240,.03);
+
+/* ─── MEGA-R1: Atmosphere Foundation ─────────────────────────────── */
+
+/* Portal compression — landing elements fade when CL3 is active */
+body.cl3menza-mode .landing-bg {
+  opacity: 0;
+  transition: opacity 0.6s ease-out;
 }
-body.cl3menza-mode .trust-stat-num {
-  color: #78fff0;
+body.cl3menza-mode #particles {
+  opacity: 0;
+  transition: opacity 0.5s ease-out;
 }
-body.cl3menza-mode .cta-card {
-  background: linear-gradient(135deg, rgba(8,18,32,.9), rgba(12,6,24,.9));
-  border-color: rgba(120,255,240,.15);
+
+/* Z-index — CL3 content above fixed atmosphere layers */
+body.cl3menza-mode .cl3-subtree {
+  position: relative;
+  z-index: 1;
 }
-body.cl3menza-mode .process-step .step {
-  color: #78fff0;
+body.cl3menza-mode #contact {
+  position: relative;
+  z-index: 1;
 }
-body.cl3menza-mode .hero-visual {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  padding-top: 28px;
-  min-height: calc(100vh - 160px);
+
+/* CL3 atmosphere — fixed multi-layer environment */
+.cl3-atmosphere {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0;
+  transition: opacity 0.65s ease-out;
 }
-body.cl3menza-mode .hv-iframe-wrap {
-  box-shadow:
-    0 0 0 1px rgba(120,255,240,.08),
-    0 0 48px rgba(120,255,240,.10),
-    0 0 90px rgba(120,255,240,.05);
+.cl3-atmosphere--active {
+  opacity: 1;
 }
-body.cl3menza-mode .hv-chat {
-  position: static;
-  top: auto;
-  left: auto;
-  transform: none;
-  max-width: 100%;
-  width: 100%;
-  border-color: rgba(120,255,240,.18);
-  box-shadow: 0 0 32px rgba(120,255,240,.14), inset 0 1px 0 rgba(120,255,240,.06);
+
+/* Single off-center directional glow — top-left, no blur filter */
+.cl3-atmosphere::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 55% 50% at -5% 22%, rgba(120,255,240,0.07) 0%, transparent 100%);
 }
-body.cl3menza-mode .aside-list div {
-  border-color: rgba(120,255,240,.1);
-  color: rgba(120,255,240,.8);
+
+/* Radial vignette — edge darkening for enclosure */
+.cl3-atmosphere::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 85% 80% at 50% 40%, transparent 60%, rgba(2,4,8,0.22) 100%);
 }
-body.cl3menza-mode .tile-icon {
-  color: #78fff0;
-  background: linear-gradient(135deg, rgba(120,255,240,.12), rgba(198,120,255,.1));
-  border-color: rgba(120,255,240,.15);
-}
-body.cl3menza-mode .trust-pills span {
-  border-color: rgba(120,255,240,.12);
-  background: rgba(120,255,240,.05);
-}
+
 
 @media (prefers-reduced-motion: reduce) {
   html {
@@ -271,5 +271,14 @@ body.cl3menza-mode .trust-pills span {
   .reveal {
     opacity: 1;
     transform: none;
+  }
+
+  /* MEGA-R1: disable CL3 atmosphere transitions */
+  .cl3-atmosphere {
+    transition: none;
+  }
+  body.cl3menza-mode .landing-bg,
+  body.cl3menza-mode #particles {
+    transition: none;
   }
 }
