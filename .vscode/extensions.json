@@ -1,0 +1,14 @@
+{
+  "recommendations": [
+    // Required — vitest runner in sidebar
+    "vitest.explorer",
+    // Optional — inline color swatches in CSS files
+    "naumovs.color-highlight",
+    // Optional — autocomplete + peek for CSS custom properties (var(--)
+    "vunguyentuan.vscode-css-variables"
+  ],
+  "unwantedRecommendations": [
+    "GitHub.copilot",
+    "GitHub.copilot-chat"
+  ]
+}

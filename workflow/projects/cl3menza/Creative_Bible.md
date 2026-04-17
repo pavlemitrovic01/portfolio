@@ -1,8 +1,13 @@
 # CREATIVE BIBLE — cl3menza.com Portfolio
 
-> Source-of-truth kreativni i execution dokument.
-> Nije brainstorm. Nije lista ideja. Ovo je radni plan do finala.
+> Source-of-truth kreativni dokument za globalni identitet, landing pravac i shared DNA.
 > Poslednji update: April 2026
+
+### Document Hierarchy
+
+- **Ovaj dokument (`Creative_Bible.md`)** — globalni source-of-truth za: identitet sajta, landing pravac, hard locks, premium taste, anti-goals, shared DNA (tipografija, color family, restraint principi). Važi za obe planete.
+- **`workflow/projects/cl3menza/CL3_Planet_Reconstruction_Master_Roadmap.md`** — source-of-truth za CL3 reconstruction: chamber arhitekturu, CL3 atmosferu, CL3-specific motion, CL3 content strukturu, execution plan.
+- **Na konflikt:** Gde Roadmap definiše CL3-specifične vrednosti koje se razlikuju od opštih pravila ovog dokumenta (easing, radius, prostorna fizika, duration range, chamber struktura), Roadmap ima prioritet za sav CL3 rad. Ovaj dokument ostaje autoritativan za landing i za shared/global pravila.
 
 ---
 
@@ -64,7 +69,7 @@ Ceo landing mora delovati kao jedna povezana scena.
 | Kartice | Narrative payload — recipient-i toka |
 | Quote | Editorial counterweight — manifestni stav |
 | Activation | Klimaks / handoff |
-| cl3menza mode | Ulazak u dublji sloj istog sistema |
+| cl3menza mode | Planeta 2 — inner core, underground megastructure, chamber-based descent. Druga fizika prostora istog kosmosa. Detalji → `CL3_Planet_Reconstruction_Master_Roadmap.md` |
 
 ### 1.4 CTA i hero odluke
 
@@ -336,15 +341,21 @@ Path i background moraju delovati kao da pripadaju istom fizičkom prostoru:
 
 **Ne sme:** da deluje kao jump scare · efekat radi efekta · gaming portal · prenaglašen bootup show
 
-### 7.5 CL3MENZA MODE
+### 7.5 CL3MENZA MODE — PLANETA 2
 
-**Cilj:** dublji sloj istog identiteta, ne nova stranica.
+**Cilj:** Druga planeta istog kosmosa. Ne dublji sloj — drugi svet sa drugom fizikom prostora.
 
-**Shift:** boje malo intenzivnije, grid vidljiviji, osećaj prelazi sa "cinematic storytelling" na "inside the system." Promena suptilna — pojačavanje postojeće, ne nova paleta.
+**Prostorni model:** Underground megastructure / deep-core citadel. Enclosed, dense, heavy. Chamber-based descent kroz 4 komore (Arrival → The Build → The System → Signal Out). Svaka komora ima sopstvenu atmosferu, glow source i svrhu.
+
+**Portal:** Compression point — ritual prelaza gde se fizika menja. Terminal boot + fragment explosion + atmospheric compression. Landing atmosfera (starfield, nebula, particles) se gasi; CL3 atmosfera (fog, directional glow, structural vignette) se pali.
+
+**Shared DNA:** Ista color family (cyan/blue/violet, shifted ka cyan-dominant), ista tipografija, isti premium restraint. Ali drugačiji radius (8–12px vs 22–30px), drugačiji easing za reveal-e, drugačija gustina prostora.
 
 **Terminal boot:** max 3 sekunde, tekst suv i funkcionalan, bez teatralnosti.
 
-**Ne sme:** da deluje kao drugi proizvod · previše kliše terminal/hacker · da gubi premium osećaj
+**Ne sme:** da deluje kao dashboard · services page · demo collage · grid dump · samo "pojačan mode" · drugi skin iste stranice
+
+> **Potpuni CL3 spec:** `workflow/projects/cl3menza/CL3_Planet_Reconstruction_Master_Roadmap.md`
 
 ---
 
@@ -372,11 +383,17 @@ bounce · previše scale · rotating gimmicks · random pulsing svuda · hover s
 
 ### 8.5 Easing pravilo
 
+**Landing i globalno:**
 - Reveal-ovi: `cubic-bezier(0.22, 1, 0.36, 1)` — već u upotrebi, ostaje
 - Scroll-driven: linearna progresija
 - Hover-i: brzi ease (0.22s)
 - Konzistentnost u easing-u daje osećaj jednog sistema
 - NIKADA spring physics na ovom sajtu
+
+**CL3-specific override:**
+- CL3 chamber reveal-i koriste teži gravity easing: `cubic-bezier(0.16, 1, 0.3, 1)` — sporija inicijalna akceleracija, duži deceleration tail. Daje osećaj težine i pritiska.
+- CL3 duration range: 0.7–1.2s (duže od landing-a). Hover i micro-interakcije ostaju na landing easing-u.
+- Detalji po komori → `CL3_Planet_Reconstruction_Master_Roadmap.md`, Section 9.
 
 ### 8.6 Pravilo istovremenog pokreta
 
@@ -406,7 +423,7 @@ builder mindset · systems thinking · product understanding · execution · uku
 | Journey kartice | Istinito, precizno, narativno kontrolisano |
 | Quote | Editorial, manifestno |
 | Activation | Težak poziv, ne prodajni pritisak |
-| cl3 mode | Dublje, sistemskije, operativnije |
+| cl3 mode | Dublje, sistemskije, monumentalnije, editorijalno. Chamber-specific ton → Roadmap Section 10 |
 
 ### 9.5 Card format pravac
 
@@ -433,7 +450,11 @@ Ne radimo NIKADA:
 
 ---
 
-## 11. EXECUTION ROADMAP — 5 MEGA-BATCH-EVA
+## 11. EXECUTION ROADMAP — LANDING ERA (Legacy / Completed)
+
+> **Napomena:** Ovih 5 MEGA batch-eva je izvršeno tokom landing build faze (MEGA 1–4 completed, MEGA 5 partially completed). Ovaj plan ostaje kao istorijski kontekst i referenca za landing-era odluke.
+>
+> **Aktivni execution plan za CL3 reconstruction** je sada: `workflow/projects/cl3menza/CL3_Planet_Reconstruction_Master_Roadmap.md` (batch-evi MEGA-R1 through Batch-R7).
 
 ### MEGA 1 — VISUAL ENGINE (Path + Orbovi + Atmosphere)
 
@@ -619,7 +640,7 @@ Svaki batch mora da prođe isti filter:
 - Pozadina je prostor, ne pattern
 - Hero ima prisustvo
 - Activation ima težinu
-- cl3 mode je isti univerzum, dublji sloj
+- cl3 mode je druga planeta istog kosmosa (detaljna done definicija → `CL3_Planet_Reconstruction_Master_Roadmap.md`, Section 14)
 
 ### Motion
 - Ništa ne deluje random
