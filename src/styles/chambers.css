@@ -370,7 +370,12 @@
 
 /* ── Signal Out ── */
 .signal-out {
-  padding: 8rem 24px 6rem;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 24px;
   text-align: center;
 }
 .signal-out h2 {
@@ -423,6 +428,18 @@
     justify-content: flex-start;
   }
   .build-flow-connector {
+    display: none;
+  }
+  .the-system {
+    padding: 3rem 0;
+  }
+  .system-head h2 {
+    font-size: clamp(1.5rem, 6vw, 2.2rem);
+  }
+  .system-capabilities {
+    gap: 20px;
+  }
+  .matrix-canvas {
     display: none;
   }
 }
