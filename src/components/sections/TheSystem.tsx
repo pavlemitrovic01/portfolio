@@ -21,7 +21,7 @@ const CAPABILITIES = [
 
 export default function TheSystem() {
   return (
-    <section className="the-system">
+    <section id="the-system" className="the-system">
       <div className="container">
         <MotionReveal>
           <div className="system-head">

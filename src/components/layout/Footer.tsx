@@ -34,11 +34,9 @@ export default function Footer() {
           </div>
           {cl3menzaMode && (
             <nav className="footer-nav" aria-label="Footer navigation">
-              <a href="#offers">Systems</a>
-              <a href="#projects">Projects</a>
-              <a href="#project">Flagship</a>
-              <a href="#anatomy">Anatomy</a>
-              <a href="#process">Process</a>
+              <a href="#arrival">Arrival</a>
+              <a href="#the-build">The Build</a>
+              <a href="#the-system">The System</a>
               <a href="#contact">Contact</a>
             </nav>
           )}

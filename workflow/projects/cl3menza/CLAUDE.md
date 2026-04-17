@@ -76,21 +76,27 @@ LOCK = planski, STANDARD/STRICT tier, jači verify, bez usputnih promena.
 
 ---
 
-## Current status (2026-04-16)
+## Current status (2026-04-17)
 
 **Fokus:** CL3 Planet Reconstruction
-**Poslednji završen:** R4a — The Build (bez screenshotova) — CLOSED (57/57 tests ✓, build 1.79s ✓, vizuelni verify ✓)
+**Poslednji završen:** Workflow cleanup + Final Clean batch — CLOSED
 **Aktivni plan:** `CL3_Planet_Reconstruction_Master_Roadmap.md`
 
-**Sledeći korak:** R4b — The Build screenshotovi
-- **BLOCKER:** Potrebni realni screenshotovi padrinobudva.com (menu flow + admin dashboard, WebP, 16:9)
-- Kad stignu: ubaci u `build-frame` kao `<img>`, aktiviraj aperture clip-path reveal, vizuelni verify
+**Workflow setup — završeno:**
+- workflow/ sistema inicijalizovana u repou (SYSTEM.md, AI_RULES.md, projekat config, templates)
+- .cursor/ uklonjen, .gitignore hardened, .claude/settings.local.json alignovan
+- Header/Footer nav alignovan sa CL3 sekcijama (#arrival, #the-build, #the-system, #contact)
+- section id-jevi dodati: Arrival, TheBuild, TheSystem
 
-**Urađeno u R4a:**
+**R4a — The Build (bez screenshotova) — CLOSED:**
 - Block A: weighted reveal (0.8s, gravity easing, translateY 30px)
 - Block B: CL3 frame sistem (16:9, cyan border, opaque panel, aperture shell pripremljen)
 - Block C: stagger reveal po momentu (0.7s, 0.28s stagger, gravity easing) + reduced-motion fix
 - Block D: sekvencijalna aktivacija flow nodova + connector line-draw reveal + reduced-motion fix
+
+**Sledeći korak:** R4b ili R5 (bez blocker-a)
+- **R4b BLOCKER:** Potrebni realni screenshotovi padrinobudva.com (menu flow + admin dashboard, WebP, 16:9)
+- **R5 — The System + Signal Out:** može odmah, bez blocker-a
 
 **Pending (van CL3 reconstruction):**
 - Batch P-Images: 15.8MB PNG → WebP (kritično za performance)
@@ -98,5 +104,6 @@ LOCK = planski, STANDARD/STRICT tier, jači verify, bez usputnih promena.
 - Batch P-Content: Finalni copy + pravi URL-ovi (čeka Pavlov input)
 - Batch P-API: CORS, system prompt server-side, Redis rate limiting
 - Config: cl3menza.com domain + GA4 real ID
+- **⚠️ MANUAL:** Pavle mora da rotira ANTHROPIC_API_KEY — .env bio u ZIP-u koji je uploadovan
 
 > Ažuriraj ovo na kraju SVAKE sesije.

@@ -55,7 +55,7 @@ export default function TheBuild() {
   const reduceMotion = useReducedMotion() === true
 
   return (
-    <section className="the-build">
+    <section id="the-build" className="the-build">
       <div className="container">
 
         {/* Block A — Context */}

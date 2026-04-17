@@ -43,11 +43,9 @@ export default function Header() {
               className={`topbar-nav${menuOpen ? ' is-open' : ''}`}
               aria-label="Main navigation"
             >
-              <a href="#offers" onClick={closeMenu}>Systems</a>
-              <a href="#projects" onClick={closeMenu}>Projects</a>
-              <a href="#project" onClick={closeMenu}>Flagship</a>
-              <a href="#anatomy" onClick={closeMenu}>Anatomy</a>
-              <a href="#process" onClick={closeMenu}>Process</a>
+              <a href="#arrival" onClick={closeMenu}>Arrival</a>
+              <a href="#the-build" onClick={closeMenu}>The Build</a>
+              <a href="#the-system" onClick={closeMenu}>The System</a>
               <a href="#contact" onClick={closeMenu}>Contact</a>
             </nav>
           </>

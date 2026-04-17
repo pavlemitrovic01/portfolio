@@ -8,7 +8,7 @@ export default function Arrival() {
   const reduceMotion = useReducedMotion() === true
 
   return (
-    <section className="arrival">
+    <section id="arrival" className="arrival">
       {/* Identity — exposure-from-darkness: slow emerge, then settle */}
       <motion.h1
         className="arrival-identity"
