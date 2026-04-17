@@ -107,18 +107,8 @@
   .grid-4,.grid-6{gap:12px}
   .tile--trigger .tile-trigger-hint{opacity:1}
 
-  /* Hero visual / cl3menza chat — touch targets + iOS input zoom */
-  .hv-send{
-    width:44px;
-    height:44px;
-    min-width:44px;
-    min-height:44px;
-  }
-  .hv-input-field{font-size:16px}
-
   /* Hero visual */
   .hero-visual{min-height:420px;overflow:hidden}
-  .hv-badge-status, .hv-stack-pills { top: 0; font-size: 11px; padding: 6px 10px; }
   /* Flagship */
   .project-stage{min-height:auto}
   .project-highlight{min-height:auto;padding:16px}
