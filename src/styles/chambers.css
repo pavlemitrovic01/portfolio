@@ -185,7 +185,7 @@
 }
 .build-context {
   max-width: 720px;
-  margin-bottom: 48px;
+  margin-bottom: 56px;
 }
 .build-context h2 {
   font-family: "Space Grotesk", sans-serif;
@@ -194,6 +194,7 @@
   line-height: 0.95;
   letter-spacing: -0.05em;
   margin-bottom: 16px;
+  color: var(--text);
 }
 .build-context p {
   font-size: 17px;
@@ -210,37 +211,49 @@
 .build-context a:hover {
   opacity: 1;
 }
+/* Screenshot frame system — CL3 panel treatment (images arrive in R4b) */
 .build-visuals {
   display: grid;
   gap: 16px;
-  margin-bottom: 56px;
+  margin-bottom: 64px;
 }
-.build-screenshot {
+.build-frame {
   aspect-ratio: 16 / 9;
   border-radius: 10px;
-  border: 1px solid var(--line);
-  background: var(--panel);
+  border: 1px solid rgba(120, 255, 240, 0.13);
+  background: rgba(8, 18, 32, 0.88);
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(120, 255, 240, 0.04);
+  overflow: hidden;
+  clip-path: inset(0% 0% 0% 0%);
+}
+.build-frame-inner {
+  width: 100%;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--muted);
-  font-size: 13px;
-  font-family: "Space Grotesk", monospace;
-  letter-spacing: 0.06em;
-  opacity: 0.5;
+  background: linear-gradient(135deg, rgba(8, 24, 40, 0.4) 0%, rgba(4, 12, 24, 0.7) 100%);
 }
+.build-frame-label {
+  font-size: 11px;
+  font-family: "Space Grotesk", monospace;
+  letter-spacing: 0.12em;
+  color: rgba(120, 255, 240, 0.18);
+  text-transform: uppercase;
+}
+/* Key moments */
 .build-moments {
   display: flex;
   flex-direction: column;
   gap: 36px;
-  margin-bottom: 56px;
+  margin-bottom: 64px;
 }
 .build-moment h3 {
   font-family: "Space Grotesk", sans-serif;
   font-size: clamp(1rem, 2vw, 1.25rem);
   font-weight: 600;
   letter-spacing: -0.02em;
-  margin-bottom: 6px;
+  margin-bottom: 8px;
   color: var(--text);
 }
 .build-moment p {
@@ -249,33 +262,41 @@
   color: rgba(245, 247, 251, 0.6);
   max-width: 600px;
 }
+/* Architecture flow — CL3 panel */
 .build-flow {
   display: flex;
   align-items: center;
-  gap: 0;
-  flex-wrap: wrap;
   justify-content: center;
-  padding: 32px 24px;
+  gap: 0;
+  padding: 32px 28px;
   border-radius: 10px;
-  border: 1px solid var(--line);
-  background: var(--panel);
+  border: 1px solid rgba(120, 255, 240, 0.1);
+  background: rgba(8, 18, 32, 0.72);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.build-flow::-webkit-scrollbar {
+  display: none;
 }
 .build-flow-node {
   padding: 12px 20px;
   border-radius: 8px;
-  border: 1px solid var(--line);
-  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(120, 255, 240, 0.12);
+  background: rgba(120, 255, 240, 0.04);
   font-family: "Space Grotesk", monospace;
   font-size: 13px;
   font-weight: 500;
-  color: var(--text);
+  color: rgba(245, 247, 251, 0.85);
   white-space: nowrap;
+  flex-shrink: 0;
 }
-.build-flow-arrow {
-  padding: 0 12px;
-  color: var(--muted);
-  font-size: 16px;
-  opacity: 0.35;
+.build-flow-connector {
+  height: 1px;
+  width: 44px;
+  flex-shrink: 0;
+  background: rgba(120, 255, 240, 0.2);
+  align-self: center;
 }
 
 /* ── The System ── */
@@ -382,11 +403,11 @@
     max-width: 100%;
   }
   .build-flow {
-    flex-direction: column;
+    flex-wrap: wrap;
     gap: 8px;
+    justify-content: flex-start;
   }
-  .build-flow-arrow {
-    transform: rotate(90deg);
-    padding: 4px 0;
+  .build-flow-connector {
+    display: none;
   }
 }
