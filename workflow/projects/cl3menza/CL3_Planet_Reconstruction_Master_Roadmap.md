@@ -1114,6 +1114,22 @@ Current CL3 uses `backdrop-filter: blur(10px)` on `.hv-badge-status` and `.hv-st
 
 ## 13. Execution Roadmap — Batch Logic
 
+### Batch Status (tracking — ažurirati po zatvaranju batch-a)
+
+| Batch | Status | Napomena |
+|-------|--------|---------|
+| MEGA-R1 — Atmosphere Foundation | DONE | — |
+| MEGA-R2 — Reduction & Restructure | DONE | — |
+| MEGA-R3 — Arrival Reconstruction | DONE | — |
+| MEGA-R4a — The Build (chamber structure) | DONE | — |
+| MEGA-R4b — The Build (screenshots + proof content) | **BLOCKED** | Pavle mora snimiti screenshotove padrinobudva.com. TheBuild.tsx nema img sadržaj. Block B, aperture reveal i final key moments čekaju. |
+| Batch-R5 — The System + Signal Out | DONE | — |
+| Batch-R6 — Polish + Performance | DONE (technical only) | Lighthouse 99/88, CLS/TBT/bundle ✅. TheBuild editorial content nije polirano — nije ni postojalo (R4b blocker). |
+| Batch-R7 Phase 1 — Mobile Layout + Reduced Motion | ACTIVE | Touch targets, screen reader, keyboard nav su van scope-a ove faze. |
+| Batch-R7 Phase 2 — Touch Targets + A11y | NOT STARTED | Zavisi od završetka R7 Phase 1. |
+
+---
+
 ### Batch Dependency Graph
 
 ```

@@ -140,6 +140,19 @@ Inače: pročitaj relevantne fajlove, ne rasipaj kontekst.
 
 Batch nije zatvoren bez verifikacije.
 
+### Verifikacioni tipovi (truth layer)
+
+Svaki verify result koji se upisuje u DONE report ili batch-log mora biti označen tipom:
+
+| Tip | Oznaka | Kada se koristi |
+|-----|--------|----------------|
+| Machine-verified | `PASS(machine)` | Build/typecheck output viđen i prošao u toj sesiji |
+| Human-verified | `PASS(human)` | Pavle vizuelno potvrdio u toj sesiji |
+| AI-asserted | `AI-asserted` | AI pretpostavlja na osnovu prethodnog stanja, bez novog dokaza u sesiji |
+| Nije pokrenuto | `NIJE POKRENUTO` | Nije ni pokušano |
+
+**Zabrana:** ne pisati golo `PASS` bez tipa za build/typecheck. Ako output nije viđen u tekućoj sesiji → `AI-asserted` ili `NIJE POKRENUTO`, ne `PASS`.
+
 ---
 
 ## 10. Fail-fast pravilo

@@ -55,6 +55,7 @@ export default function ChatTerminal() {
       <div className="chat-terminal-input">
         <input
           className="chat-terminal-field"
+          aria-label="Ask about my work"
           placeholder="Ask about my work..."
           value={userInput}
           onChange={e => setUserInput(e.target.value)}

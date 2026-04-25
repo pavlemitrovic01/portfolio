@@ -813,8 +813,8 @@
   position: absolute;
   top: 16px;
   right: 16px;
-  width: 36px;
-  height: 36px;
+  width: 44px;  /* touch target ≥44px */
+  height: 44px; /* touch target ≥44px */
   border-radius: 50%;
   border: 1px solid rgba(255,255,255,.08);
   background: rgba(255,255,255,.04);
@@ -829,6 +829,10 @@
   background: rgba(255,255,255,.08);
   color: rgba(245,247,251,.85);
   border-color: rgba(255,255,255,.14);
+}
+.si-close:focus-visible {
+  outline: 2px solid #78fff0;
+  outline-offset: 2px;
 }
 
 .si-eyebrow {

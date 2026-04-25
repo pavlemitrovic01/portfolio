@@ -106,6 +106,10 @@ function JCard({ card, top, orbProgress }: JCardProps) {
   const isRight = card.side === 'right'
   const reduceMotion = useReducedMotion() === true
   const [revealed, setRevealed] = useState(false)
+  // At ≤1080px the CSS switches jcards to position:relative (flow layout).
+  // The CSS `transform: none` rule can't override FM's inline style,
+  // so we disable the vertical centering offset in JavaScript instead.
+  const isFlowLayout = typeof window !== 'undefined' && window.matchMedia('(max-width: 1080px)').matches
 
   // Delayed entry: connector draws first (0→0.45), card follows (0.45→0.95)
   const opacityMotion = useTransform(orbProgress, [0.45, 0.95], [0, 1])
@@ -120,7 +124,7 @@ function JCard({ card, top, orbProgress }: JCardProps) {
       className={`jcard jcard--${card.side}${card.image ? ' jcard--has-visual' : ''}${revealed ? ' jcard--revealed' : ''}`}
       style={{
         top,
-        y: '-50%',
+        y: isFlowLayout ? 0 : '-50%',
         opacity: reduceMotion ? 1 : revealed ? 1 : opacityMotion,
         x: reduceMotion ? 0 : revealed ? 0 : xMotion,
       }}

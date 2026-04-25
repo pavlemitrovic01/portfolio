@@ -123,16 +123,21 @@
   border: none;
   outline: none;
   color: var(--muted);
-  font-size: 13px;
+  font-size: 16px; /* ≥16px prevents iOS auto-zoom on focus */
   font-family: inherit;
 }
 .chat-terminal-field::placeholder {
   color: var(--muted);
   opacity: 0.5;
 }
+.chat-terminal-field:focus-visible {
+  outline: 2px solid #78fff0;
+  outline-offset: 2px;
+  border-radius: 3px;
+}
 .chat-terminal-send {
-  width: 30px;
-  height: 30px;
+  width: 44px;  /* touch target ≥44px */
+  height: 44px; /* touch target ≥44px */
   border-radius: 50%;
   background: rgba(120, 255, 240, 0.12);
   border: 1px solid rgba(120, 255, 240, 0.2);
@@ -147,6 +152,14 @@
 }
 .chat-terminal-send:hover {
   background: rgba(120, 255, 240, 0.2);
+}
+.chat-terminal-send:focus-visible {
+  outline: 2px solid #78fff0;
+  outline-offset: 2px;
+}
+.signal-out-cta:focus-visible {
+  outline: 2px solid #78fff0;
+  outline-offset: 3px;
 }
 
 /* ── Pull Quote ── */
@@ -410,6 +423,18 @@
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3), 0 0 24px rgba(120, 255, 240, 0.12);
 }
 
+/* ── Tablet (769–1024px) ── */
+@media (max-width: 1024px) {
+  /* TheBuild — step between 6rem desktop and 3rem mobile */
+  .the-build {
+    padding: 4rem 0;
+  }
+  /* Pull Quote — reduce vh hold on tablet viewports */
+  .pull-quote {
+    padding: 8vh 24px 10vh;
+  }
+}
+
 /* ── Mobile ── */
 @media (max-width: 768px) {
   .arrival-identity {
@@ -420,7 +445,26 @@
     padding: 0 8px;
   }
   .chat-terminal {
-    max-width: 100%;
+    /* min() preserves 480px cap at tablet boundary — prevents 720px expansion at 768px */
+    max-width: min(480px, 100%);
+  }
+  /* Pull Quote — compress vh padding on small screens */
+  .pull-quote {
+    padding: 6vh 24px 8vh;
+  }
+  /* The Build — match the-system mobile rhythm */
+  .the-build {
+    padding: 3rem 0;
+  }
+  .build-context {
+    margin-bottom: 32px;
+  }
+  .build-visuals {
+    margin-bottom: 40px;
+  }
+  .build-moments {
+    gap: 24px;
+    margin-bottom: 40px;
   }
   .build-flow {
     flex-wrap: wrap;
@@ -430,6 +474,7 @@
   .build-flow-connector {
     display: none;
   }
+  /* The System */
   .the-system {
     padding: 3rem 0;
   }

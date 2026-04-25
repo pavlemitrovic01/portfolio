@@ -1,110 +1,40 @@
-# CLAUDE.md — cl3menza.com Portfolio
+# CLAUDE.md
 
-## OBAVEZNO NA POČETKU SVAKE SESIJE
-
-Pre bilo kakvog rada prvo pročitaj ova 3 fajla:
-
-1. `workflow/SYSTEM.md`
-2. `workflow/projects/cl3menza/CLAUDE.md`
-3. `workflow/AI_RULES.md`
-
-Ako bilo koji od ova 3 fajla ne postoji ili je u konfliktu sa realnim stanjem repoa:
-- STOP
-- prijavi tačan problem
-- ne nagađaj
+Bootstrap fajl. Nista vise.
 
 ---
 
-## ROOT ULOGA OVOG FAJLA
+## Na početku svake sesije pročitaj:
 
-Ovaj root `CLAUDE.md` je **bootstrap fajl** — ništa više.
+1. **`workflow/STATE.md`** — gde si i šta sledi (auto-injektuje se kroz session-bootstrap hook)
+2. **`workflow/RULES.md`** — kako radiš
+3. **`workflow/projects/[aktivni-projekat]/CONTEXT.md`** — projekat specifičnosti
 
-Njegova jedina uloga:
-- da te usmeri na aktivni workflow sistem
-- da definišu source-of-truth hijerarhiju
-- da spreči oslanjanje na stari keš, staru memoriju i zastarele dogovore
-
-Ovaj fajl **ne drži** detaljan current status, ključne fajlove, lock zone ni projektne istine.
-To sve živi u `workflow/projects/cl3menza/CLAUDE.md`.
+Aktivni projekat naveden je u STATE.md → "Aktivan projekat" → "Kontekst" polje.
 
 ---
 
-## SOURCE OF TRUTH
+## Source of truth
 
-Radi isključivo po sledećem redosledu:
+**Repo > dokumentacija > memorija.**
 
-1. **Trenutni repo kod**
-2. `workflow/SYSTEM.md`
-3. `workflow/projects/cl3menza/CLAUDE.md`
-4. `workflow/AI_RULES.md`
-
-Za CL3 rad dodatno važi:
-
-5. `workflow/projects/cl3menza/CL3_Planet_Reconstruction_Master_Roadmap.md`
-6. `workflow/projects/cl3menza/Creative_Bible.md`
-
-Pravilo:
-- **Repo > dokumentacija > memorija**
-- ne pretpostavljaj stanje fajlova bez čitanja
-- ne koristi staru sesijsku memoriju ako je u konfliktu sa realnim fajlovima
-
----
-
-## HIJERARHIJA
-
-- `workflow/SYSTEM.md` = master workflow entry point
-- `workflow/AI_RULES.md` = univerzalna AI pravila, batch pravila, zabrane, stop uslovi
-- `workflow/projects/cl3menza/CLAUDE.md` = projekat config, current status, lock zone, ključni fajlovi, aktivni fokus
-- `workflow/projects/cl3menza/CL3_Planet_Reconstruction_Master_Roadmap.md` = aktivni execution plan za CL3
-- `workflow/projects/cl3menza/Creative_Bible.md` = globalni identitet, landing pravac, hard locks, shared DNA
-
-Ako postoji konflikt za CL3:
-- Roadmap ima prioritet za CL3 execution
-- Creative_Bible ostaje autoritativan za globalni identitet i shared DNA (boja, tipografija, anti-ciljevi)
-
----
-
-## AKTIVNI PROJEKAT
-
-**Ime:** cl3menza.com portfolio
-**Stack:** React 19 + TypeScript + Vite + Framer Motion + Vercel
-**Production:** `https://portfolio-seven-eosin-21.vercel.app`
-
-Detaljan current status proveravaj u:
-→ `workflow/projects/cl3menza/CLAUDE.md`
-
----
-
-## SESSION PRAVILO
-
-Na početku sesije:
-1. pročitaj ovaj fajl
-2. pročitaj `workflow/SYSTEM.md`
-3. pročitaj `workflow/projects/cl3menza/CLAUDE.md`
-4. pročitaj `workflow/AI_RULES.md`
-5. tek onda radi
-
-Ako task dira CL3:
-- pročitaj i Roadmap
-
-Ako task dira vizuelni pravac:
-- pročitaj i Creative_Bible
-
----
-
-## LEGACY / ARCHIVE PRAVILO
-
-Ako u repou postoje stari `docs/` fajlovi ili arhive:
-- tretiraj ih kao **legacy / archive / backup**
-- ne tretiraj ih kao primarni aktivni workflow
-- ne proglašavaj ih obrisanim ako to nisi proverio u realnom repou
-
----
-
-## ZABRANA NAGAĐANJA
-
-Ako root fajl, workflow fajlovi, realni repo ili current status nisu međusobno usklađeni:
-
+Ako root fajl, workflow fajlovi, realni repo ili STATE.md nisu međusobno usklađeni:
 - STOP
 - prijavi tačan konflikt
 - ne nastavljaj na osnovu pretpostavke
+
+---
+
+## Skills
+
+- `/plan [opis taska]` — generiše batch plan (LEAN/STANDARD/STRICT)
+- `/close` — zatvara batch ili sesiju (LOG entry + STATE.md update)
+- `/doc-lens [roadmap|bible] [fokus]` — extraction iz velikih dokumenata
+
+Detalji u `workflow/RULES.md` sekcija 16.
+
+---
+
+## Legacy
+
+Stari workflow sistem živi u `workflow/_archive/`. Ne čitaj ga, ne referiraj ga, ne tretiraj kao aktivan.

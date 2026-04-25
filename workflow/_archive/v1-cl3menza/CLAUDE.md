@@ -61,6 +61,8 @@ Ne pretpostavljaj stanje fajlova bez čitanja. Repo > dokumentacija.
 
 LOCK = planski, STANDARD/STRICT tier, jači verify, bez usputnih promena.
 
+> ⚠ **SYNC REQUIRED:** Ova lista mora biti identična `LOCK_ZONE` arrayu u `~/.claude/hooks/lock-zone-check.js` — ako menjaš jedno, menjaj i drugo.
+
 ---
 
 ## Deep context dokumenti (čitaj samo kad task to zahteva)
@@ -71,39 +73,49 @@ LOCK = planski, STANDARD/STRICT tier, jači verify, bez usputnih promena.
 | Creative_Bible.md | Dizajn spec | Kad radiš na vizuelnom pravcu, dizajn odluke |
 | ROADMAP.md | Arhiva | Istorija Faza 1–5 batch-eva (završeno) |
 | LESSONS.md | Lekcije | Projekat-specifične lekcije iz ranijeg rada |
+| session-brief.md | **SESSION DASHBOARD** | Brzi snapshot stanja na početku sesije — aktivan batch, blocker, sledeći korak |
+| batch-log.md | **APPEND-ONLY ISTORIJA** | Kad trebaš istoriju batch-eva (zatvoreni, otvoreni, blokirani) |
+| BLOCKERS.md | **BLOCKER REGISTRY** | Kad identifikuješ ili zatvaraš blocker |
 
 > Ovo NISU runtime dokumenti. Ne čitaj ih na početku sesije. Čitaj kad task to zahteva.
+> **Izuzetak:** `session-brief.md` se čita na početku sesije ako trebaš brz kontekst umesto punog CLAUDE.md.
 
 ---
 
-## Current status (2026-04-17)
+## Current status (2026-04-19)
 
 **Fokus:** CL3 Planet Reconstruction
-**Poslednji završen:** Workflow cleanup + Final Clean batch — CLOSED
 **Aktivni plan:** `CL3_Planet_Reconstruction_Master_Roadmap.md`
 
-**Workflow setup — završeno:**
-- workflow/ sistema inicijalizovana u repou (SYSTEM.md, AI_RULES.md, projekat config, templates)
-- .cursor/ uklonjen, .gitignore hardened, .claude/settings.local.json alignovan
-- Header/Footer nav alignovan sa CL3 sekcijama (#arrival, #the-build, #the-system, #contact)
-- section id-jevi dodati: Arrival, TheBuild, TheSystem
+**Batch status:**
 
-**R4a — The Build (bez screenshotova) — CLOSED:**
-- Block A: weighted reveal (0.8s, gravity easing, translateY 30px)
-- Block B: CL3 frame sistem (16:9, cyan border, opaque panel, aperture shell pripremljen)
-- Block C: stagger reveal po momentu (0.7s, 0.28s stagger, gravity easing) + reduced-motion fix
-- Block D: sekvencijalna aktivacija flow nodova + connector line-draw reveal + reduced-motion fix
+| Batch | Status |
+|-------|--------|
+| MEGA-R1 — Atmosphere Foundation | DONE |
+| MEGA-R2 — Reduction & Restructure | DONE |
+| MEGA-R3 — Arrival Reconstruction | DONE |
+| MEGA-R4a — The Build (chamber structure) | DONE |
+| MEGA-R4b — The Build (screenshots + proof content) | **BLOCKED** |
+| Batch-R5 — The System + Signal Out | DONE |
+| Batch-R6 — Polish + Performance (technical metrics) | DONE (technical only) |
+| Batch-R7 Phase 1 — Mobile Layout + Reduced Motion | DONE |
 
-**Sledeći korak:** R4b ili R5 (bez blocker-a)
-- **R4b BLOCKER:** Potrebni realni screenshotovi padrinobudva.com (menu flow + admin dashboard, WebP, 16:9)
-- **R5 — The System + Signal Out:** može odmah, bez blocker-a
+**R6 — TECHNICAL CLOSED (ne editorial final):**
+- Lighthouse desktop 99 / mobile 88 ✅ (targeti ≥90 / ≥85) — CLS 0.024 ✅ TBT 0ms ✅
+- Build ✅ Typecheck ✅ Bundle ✅ MatrixRain <768px ✅ CL3_EASE konzistentan ✅
+- Smoke tests: PASS
+- ⚠ TheBuild Block B (screenshots, aperture reveals) nije postojao tokom R6 — nije moglo biti polirano. R6 je zatvorio tehničke metrike, ne editorial completeness TheBuild-a.
+
+**Open blockers:**
+- **R4b BLOCKED** — vlasništvo: Pavle. Potrebni screenshotovi padrinobudva.com. TheBuild.tsx nema ni jednu `<img>` sliku. Dok R4b ostaje blocker: Block B ne postoji, aperture clip-path reveal nema šta da revealuje, key moments (final) nisu finalizovani. Roadmap Final Done Definition (Section 14) nije dostignut.
+
+**Sledeći korak:**
+1. R7 Phase 2 — touch targets (44px min) + screen reader + keyboard nav (pun Roadmap R7 scope)
+2. R4b unblock — Pavle priprema screenshots → implementacija TheBuild Block B + aperture reveals
+3. Final Done check po Roadmap Section 14
 
 **Pending (van CL3 reconstruction):**
-- Batch P-Images: 15.8MB PNG → WebP (kritično za performance)
-- Batch P-OG: OG image kreiranje
-- Batch P-Content: Finalni copy + pravi URL-ovi (čeka Pavlov input)
-- Batch P-API: CORS, system prompt server-side, Redis rate limiting
-- Config: cl3menza.com domain + GA4 real ID
-- **⚠️ MANUAL:** Pavle mora da rotira ANTHROPIC_API_KEY — .env bio u ZIP-u koji je uploadovan
+- P-OG, P-Content, P-API, domain config, GA4 real ID
+- **⚠️ MANUAL:** Pavle rotira ANTHROPIC_API_KEY
 
 > Ažuriraj ovo na kraju SVAKE sesije.

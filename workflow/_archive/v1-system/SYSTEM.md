@@ -131,7 +131,12 @@ Ne duplirati ovde — svaki update u SYSTEM.md znači dve lokacije za održavanj
 4. Pročitaj poslednji status u CLAUDE.md
 5. Tek onda radi
 
+> **Hook napomena:** `session-bootstrap.js` automatski injektuje `session-brief.md` na početku svakog turna kao `<session-context>` blok. Koraci 1–4 iznad su fallback protokol — primenjuju se ako hook ne radi ili ako je `~/.claude/hooks.disabled` aktivan.
+
 **Kraj sesije:**
 1. Ažuriraj `Current status` u projekat CLAUDE.md
-2. Ako si naučio nešto → upiši u EVOLUTION.md
-3. Ako se workflow promenio → upiši u EVOLUTION.md Sekcija C
+2. Ako si naučio nešto **vezano za ovaj projekat** (CSS, React, Framer Motion, specifičan bug) → upiši u projekat `LESSONS.md`
+3. Ako si naučio nešto **vezano za način rada** (AI saradnja, workflow, batch disciplina, scope kontrola) → upiši u `EVOLUTION.md`
+4. Ako se workflow sistem promenio → upiši u `EVOLUTION.md` Sekcija C
+
+> **LESSONS.md vs EVOLUTION.md:** `LESSONS.md` = projekat-specifične tehničke lekcije (živi u `workflow/projects/[ime]/`). `EVOLUTION.md` = sistemske i workflow lekcije (živi u `workflow/`, važi za sve projekte). Ako nisi siguran — napiši u EVOLUTION.md.

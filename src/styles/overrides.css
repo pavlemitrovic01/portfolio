@@ -272,3 +272,11 @@ body.cl3menza-mode #contact {
     transition: none;
   }
 }
+
+/* ── Focus-visible — global dark theme ── */
+/* Covers nav links, footer links, .button, CTAs, and any element without a per-rule override. */
+/* Per-element :focus-visible rules (chambers.css, landing.css) override this where needed. */
+:focus-visible {
+  outline: 2px solid #78fff0;
+  outline-offset: 3px;
+}
