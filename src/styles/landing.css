@@ -120,7 +120,7 @@
   font-family: "Space Grotesk", Inter, sans-serif;
   font-size: clamp(3rem, 8vw, 8rem);
   line-height: .88;
-  letter-spacing: -.07em;
+  letter-spacing: -.04em;
   margin-bottom: 20px;
 }
 
@@ -253,36 +253,6 @@
   will-change: transform;
 }
 
-/* ── Hero: floating micro-badges ── */
-.lhero-badge {
-  position: absolute;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 9px 14px;
-  border-radius: 999px;
-  background: var(--panel-2);
-  border: 1px solid var(--line);
-  font-family: 'Courier New', Courier, monospace;
-  font-size: 12px;
-  color: rgba(245,247,251,.82);
-  backdrop-filter: blur(12px);
-  white-space: nowrap;
-  pointer-events: none;
-}
-
-.lhero-badge--tl { top: -16px; left: -12px; }
-.lhero-badge--br { bottom: -16px; right: -12px; }
-
-.lhero-badge-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--cyan);
-  box-shadow: 0 0 8px rgba(120,255,240,.7);
-  animation: pulse 2s ease-in-out infinite;
-  flex-shrink: 0;
-}
 
 /* ══════════════════════════════════════════════════════════════
    JOURNEY ZONE — unified path + quote + cards as one system
@@ -535,7 +505,7 @@
 }
 
 .jcard-body {
-  font-size: 14px;
+  font-size: var(--font-caption);
   line-height: 1.78;
   color: rgba(245,247,251,.66);
 }
@@ -1010,8 +980,6 @@
     gap: 10px;
   }
 
-  .lhero-badge--tl { top: -10px; left: 0;  font-size: 11px; }
-  .lhero-badge--br { bottom: -10px; right: 0; font-size: 11px; }
 
   .landing-journey-zone {
     margin-left: 12px;

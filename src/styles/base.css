@@ -37,6 +37,18 @@
   --s-7:144px;
   --s-8:200px;
 
+  /* Type scale */
+  --font-display:clamp(3rem, 8vw, 8rem);
+  --font-h1:clamp(2.5rem, 5vw, 4.5rem);
+  --font-h2:clamp(1.75rem, 3.5vw, 2.5rem);
+  --font-h3:clamp(1.25rem, 2vw, 1.5rem);
+  --font-eyebrow:13px;
+  --font-body-lg:17px;
+  --font-body:15px;
+  --font-caption:13px;
+  --font-mono:13px;
+  --font-mono-sm:11px;
+
   /* Misc */
   --shadow:0 20px 80px rgba(0,0,0,.45);
   --tile-border:rgba(255,255,255,.08);
