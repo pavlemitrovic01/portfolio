@@ -11,6 +11,6 @@
 }
 .button:hover{transform:translateY(-2px);border-color:rgba(255,255,255,.18)}
 .button.primary{
-  background:linear-gradient(135deg, rgba(93,184,255,.22), rgba(124,109,255,.2));
+  background:linear-gradient(135deg, rgba(93,184,255,.22), rgba(93,184,255,.2));
   border-color:rgba(93,184,255,.3);
 }

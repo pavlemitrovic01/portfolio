@@ -131,7 +131,7 @@
   opacity: 0.5;
 }
 .chat-terminal-field:focus-visible {
-  outline: 2px solid #78fff0;
+  outline: 2px solid var(--cyan);
   outline-offset: 2px;
   border-radius: 3px;
 }
@@ -154,11 +154,11 @@
   background: rgba(120, 255, 240, 0.2);
 }
 .chat-terminal-send:focus-visible {
-  outline: 2px solid #78fff0;
+  outline: 2px solid var(--cyan);
   outline-offset: 2px;
 }
 .signal-out-cta:focus-visible {
-  outline: 2px solid #78fff0;
+  outline: 2px solid var(--cyan);
   outline-offset: 3px;
 }
 

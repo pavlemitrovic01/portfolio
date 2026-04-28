@@ -22,10 +22,9 @@
 
   /* Accent colors */
   --blue:#5db8ff;
-  --blue-2:#8dd5ff; /* Batch 04: decide migrate→--blue or keep */
+  --blue-2:#8dd5ff;
   --cyan:#67E8F9;
   --warm:#F4A261;
-  --violet:#7c6dff; /* DEPRECATED — migrate in Batch 04 */
 
   /* Spacing tokens (8px base) */
   --s-1:8px;
@@ -52,7 +51,7 @@
   /* Misc */
   --shadow:0 20px 80px rgba(0,0,0,.45);
   --tile-border:rgba(255,255,255,.08);
-  --step-bg:linear-gradient(135deg,rgba(93,184,255,.16),rgba(124,109,255,.16));
+  --step-bg:linear-gradient(135deg,rgba(93,184,255,.16),rgba(93,184,255,.16));
   --step-border:rgba(255,255,255,.08);
   --kicker-color:var(--blue-2);
   --eyebrow-bg:rgba(255,255,255,.05);
@@ -79,7 +78,7 @@ body{
   color:var(--text);
   background:
     radial-gradient(circle at 15% 12%, rgba(93,184,255,.09), transparent 18%),
-    radial-gradient(circle at 83% 18%, rgba(124,109,255,.08), transparent 18%),
+    radial-gradient(circle at 83% 18%, rgba(93,184,255,.08), transparent 18%),
     radial-gradient(circle at 70% 70%, rgba(217,179,91,.06), transparent 20%),
     linear-gradient(180deg, var(--bg), var(--bg-2) 48%, var(--bg-3));
   overflow-x:hidden;
@@ -105,8 +104,8 @@ body::after{
   pointer-events:none;
   background:
     radial-gradient(circle at 22% 26%, rgba(93,184,255,.12), transparent 20%),
-    radial-gradient(circle at 76% 62%, rgba(124,109,255,.12), transparent 18%),
-    radial-gradient(circle at 52% 18%, rgba(120,255,240,.08), transparent 16%);
+    radial-gradient(circle at 76% 62%, rgba(93,184,255,.12), transparent 18%),
+    radial-gradient(circle at 52% 18%, rgba(103,232,249,.08), transparent 16%);
   filter:blur(64px);
   animation:ambientFloat 14s ease-in-out infinite alternate;
   opacity:.9;

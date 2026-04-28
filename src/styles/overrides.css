@@ -137,50 +137,48 @@
 }
 
 body.cl3menza-mode {
-  --blue: #78fff0;
+  --blue: #67E8F9;
   --blue-2: #a8fff5;
-  --violet: #c678ff;
-  --cyan: #ff78c4;
   --gold: #78c4ff;
   --bg: #020408;
   --bg-2: #040810;
   --bg-3: #06090f;
   --panel: rgba(8,18,32,.72);
   --panel-2: rgba(4,12,24,.88);
-  --line: rgba(120,255,240,.11);
-  --line-strong: rgba(120,255,240,.22);
-  --tile-border: rgba(120,255,240,.13);
-  --step-bg: linear-gradient(135deg, rgba(120,255,240,.2), rgba(198,120,255,.15));
-  --step-border: rgba(120,255,240,.25);
-  --kicker-color: #78fff0;
-  --eyebrow-bg: rgba(120,255,240,.05);
-  --eyebrow-border: rgba(120,255,240,.12);
-  --brand-glow: rgba(120,255,240,.6);
+  --line: rgba(103,232,249,.11);
+  --line-strong: rgba(103,232,249,.22);
+  --tile-border: rgba(103,232,249,.13);
+  --step-bg: linear-gradient(135deg, rgba(103,232,249,.2), rgba(198,120,255,.15));
+  --step-border: rgba(103,232,249,.25);
+  --kicker-color: #67E8F9;
+  --eyebrow-bg: rgba(103,232,249,.05);
+  --eyebrow-border: rgba(103,232,249,.12);
+  --brand-glow: rgba(103,232,249,.6);
 }
 body.cl3menza-mode::after {
   background:
-    radial-gradient(circle at 22% 26%, rgba(120,255,240,.10), transparent 22%),
+    radial-gradient(circle at 22% 26%, rgba(103,232,249,.10), transparent 22%),
     radial-gradient(circle at 76% 62%, rgba(198,120,255,.08), transparent 20%);
 }
 body.cl3menza-mode header {
   background: rgba(2,4,8,.72);
-  border-bottom-color: rgba(120,255,240,.08);
+  border-bottom-color: rgba(103,232,249,.08);
 }
 body.cl3menza-mode .ticker {
-  color: rgba(120,255,240,.6);
+  color: rgba(103,232,249,.6);
 }
 body.cl3menza-mode .ticker span::before {
   color: var(--cyan);
 }
 body.cl3menza-mode .button.primary {
-  background: linear-gradient(135deg, rgba(120,255,240,.22), rgba(198,120,255,.18));
-  border-color: rgba(120,255,240,.35);
-  color: #78fff0;
-  box-shadow: 0 0 24px rgba(120,255,240,.2);
+  background: linear-gradient(135deg, rgba(103,232,249,.22), rgba(198,120,255,.18));
+  border-color: rgba(103,232,249,.35);
+  color: #67E8F9;
+  box-shadow: 0 0 24px rgba(103,232,249,.2);
 }
 body.cl3menza-mode .button {
-  border-color: rgba(120,255,240,.2);
-  color: rgba(120,255,240,.8);
+  border-color: rgba(103,232,249,.2);
+  color: rgba(103,232,249,.8);
 }
 
 /* ─── MEGA-R1: Atmosphere Foundation ─────────────────────────────── */
@@ -224,7 +222,7 @@ body.cl3menza-mode #contact {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse 55% 50% at -5% 22%, rgba(120,255,240,0.07) 0%, transparent 100%);
+    radial-gradient(ellipse 55% 50% at -5% 22%, rgba(103,232,249,0.07) 0%, transparent 100%);
 }
 
 /* Radial vignette — edge darkening for enclosure */
@@ -277,6 +275,6 @@ body.cl3menza-mode #contact {
 /* Covers nav links, footer links, .button, CTAs, and any element without a per-rule override. */
 /* Per-element :focus-visible rules (chambers.css, landing.css) override this where needed. */
 :focus-visible {
-  outline: 2px solid #78fff0;
+  outline: 2px solid var(--cyan);
   outline-offset: 3px;
 }

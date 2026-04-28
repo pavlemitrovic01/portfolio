@@ -22,10 +22,10 @@
 
 ## Gde sam sada
 
-**Poslednji završen:** Batch 02 — Type Scale Migration (2026-04-28)
-**Sledeći:** Batch 03 — Spacing System Migration
+**Poslednji završen:** Batch 03 — Spacing System Migration (2026-04-28)
+**Sledeći:** Batch 04 — Color Migration & Cleanup
 **Aktivan batch:** NONE (čeka /plan)
-**Blocker:** B-001 — TheBuild screenshots padrinobudva.com (owner: Pavle) — blokira R4b, ne blokira Batch 03
+**Blocker:** B-001 — TheBuild screenshots padrinobudva.com (owner: Pavle) — blokira R4b, ne blokira Batch 04
 
 ---
 

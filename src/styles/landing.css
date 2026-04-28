@@ -27,8 +27,8 @@
   inset: -20%;
   background:
     radial-gradient(ellipse 700px 450px at 60% 22%, rgba(93,184,255,.18), transparent),
-    radial-gradient(ellipse 550px 380px at 38% 32%, rgba(124,109,255,.15), transparent),
-    radial-gradient(ellipse 420px 320px at 52% 52%, rgba(120,255,240,.08), transparent);
+    radial-gradient(ellipse 550px 380px at 38% 32%, rgba(93,184,255,.15), transparent),
+    radial-gradient(ellipse 420px 320px at 52% 52%, rgba(103,232,249,.08), transparent);
   filter: blur(80px);
   animation: landing-nebula-drift 20s ease-in-out infinite alternate;
 }
@@ -50,9 +50,9 @@
   inset: 0;
   background:
     radial-gradient(ellipse 65% 45% at 50% 58%, rgba(93,184,255,.05), transparent),
-    radial-gradient(ellipse 45% 35% at 50% 68%, rgba(124,109,255,.04), transparent),
+    radial-gradient(ellipse 45% 35% at 50% 68%, rgba(93,184,255,.04), transparent),
     radial-gradient(ellipse 55% 30% at 50% 82%, rgba(93,184,255,.04), transparent),
-    radial-gradient(ellipse 40% 25% at 50% 93%, rgba(124,109,255,.03), transparent);
+    radial-gradient(ellipse 40% 25% at 50% 93%, rgba(93,184,255,.03), transparent);
   pointer-events: none;
 }
 
@@ -62,9 +62,9 @@
   inset: 0;
   background:
     radial-gradient(ellipse 28% 20% at 74% 32%, rgba(93,184,255,.055), transparent),
-    radial-gradient(ellipse 28% 20% at 26% 52%, rgba(124,109,255,.045), transparent),
+    radial-gradient(ellipse 28% 20% at 26% 52%, rgba(93,184,255,.045), transparent),
     radial-gradient(ellipse 28% 20% at 74% 72%, rgba(93,184,255,.055), transparent),
-    radial-gradient(ellipse 28% 20% at 26% 86%, rgba(124,109,255,.040), transparent);
+    radial-gradient(ellipse 28% 20% at 26% 86%, rgba(93,184,255,.040), transparent);
   pointer-events: none;
 }
 
@@ -110,9 +110,14 @@
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--blue), var(--violet));
-  box-shadow: 0 0 16px rgba(93,184,255,.5);
+  background: var(--warm);
+  box-shadow: 0 0 16px rgba(244,162,97,.4);
   flex-shrink: 0;
+  animation: eyebrowDotPulse 2s ease-in-out infinite;
+}
+@keyframes eyebrowDotPulse {
+  0%, 100% { opacity: .8; transform: scale(1); }
+  50%       { opacity: 1; transform: scale(1.18); }
 }
 
 /* ── Hero: typography ── */
@@ -179,7 +184,7 @@
 
 /* ── CTA overrides: landing-scene authority ── */
 .landing-ctas .button.primary {
-  background: linear-gradient(135deg, rgba(93,184,255,.28), rgba(124,109,255,.24));
+  background: linear-gradient(135deg, rgba(93,184,255,.28), rgba(93,184,255,.24));
   border-color: rgba(93,184,255,.38);
   box-shadow: 0 0 28px rgba(93,184,255,.14), inset 0 1px 0 rgba(93,184,255,.20);
 }
@@ -546,8 +551,8 @@
   inset: -40% -20%;
   background:
     radial-gradient(ellipse 50% 60% at 50% 60%, rgba(93,184,255,.32), transparent),
-    radial-gradient(ellipse 40% 50% at 50% 50%, rgba(124,109,255,.22), transparent),
-    radial-gradient(ellipse 30% 40% at 50% 40%, rgba(120,255,240,.18), transparent);
+    radial-gradient(ellipse 40% 50% at 50% 50%, rgba(93,184,255,.22), transparent),
+    radial-gradient(ellipse 30% 40% at 50% 40%, rgba(103,232,249,.18), transparent);
   filter: blur(60px);
   opacity: 0;
   transform: scale(0.55);
@@ -613,7 +618,7 @@
 }
 
 .lact-glitch::after {
-  color: var(--violet);
+  color: var(--warm);
   clip-path: inset(55% 0 0 0);
   animation: lact-glitch-bot 4s steps(1) infinite;
 }
@@ -679,7 +684,7 @@
   position: relative;
   width: 2px;
   height: 80px;
-  background: linear-gradient(180deg, rgba(93,184,255,.25), rgba(120,255,240,.5));
+  background: linear-gradient(180deg, rgba(93,184,255,.25), rgba(103,232,249,.5));
   border-radius: 2px;
   z-index: 1;
 }
@@ -693,7 +698,7 @@
   height: 10px;
   border-radius: 50%;
   background: var(--cyan);
-  box-shadow: 0 0 16px rgba(120,255,240,.7), 0 0 40px rgba(120,255,240,.3);
+  box-shadow: 0 0 16px rgba(103,232,249,.7), 0 0 40px rgba(103,232,249,.3);
   animation: activation-pulse 2s ease-in-out infinite;
 }
 
@@ -801,7 +806,7 @@
   border-color: rgba(255,255,255,.14);
 }
 .si-close:focus-visible {
-  outline: 2px solid #78fff0;
+  outline: 2px solid var(--cyan);
   outline-offset: 2px;
 }
 
@@ -850,7 +855,7 @@
   font-family: inherit;
   cursor: pointer;
   border: 1px solid rgba(93,184,255,.30);
-  background: linear-gradient(135deg, rgba(93,184,255,.22), rgba(124,109,255,.18));
+  background: linear-gradient(135deg, rgba(93,184,255,.22), rgba(93,184,255,.18));
   color: rgba(245,247,251,.92);
   box-shadow: 0 0 24px rgba(93,184,255,.10);
   transition: .22s;
@@ -1034,6 +1039,7 @@
 
 /* ── Reduced motion ── */
 @media (prefers-reduced-motion: reduce) {
+  .landing-eyebrow::before { animation: none; }
   .landing-bg-nebula     { animation: none; }
   .beam-residue          { animation: none; }
   .lhero-portrait-cyan-glow { display: none; }

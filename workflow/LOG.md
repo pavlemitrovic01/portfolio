@@ -157,3 +157,24 @@ LEARNED:  NONE
 NOTES:    Batch 04 flagovi: sections.css + layout.css imaju "Space Grotesk",monospace na 7 mesta — van Batch 02 scope
 
 ---
+
+### 2026-04-28 — Batch 03 — Spacing System Migration [CLOSE]
+
+STATUS:   DONE
+TIER:     STANDARD
+GOAL:     Migracija spacing vrednosti na 8px token skalu (--s-1 do --s-8) iz VISUAL_LANGUAGE.md.
+FILES:
+  - src/styles/hero.css — .button padding: 0 22px → 0 var(--s-3)
+  - src/styles/layout.css — 6 promena: section padding, nav gap, footer padding, footer-row gap, preloader-inner gap, preloader-brand gap
+  - src/styles/sections.css — 3 promene: error-fallback p margin, error-fallback-brand gap, terminal-header padding
+  - src/styles/chambers.css — 11 promena: arrival-positioning margin, chat-terminal-header padding, chat-terminal-messages gap, chat-terminal-input padding+gap, build-moments gap, build-flow padding, the-system padding, system-head h2 margin, signal-out h2 margin, signal-out-cta padding
+  - src/styles/landing.css — 18 promena: landing-content padding, lhero padding-top+gap, landing-h1/positioning/sub margin, landing-ctas gap, lhero-scroll-cue gap, jcard-content padding, jcard-header gap+margin, lact-content margin, landing-activation padding, si-title margin, si-body gap+margin, si-panel padding, si-cta padding
+COMMIT:   92df363
+VERIFY:
+  - build:     NIJE POKRENUTO
+  - typecheck: PASS(machine) — npx tsc --noEmit, 0 grešaka
+  - manual:    NONE
+LEARNED:  Equidistant spacing vrednosti (12px, 20px — tačno između dva tokena) zahtevaju eksplicitan Opcija A/B decision record po vrednosti — ne može se pretpostaviti.
+NOTES:    Batch 04 scope: --violet (6 refs), --blue-2 (4 refs), "Space Grotesk",monospace (7 mesta u sections.css + layout.css)
+
+---

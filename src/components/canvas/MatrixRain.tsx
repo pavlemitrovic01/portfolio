@@ -44,14 +44,14 @@ const MatrixRain: React.FC<MatrixRainProps> = ({ columnDivisor = 14 }) => {
         const progress = y / (canvas.height / fontSize)
         if (Math.random() > 0.98) {
           ctx.fillStyle = '#ffffff'
-          ctx.shadowColor = '#78fff0'
+          ctx.shadowColor = '#67E8F9'
           ctx.shadowBlur = 15
         } else if (progress < 0.3) {
-          ctx.fillStyle = 'rgba(120,255,240,0.9)'
-          ctx.shadowColor = '#78fff0'
+          ctx.fillStyle = 'rgba(103,232,249,0.9)'
+          ctx.shadowColor = '#67E8F9'
           ctx.shadowBlur = 8
         } else {
-          ctx.fillStyle = `rgba(120,255,240,${0.15 + Math.random() * 0.4})`
+          ctx.fillStyle = `rgba(103,232,249,${0.15 + Math.random() * 0.4})`
           ctx.shadowBlur = 0
         }
         ctx.font = `${fontSize}px "Space Grotesk", monospace`
