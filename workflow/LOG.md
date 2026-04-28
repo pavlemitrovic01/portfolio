@@ -118,3 +118,42 @@ IMPACT:
 NOTES: Originalno identifikovan pre uvođenja LOG sistema (UNKNOWN datum). Re-registrovan u v2.0 setup-u kako bi blocker bio vidljiv u aktivnom sistemu. Detaljnija istorija u `workflow/_archive/v1-cl3menza/BLOCKERS.md`.
 
 ---
+
+### 2026-04-28 — Batch 01 — Design Tokens [CLOSE]
+
+STATUS:   DONE
+TIER:     LEAN
+GOAL:     Update CSS varijable, dodati spacing tokens i Geist Mono font u stack.
+FILES:
+  - src/styles/base.css — :root: --cyan → #67E8F9, dodati --warm/--text-2/--dim/--border-*/--s-1 do --s-8, --violet DEPRECATED, --gold obrisan
+  - index.html — Geist Mono wght@400;500 dodat u Google Fonts URL
+  - workflow/projects/cl3menza/ROADMAP.md — kreiran (kopija sa Desktop-a)
+  - workflow/projects/cl3menza/VISUAL_LANGUAGE.md — kreiran (kopija sa Desktop-a)
+COMMIT:   da3a4d8
+VERIFY:
+  - build:     PASS(machine) — dev server bez grešaka, 0 console errors
+  - typecheck: NIJE POKRENUTO
+  - manual:    PASS(human): Pavle potvrdio analizu pre write-a; DevTools inspect potvrdio sve 18 novih varijabli u :root; preview screenshot potvrđuje sajt renderuje 95% isto
+LEARNED:  NONE
+NOTES:    Batch 04 flagovi: --violet (6 referenci u landing/layout/sections.css), --blue-2 (4 reference) — ne blokira ništa, note za Batch 04 scope
+
+---
+
+### 2026-04-28 — Batch 02 — Type Scale Migration [CLOSE]
+
+STATUS:   DONE
+TIER:     STANDARD
+GOAL:     Migracija tipografije na type scale iz VISUAL_LANGUAGE.md — tokeni u :root, H1 letter-spacing, Geist Mono, dead CSS cleanup.
+FILES:
+  - src/styles/base.css — dodato 10 type scale custom properties u :root (--font-display → --font-mono-sm)
+  - src/styles/landing.css — .landing-h1 letter-spacing -.07em → -.04em; .jcard-body 14px → var(--font-caption); dead CSS .lhero-badge obrisan (~32 linije)
+  - src/styles/chambers.css — .arrival-identity letter-spacing -0.07em → -0.04em; 4× font-family "Space Grotesk",monospace → "Geist Mono",monospace (.chat-terminal-header, .build-frame-label, .build-flow-node, .system-process)
+COMMIT:   294ac9a
+VERIFY:
+  - build:     PASS(machine) — dev server 0 console errors tokom celog batcha
+  - typecheck: NIJE POKRENUTO
+  - manual:    PASS(human): Pavle potvrdio diff summary pre commita; DevTools inspect potvrdio sve 10 type scale tokena u :root; preview screenshot potvrđuje H1 editorial osećaj
+LEARNED:  NONE
+NOTES:    Batch 04 flagovi: sections.css + layout.css imaju "Space Grotesk",monospace na 7 mesta — van Batch 02 scope
+
+---

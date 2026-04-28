@@ -32,7 +32,7 @@
   text-transform: uppercase;
   letter-spacing: 0.22em;
   color: var(--blue-2);
-  margin-bottom: 20px;
+  margin-bottom: var(--s-2);
 }
 .arrival-lead {
   max-width: 560px;
@@ -52,7 +52,7 @@
   overflow: hidden;
 }
 .chat-terminal-header {
-  padding: 12px 16px;
+  padding: var(--s-1) var(--s-2);
   border-bottom: 1px solid var(--line);
   font-size: 12px;
   color: var(--muted);
@@ -63,7 +63,7 @@
   padding: 16px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: var(--s-1);
   min-height: 48px;
   max-height: 240px;
   overflow-y: auto;
@@ -111,10 +111,10 @@
   animation-delay: 0.4s;
 }
 .chat-terminal-input {
-  padding: 12px 16px;
+  padding: var(--s-1) var(--s-2);
   border-top: 1px solid var(--line);
   display: flex;
-  gap: 10px;
+  gap: var(--s-1);
   align-items: center;
 }
 .chat-terminal-field {
@@ -258,7 +258,7 @@
 .build-moments {
   display: flex;
   flex-direction: column;
-  gap: 36px;
+  gap: var(--s-4);
   margin-bottom: 64px;
 }
 .build-moment h3 {
@@ -281,7 +281,7 @@
   align-items: center;
   justify-content: center;
   gap: 0;
-  padding: 32px 28px;
+  padding: 32px var(--s-3);
   border-radius: 10px;
   border: 1px solid rgba(120, 255, 240, 0.1);
   background: rgba(8, 18, 32, 0.72);
@@ -314,7 +314,7 @@
 
 /* ── The System ── */
 .the-system {
-  padding: 5rem 0;
+  padding: var(--s-6) 0;
 }
 .system-head {
   margin-bottom: 40px;
@@ -325,7 +325,7 @@
   font-weight: 700;
   line-height: 0.95;
   letter-spacing: -0.05em;
-  margin-bottom: 12px;
+  margin-bottom: var(--s-1);
 }
 .system-head p {
   font-size: 17px;
@@ -397,14 +397,14 @@
   font-weight: 700;
   line-height: 0.92;
   letter-spacing: -0.05em;
-  margin-bottom: 28px;
+  margin-bottom: var(--s-3);
 }
 .signal-out-cta {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   min-height: 54px;
-  padding: 0 28px;
+  padding: 0 var(--s-3);
   border-radius: 999px;
   border: 1px solid rgba(120, 255, 240, 0.25);
   background: rgba(120, 255, 240, 0.08);

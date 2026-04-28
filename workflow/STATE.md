@@ -22,10 +22,10 @@
 
 ## Gde sam sada
 
-**Poslednji završen:** Workflow v2.0 setup — restruktura sistema (2026-04-25)
-**Sledeći:** R7 Phase 2 — touch targets (44px min), screen reader, keyboard nav
-**Aktivan batch:** NONE (čeka /plan za R7 Phase 2)
-**Blocker:** B-001 — TheBuild screenshots padrinobudva.com (owner: Pavle) — blokira R4b, ne blokira R7 Phase 2
+**Poslednji završen:** Batch 02 — Type Scale Migration (2026-04-28)
+**Sledeći:** Batch 03 — Spacing System Migration
+**Aktivan batch:** NONE (čeka /plan)
+**Blocker:** B-001 — TheBuild screenshots padrinobudva.com (owner: Pavle) — blokira R4b, ne blokira Batch 03
 
 ---
 
