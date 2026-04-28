@@ -22,6 +22,7 @@ export default function Contact() {
       <motion.a
         className="signal-out-cta"
         href="mailto:hello@cl3menza.com"
+        data-cursor="cta"
         initial={reduceMotion ? { opacity: 1 } : { opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true, margin: '-80px' }}

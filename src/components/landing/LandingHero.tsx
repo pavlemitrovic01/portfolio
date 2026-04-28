@@ -124,13 +124,14 @@ export default function LandingHero({ onPrefetch, onStepInside }: LandingHeroPro
 
         <motion.div variants={it}>
           <div className="landing-ctas">
-            <button className="button ghost" type="button" onClick={onStepInside} onMouseEnter={onPrefetch}>
+            <button className="button ghost" type="button" onClick={onStepInside} onMouseEnter={onPrefetch} data-cursor="cta">
               Step Inside
             </button>
             <a
               href="#landing-path"
               className="lhero-scroll-cue"
               aria-label="Scroll to explore the story"
+              data-cursor="cta"
             >
               <span>Curious? Scroll down</span>
               <span className="lhero-scroll-cue-arrow" aria-hidden="true">↓</span>
@@ -165,6 +166,13 @@ export default function LandingHero({ onPrefetch, onStepInside }: LandingHeroPro
 
         {/* Cyan glow behind shoulders */}
         <div className="lhero-portrait-cyan-glow" aria-hidden="true" />
+
+        {/* Cursor zone — transparent overlay so mouseover reaches data-cursor */}
+        <div
+          className="lhero-portrait-cursor-zone"
+          data-cursor="portrait"
+          aria-hidden="true"
+        />
       </motion.div>
     </div>
   )

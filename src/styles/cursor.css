@@ -1,0 +1,114 @@
+/* ── Custom Cursor — Batch 05 ─────────────────────────────────── */
+
+/* Hide native cursor when custom is active */
+body.has-custom-cursor,
+body.has-custom-cursor *,
+body.has-custom-cursor a,
+body.has-custom-cursor button {
+  cursor: none !important;
+}
+
+/* Wrap — Framer Motion follow target (position anchor) */
+.custom-cursor-wrap {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 9999;
+  will-change: transform;
+}
+
+/* Inner element — visual cursor */
+.custom-cursor {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--blue);
+  box-shadow: 0 0 12px rgba(93, 184, 255, 0.4);
+  transform: translate(-50%, -50%);
+  transition:
+    background 0.3s ease,
+    transform 0.18s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.18s ease,
+    opacity 0.2s ease;
+}
+
+/* Cl3 mode — orb→cursor transformation (VISUAL_LANGUAGE §6) */
+.custom-cursor--cl3 {
+  background: var(--cyan);
+  box-shadow: 0 0 12px rgba(103, 232, 249, 0.4);
+}
+
+/* Hover: CTA — scale 1.6 + intenzivniji glow */
+.custom-cursor--cta {
+  transform: translate(-50%, -50%) scale(1.6);
+  box-shadow: 0 0 20px rgba(93, 184, 255, 0.65);
+}
+
+.custom-cursor--cta.custom-cursor--cl3 {
+  box-shadow: 0 0 20px rgba(103, 232, 249, 0.65);
+}
+
+/* Hover: portrait — "+" simbol */
+.custom-cursor--portrait {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.custom-cursor--portrait::before {
+  content: "+";
+  font-family: "Geist Mono", monospace;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--bg);
+  line-height: 1;
+  position: absolute;
+}
+
+/* Hover: reward orb — scale 0.8 + warm glow */
+/* CSS state postoji, data-cursor="reward" atribut se dodaje u Batch 12 */
+.custom-cursor--reward {
+  transform: translate(-50%, -50%) scale(0.8);
+  background: var(--warm);
+  box-shadow: 0 0 16px rgba(244, 162, 97, 0.5);
+}
+
+/* Hidden before first mouse move */
+.custom-cursor--hidden {
+  opacity: 0;
+}
+
+/* Disable on touch/no-pointer — CSS fallback (JS handles primary disable) */
+@media (pointer: coarse) {
+  .custom-cursor-wrap {
+    display: none;
+  }
+  body.has-custom-cursor,
+  body.has-custom-cursor *,
+  body.has-custom-cursor a,
+  body.has-custom-cursor button {
+    cursor: auto !important;
+  }
+}
+
+/* Disable for reduced motion — CSS fallback */
+@media (prefers-reduced-motion: reduce) {
+  .custom-cursor-wrap {
+    display: none;
+  }
+  body.has-custom-cursor,
+  body.has-custom-cursor *,
+  body.has-custom-cursor a,
+  body.has-custom-cursor button {
+    cursor: auto !important;
+  }
+}
+
+/* Portrait cursor zone — transparent overlay, pointer-events auto */
+.lhero-portrait-cursor-zone {
+  position: absolute;
+  inset: 0;
+  pointer-events: auto;
+  z-index: 2;
+}

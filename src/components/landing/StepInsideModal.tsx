@@ -71,7 +71,7 @@ export default function StepInsideModal({ open, onClose, onKeepExploring }: Step
           </p>
         </div>
 
-        <button className="si-cta" onClick={onKeepExploring}>
+        <button className="si-cta" onClick={onKeepExploring} data-cursor="cta">
           Keep Exploring
         </button>
       </div>

@@ -22,10 +22,10 @@
 
 ## Gde sam sada
 
-**Poslednji završen:** Batch 03 — Spacing System Migration (2026-04-28)
-**Sledeći:** Batch 04 — Color Migration & Cleanup
+**Poslednji završen:** Batch 05 — Custom Cursor System (2026-04-28)
+**Sledeći:** Batch 06 — Magnetic CTAs
 **Aktivan batch:** NONE (čeka /plan)
-**Blocker:** B-001 — TheBuild screenshots padrinobudva.com (owner: Pavle) — blokira R4b, ne blokira Batch 04
+**Blocker:** B-001 — TheBuild screenshots padrinobudva.com (owner: Pavle) — blokira R4b, ne blokira Batch 06
 
 ---
 
@@ -40,11 +40,11 @@
 
 ## Aktivni plan — kratko
 
-**Sledeći batch:** R7 Phase 2 (Accessibility)
-- Touch targets ≥44×44px na svim interaktivnim elementima
-- ARIA labels/roles audit
-- Keyboard navigation (tab order, focus-visible, skip link, escape handlers)
-- Screen reader test
+**Sledeći batch:** Batch 06 — Magnetic CTAs (Tier: STRICT)
+- Magnetic pull efekat na primary CTA-e pri hover-u (Framer Motion useSpring)
+- "Step Inside" button + Contact mailto kao primarni targets
+- Koordinacija sa Batch 05 custom cursor (cursor scale + magnetic move istovremeno)
+- Disable na touch uređajima i prefers-reduced-motion
 
 **Pending van CL3 reconstruction scope:**
 - R4b (BLOCKED — B-001)

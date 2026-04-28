@@ -73,7 +73,7 @@ export default function TheBuild() {
             A real business needed a real product — this is what I built.
           </p>
           <p style={{ marginTop: 12 }}>
-            <a href="https://padrinobudva.com" target="_blank" rel="noopener noreferrer">
+            <a href="https://padrinobudva.com" target="_blank" rel="noopener noreferrer" data-cursor="cta">
               View live &thinsp;&rarr;
             </a>
           </p>

@@ -61,7 +61,7 @@ export default function ChatTerminal() {
           onChange={e => setUserInput(e.target.value)}
           onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); sendMessage() } }}
         />
-        <button className="chat-terminal-send" onClick={sendMessage} disabled={isLoading} aria-label="Send">
+        <button className="chat-terminal-send" onClick={sendMessage} disabled={isLoading} aria-label="Send" data-cursor="cta">
           &rarr;
         </button>
       </div>

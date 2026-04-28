@@ -178,3 +178,29 @@ LEARNED:  Equidistant spacing vrednosti (12px, 20px — tačno između dva token
 NOTES:    Batch 04 scope: --violet (6 refs), --blue-2 (4 refs), "Space Grotesk",monospace (7 mesta u sections.css + layout.css)
 
 ---
+
+### 2026-04-28 — Batch 05 — Custom Cursor System [CLOSE]
+
+STATUS:   DONE
+TIER:     STRICT
+GOAL:     Implementacija custom cursor sistema — spring-follow orb, hover context delegation, cl3 mode transformacija, 8 markup targets.
+FILES:
+  - src/components/system/CustomCursor.tsx — NEW: Framer Motion cursor, spring tracking, hover context delegation, capability detection (coarse/reduced-motion)
+  - src/styles/cursor.css — NEW: svi cursor states (default, cta, portrait, reward, cl3, hidden), media query fallbacks, .lhero-portrait-cursor-zone overlay
+  - src/styles/global.css — @import './cursor.css' dodat na kraj
+  - src/App.tsx [LOCK ZONE] — CustomCursor import + Fragment wrapper + <CustomCursor> sibling Layout-a
+  - src/components/landing/LandingHero.tsx — data-cursor="cta" na button i scroll link; data-cursor="portrait" premešten na .lhero-portrait-cursor-zone overlay div (bugfix: pointer-events: none na motion.div)
+  - src/components/landing/StepInsideModal.tsx — data-cursor="cta" na Keep Exploring button
+  - src/components/sections/Contact.tsx — data-cursor="cta" na mailto motion.a
+  - src/components/sections/TheBuild.tsx — data-cursor="cta" na padrinobudva link
+  - src/components/layout/Header.tsx — data-cursor="cta" na cl3-mode-badge button
+  - src/components/sections/ChatTerminal.tsx — data-cursor="cta" na send button
+COMMIT:   NONE (čeka Pavle lokalni smoke test → commit)
+VERIFY:
+  - build:     PASS(machine) — npm run build, 462 moduli, 0 grešaka (pokrenuto 2×: posle batcha i posle bugfixa)
+  - typecheck: PASS(machine) — npx tsc --noEmit, 0 grešaka (pokrenuto 2×)
+  - manual:    AI-asserted — preview tool servira main project (ne worktree); Pavle treba lokalni smoke test
+LEARNED:  Preview tool uvek startuje dev server iz main project direktorijuma — za worktree rad jedino pouzdana machine verifikacija su tsc + build.
+NOTES:    Batch 04 (Color Migration) preskočen u ovoj sesiji — Pavle direktno dao Batch 05 plan. Sledeći: Batch 06 — Magnetic CTAs.
+
+---

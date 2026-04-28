@@ -17,7 +17,7 @@ export default function Header() {
         <div className="brand">
           <span className="brand-text">Pavle Mitrovic / cl3menza</span>
           {cl3menzaMode && (
-            <button className="cl3-mode-badge" aria-label="Exit cl3menza mode" onClick={() => document.body.classList.remove('cl3menza-mode')}>
+            <button className="cl3-mode-badge" aria-label="Exit cl3menza mode" onClick={() => document.body.classList.remove('cl3menza-mode')} data-cursor="cta">
               cl3menza mode: ON <span aria-hidden="true">×</span>
             </button>
           )}

@@ -8,6 +8,7 @@ import { useParallax } from './hooks/useParallax'
 import { subscribeCl3BodyClassMutations, getCl3menzaBodyClass } from './hooks/useCl3menzaBodyClass'
 import { useTerminalBoot } from './hooks/useTerminalBoot'
 import MatrixRain from './components/canvas/MatrixRain'
+import CustomCursor from './components/system/CustomCursor'
 
 const Arrival = lazy(() => import('./components/sections/Arrival'))
 const PullQuote = lazy(() => import('./components/sections/PullQuote'))
@@ -29,6 +30,7 @@ export default function App() {
   }, [cl3menzaMode, hasActivated])
 
   return (
+    <>
     <Layout>
       <LandingScene cl3menzaMode={cl3menzaMode} />
 
@@ -113,5 +115,7 @@ export default function App() {
       )}
       <Preloader />
     </Layout>
+    <CustomCursor cl3menzaMode={cl3menzaMode} />
+    </>
   )
 }
