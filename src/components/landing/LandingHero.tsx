@@ -1,5 +1,6 @@
 import { useRef, useEffect } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
+import MagneticButton from '../system/MagneticButton'
 
 const MQ_PARALLAX = '(pointer: fine) and (min-width: 1081px)'
 
@@ -124,9 +125,11 @@ export default function LandingHero({ onPrefetch, onStepInside }: LandingHeroPro
 
         <motion.div variants={it}>
           <div className="landing-ctas">
-            <button className="button ghost" type="button" onClick={onStepInside} onMouseEnter={onPrefetch} data-cursor="cta">
-              Step Inside
-            </button>
+            <MagneticButton>
+              <button className="button ghost" type="button" onClick={onStepInside} onMouseEnter={onPrefetch} data-cursor="cta">
+                Step Inside
+              </button>
+            </MagneticButton>
             <a
               href="#landing-path"
               className="lhero-scroll-cue"

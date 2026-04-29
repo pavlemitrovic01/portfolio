@@ -1,4 +1,5 @@
 import { motion, useReducedMotion } from 'framer-motion'
+import MagneticButton from '../system/MagneticButton'
 
 const CL3_EASE: [number, number, number, number] = [0.16, 1, 0.3, 1]
 
@@ -19,17 +20,22 @@ export default function Contact() {
       </motion.h2>
 
       {/* CTA — materializes in place, 0.8s, 400ms after heading (700ms total) */}
-      <motion.a
-        className="signal-out-cta"
-        href="mailto:hello@cl3menza.com"
-        data-cursor="cta"
+      <motion.div
         initial={reduceMotion ? { opacity: 1 } : { opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true, margin: '-80px' }}
         transition={reduceMotion ? { duration: 0 } : { duration: 0.8, delay: 0.7, ease: CL3_EASE }}
       >
-        hello@cl3menza.com
-      </motion.a>
+        <MagneticButton>
+          <a
+            className="signal-out-cta"
+            href="mailto:hello@cl3menza.com"
+            data-cursor="cta"
+          >
+            hello@cl3menza.com
+          </a>
+        </MagneticButton>
+      </motion.div>
 
     </section>
   )
