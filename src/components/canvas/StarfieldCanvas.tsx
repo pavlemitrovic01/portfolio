@@ -7,34 +7,81 @@ interface Star {
   baseAlpha: number
   phase: number
   period: number
-  bright: boolean
+  vx: number
+  vy: number
+  accent: boolean
 }
+
+function rand(min: number, max: number) {
+  return Math.random() * (max - min) + min
+}
+function randSign() { return Math.random() < 0.5 ? 1 : -1 }
 
 export default function StarfieldCanvas() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
   useEffect(() => {
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const isCoarse = window.matchMedia('(pointer: coarse)').matches
     const canvas = canvasRef.current
     if (!canvas) return
     const ctx = canvas.getContext('2d')
     if (!ctx) return
 
-    let stars: Star[] = []
+    let far: Star[] = []
+    let mid: Star[] = []
+    let near: Star[] = []
     let animId: number
     let paused = false
-    let lastDraw = 0
+    // Per-layer update timestamps — 0 signals "first frame, init to now"
+    let lastFar = 0
+    let lastMid = 0
+    let lastNear = 0
 
     function buildStars(w: number, h: number) {
-      const count = Math.min(100, Math.max(60, Math.floor((w * h) / 14000)))
-      stars = Array.from({ length: count }, (_, i) => ({
+      const isMobile = isCoarse || w < 768
+      const baseCount = Math.min(160, Math.floor((w * h) / 9000))
+      const total = isMobile ? Math.floor(baseCount * 0.6) : baseCount
+
+      const nFar = Math.round(total * 0.55)
+      const nMid = Math.round(total * 0.30)
+      const nNear = total - nFar - nMid
+      const accentCount = Math.random() < 0.5 ? 5 : 6
+
+      far = Array.from({ length: nFar }, () => ({
         x: Math.random() * w,
         y: Math.random() * h,
-        r: Math.random() * 1.4 + 0.4,
-        baseAlpha: Math.random() * 0.45 + 0.12,
+        r: rand(0.3, 0.8),
+        baseAlpha: rand(0.08, 0.25),
         phase: Math.random() * Math.PI * 2,
-        period: Math.random() * 5000 + 3500,
-        bright: i < 9,
+        period: rand(4000, 7000),
+        vx: 0,
+        vy: 0,
+        accent: false,
+      }))
+
+      mid = Array.from({ length: nMid }, () => ({
+        x: Math.random() * w,
+        y: Math.random() * h,
+        r: rand(0.6, 1.2),
+        baseAlpha: rand(0.2, 0.45),
+        phase: Math.random() * Math.PI * 2,
+        period: rand(2500, 5000),
+        vx: isMobile ? 0 : randSign() * rand(0.008, 0.015),
+        vy: isMobile ? 0 : randSign() * rand(0.008, 0.015),
+        accent: false,
+      }))
+
+      near = Array.from({ length: nNear }, (_, i) => ({
+        x: Math.random() * w,
+        y: Math.random() * h,
+        r: rand(0.9, 1.8),
+        baseAlpha: rand(0.35, 0.65),
+        phase: Math.random() * Math.PI * 2,
+        period: i < accentCount ? rand(1500, 2500) : rand(2000, 4000),
+        vx: isMobile ? 0 : randSign() * rand(0.02, 0.04),
+        vy: isMobile ? 0 : randSign() * rand(0.02, 0.04),
+        accent: i < accentCount,
       }))
     }
 
@@ -50,47 +97,83 @@ export default function StarfieldCanvas() {
       buildStars(w, h)
     }
 
+    function wrap(s: Star, w: number, h: number) {
+      if (s.x < -s.r) s.x = w + s.r
+      else if (s.x > w + s.r) s.x = -s.r
+      if (s.y < -s.r) s.y = h + s.r
+      else if (s.y > h + s.r) s.y = -s.r
+    }
+
+    function drawStar(s: Star, now: number, twinkleAmp: number) {
+      if (!ctx) return
+      const breathing = prefersReduced
+        ? 0
+        : Math.sin(now / s.period + s.phase) * twinkleAmp
+      const alpha = Math.max(0, Math.min(1, s.baseAlpha + breathing))
+
+      if (s.accent) {
+        const grd = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, s.r * 5)
+        grd.addColorStop(0, `rgba(210, 238, 255, ${alpha * 0.9})`)
+        grd.addColorStop(0.35, `rgba(160, 210, 255, ${alpha * 0.35})`)
+        grd.addColorStop(1, 'rgba(100, 170, 255, 0)')
+        ctx.beginPath()
+        ctx.fillStyle = grd
+        ctx.arc(s.x, s.y, s.r * 5, 0, Math.PI * 2)
+        ctx.fill()
+      }
+
+      ctx.beginPath()
+      ctx.fillStyle = s.accent
+        ? `rgba(225, 242, 255, ${alpha})`
+        : `rgba(180, 210, 235, ${alpha})`
+      ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2)
+      ctx.fill()
+    }
+
     function draw(now: number) {
       if (!canvas || !ctx) return
       if (document.hidden) { paused = true; return }
 
-      // Cap breathing update rate — no need to redraw every frame for static stars
-      const delta = now - lastDraw
-      if (delta < 32) { // ~30fps cap for this layer
-        animId = requestAnimationFrame(draw)
-        return
-      }
-      lastDraw = now
+      // Init timestamps on first frame (or after resume)
+      if (lastFar === 0) lastFar = now
+      if (lastMid === 0) lastMid = now
+      if (lastNear === 0) lastNear = now
 
-      const w = canvas.width / devicePixelRatio
-      const h = canvas.height / devicePixelRatio
-      ctx.clearRect(0, 0, w, h)
+      const dpr = devicePixelRatio
+      const w = canvas.width / dpr
+      const h = canvas.height / dpr
 
-      for (const s of stars) {
-        const breathing = prefersReduced
-          ? 0
-          : Math.sin(now / s.period + s.phase) * 0.13
-        const alpha = Math.max(0.04, Math.min(0.85, s.baseAlpha + breathing))
+      // FAR — alpha only, 20fps cap (50ms)
+      if (now - lastFar >= 50) lastFar = now
 
-        if (s.bright) {
-          // Micro glow for bright accent stars
-          const grd = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, s.r * 5)
-          grd.addColorStop(0, `rgba(210, 238, 255, ${alpha * 0.9})`)
-          grd.addColorStop(0.35, `rgba(160, 210, 255, ${alpha * 0.35})`)
-          grd.addColorStop(1, 'rgba(100, 170, 255, 0)')
-          ctx.beginPath()
-          ctx.fillStyle = grd
-          ctx.arc(s.x, s.y, s.r * 5, 0, Math.PI * 2)
-          ctx.fill()
+      // MID — drift update at 30fps (~33ms)
+      const midDelta = now - lastMid
+      if (midDelta >= 33) {
+        if (!prefersReduced) {
+          for (const s of mid) {
+            s.x += s.vx * midDelta
+            s.y += s.vy * midDelta
+            wrap(s, w, h)
+          }
         }
-
-        ctx.beginPath()
-        ctx.fillStyle = s.bright
-          ? `rgba(225, 242, 255, ${alpha})`
-          : `rgba(180, 210, 235, ${alpha})`
-        ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2)
-        ctx.fill()
+        lastMid = now
       }
+
+      // NEAR — drift update every frame (60fps)
+      const nearDelta = now - lastNear
+      if (!prefersReduced && nearDelta > 0) {
+        for (const s of near) {
+          s.x += s.vx * nearDelta
+          s.y += s.vy * nearDelta
+          wrap(s, w, h)
+        }
+      }
+      lastNear = now
+
+      ctx.clearRect(0, 0, w, h)
+      for (const s of far)  drawStar(s, now, 0.06)
+      for (const s of mid)  drawStar(s, now, 0.12)
+      for (const s of near) drawStar(s, now, s.accent ? 0.30 : 0.18)
 
       animId = requestAnimationFrame(draw)
     }
@@ -98,6 +181,8 @@ export default function StarfieldCanvas() {
     const onVisible = () => {
       if (!document.hidden && paused) {
         paused = false
+        lastMid = 0
+        lastNear = 0
         animId = requestAnimationFrame(draw)
       }
     }
