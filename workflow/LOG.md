@@ -204,3 +204,56 @@ LEARNED:  Preview tool uvek startuje dev server iz main project direktorijuma �
 NOTES:    Batch 04 (Color Migration) preskočen u ovoj sesiji — Pavle direktno dao Batch 05 plan. Sledeći: Batch 06 — Magnetic CTAs.
 
 ---
+
+### 2026-04-28 — Batch 06 — Magnetic CTAs [CLOSE]
+
+STATUS:   DONE
+TIER:     STANDARD
+GOAL:     MagneticButton wrapper komponenta. "Step Inside" i Contact CTA se privlače prema kursoru na hover. Disabled na reduced-motion i touch.
+FILES:
+  - src/components/system/MagneticButton.tsx — NEW: useMotionValue+useSpring wrapper, stiffness 150/damping 15, radius 60px, maxDisplacement 12px, passthrough na useReducedMotion i pointer:coarse
+  - src/components/landing/LandingHero.tsx — MagneticButton import; Step Inside button wrapovan; data-cursor="cta" ostao na <button>
+  - src/components/sections/Contact.tsx — motion.a → motion.div (reveal) + MagneticButton + plain <a>; data-cursor="cta" ostao na <a>
+COMMIT:   NONE (čeka Pavle lokalni smoke test)
+VERIFY:
+  - build:     PASS(machine) — npm run build, 463 moduli, 0 grešaka
+  - typecheck: PASS(machine) — npm run typecheck, 0 grešaka
+  - manual:    AI-asserted — preview screenshot pokazuje ispravan render, 0 console errors; Pavle treba lokalno verifikovati magnetic pull + reduced-motion + touch sim
+LEARNED:  NONE
+NOTES:    Blocker B-001 ostaje otvoren (ne utiče na ovaj batch). Sledeći: Batch 07 čeka /plan.
+
+---
+
+### 2026-04-29 — Batch 07 — Starfield Refactor [CLOSE]
+
+STATUS:   DONE
+TIER:     STRICT
+GOAL:     Refaktorisati StarfieldCanvas.tsx — tri sloja zvezda (Far/Mid/Near) koji daju osećaj dubine. Jedan fajl, minimalna promena interfejsa.
+FILES:
+  - src/components/canvas/StarfieldCanvas.tsx — full refactor: FAR(55%)/MID(30%)/NEAR(15%) slojevi, per-layer drift (vx/vy px/ms), accent stars glow+twinkle ±0.30, single rAF loop sa per-layer update throttle (20/30/60fps), wraparound, mobile 60% count+no drift, reduced-motion passthrough
+COMMIT:   NONE (čeka Pavle lokalni smoke test)
+VERIFY:
+  - build:     PASS(machine) — npm run build, 463 moduli, 0 grešaka
+  - typecheck: PASS(machine) — npm run typecheck, 0 grešaka (TS null-narrowing fix includen)
+  - manual:    AI-asserted — preview screenshot pokazuje vidljive zvezde sa varijacijom veličine/brightness; Pavle treba lokalno verifikovati drift kretanje, mobile sim (manje zvezda), reduced-motion (statično)
+LEARNED:  NONE
+NOTES:    Blocker B-001 ostaje otvoren (ne utiče na ovaj batch). Sledeći: Batch 08 čeka /plan.
+
+---
+
+### 2026-04-29 — Batch 08 — Atmospheric Cleanup [CLOSE]
+
+STATUS:   DONE
+TIER:     STANDARD
+GOAL:     Razdvojiti landing i cl3 mode atmosferski. Landing ostaje čist (samo starfield + ambient gradient + vignette). Cl3 mode dobija .noise/.scanlines/#particles koji se postepeno pojavljuju.
+FILES:
+  - src/styles/base.css — .noise/.scanlines/#particles: opacity:0 + transition:0.8s ease kao default; body.cl3menza-mode override za .noise(0.06)/.scanlines(0.12)/#particles(1,inert per cascade); @media reduced-motion: transition:none blok
+COMMIT:   NONE (čeka Pavle lokalni smoke test)
+VERIFY:
+  - build:     PASS(machine) — npm run build, 463 moduli, 0 grešaka
+  - typecheck: PASS(machine) — npm run typecheck, 0 grešaka
+  - manual:    AI-asserted — preview ne može da reflektuje worktree promene; Pavle treba lokalno verifikovati landing bez noise/scanlines, cl3 mode sa njima
+LEARNED:  NONE
+NOTES:    #particles cascade conflict identifikovan — overrides.css (MEGA-R1 "portal compression") ima body.cl3menza-mode #particles { opacity:0 } i pobeđuje base.css u kaskadi. Option A prihvaćena: particles ostaju skriveni svuda. base.css pravilo za #particles u cl3 mode je inertno. Blocker B-001 ostaje otvoren.
+
+---

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { motion, useScroll, useTransform, useReducedMotion, useMotionValueEvent } from 'framer-motion'
+import { motion, useScroll, useTransform, useReducedMotion, useMotionValueEvent, useMotionValue } from 'framer-motion'
 
 // S-curve: starts behind portrait (X=85%), short vertical drop, then S-curve through cards
 // viewBox: 0 0 1000 3000 (preserveAspectRatio="none")
@@ -65,12 +65,16 @@ export default function LandingPath({ containerRef, rewardOrbIndex, onRewardOrbC
   const orbProgress = [orb0, orb1, orb2, orb3, orb4]
 
   // Orb bloom opacity — pre-computed individually (can't use hooks in loops)
-  const bm0 = useTransform(orb0, (v) => v * 0.28)
-  const bm1 = useTransform(orb1, (v) => v * 0.28)
-  const bm2 = useTransform(orb2, (v) => v * 0.28)
-  const bm3 = useTransform(orb3, (v) => v * 0.28)
-  const bm4 = useTransform(orb4, (v) => v * 0.28)
+  const bm0 = useTransform(orb0, (v) => v * 0.42)
+  const bm1 = useTransform(orb1, (v) => v * 0.42)
+  const bm2 = useTransform(orb2, (v) => v * 0.42)
+  const bm3 = useTransform(orb3, (v) => v * 0.42)
+  const bm4 = useTransform(orb4, (v) => v * 0.42)
   const orbBloom = [bm0, bm1, bm2, bm3, bm4]
+
+  // Comeback orb (i===4) — pre-computed boosted MotionValues
+  const bm4Boost   = useTransform(orb4, (v) => v * 0.42 * 1.3)
+  const halo4Boost = useTransform(orb4, (v) => v * 1.2)
 
   // Filament opacity — fades in with scroll, avoids pathLength conflict with strokeDasharray
   const filBase = useTransform(scrollYProgress, [0, 0.30], [0, 1])
@@ -90,6 +94,16 @@ export default function LandingPath({ containerRef, rewardOrbIndex, onRewardOrbC
 
   const pl = reduceMotion ? 1 : scrollYProgress
 
+  // Scroll-driven beam opacity — shared breathing curve
+  const beamFallback    = useMotionValue(1)
+  const beamCurveActive = useTransform(scrollYProgress, [0, 0.5, 1], [0.44, 1.0, 0.67])
+  const beamCurve = reduceMotion ? beamFallback : beamCurveActive
+  const hazeOp  = useTransform(beamCurve, (v) => v * 0.14)
+  const outerOp = useTransform(beamCurve, (v) => v * 0.32)
+  const innerOp = useTransform(beamCurve, (v) => v * 0.55)
+  const coreOp  = useTransform(beamCurve, (v) => v * 0.92)
+  const spineOp = useTransform(beamCurve, (v) => v * 1.0)
+
   return (
     <>
       <svg
@@ -99,12 +113,12 @@ export default function LandingPath({ containerRef, rewardOrbIndex, onRewardOrbC
         aria-hidden="true"
       >
         <defs>
-          {/* Beam layer filters — max stdDeviation 15 per performance spec */}
+          {/* Beam layer filters */}
           <filter id="f-haze"  x="-18%" y="-2%"   width="136%" height="104%">
-            <feGaussianBlur stdDeviation="15" />
+            <feGaussianBlur stdDeviation="18" />
           </filter>
           <filter id="f-outer" x="-15%" y="-1.5%" width="130%" height="103%">
-            <feGaussianBlur stdDeviation="13" />
+            <feGaussianBlur stdDeviation="15" />
           </filter>
           <filter id="f-inner" x="-12%" y="-1%"   width="124%" height="102%">
             <feGaussianBlur stdDeviation="9" />
@@ -113,7 +127,7 @@ export default function LandingPath({ containerRef, rewardOrbIndex, onRewardOrbC
             <feGaussianBlur stdDeviation="4.5" />
           </filter>
           <filter id="f-spine" x="-5%"  y="-0.5%" width="110%" height="101%">
-            <feGaussianBlur stdDeviation="1.5" />
+            <feGaussianBlur stdDeviation="1.2" />
           </filter>
           {/* Orb filters */}
           <filter id="f-orb-bloom"  x="-200%" y="-200%" width="500%" height="500%">
@@ -142,18 +156,18 @@ export default function LandingPath({ containerRef, rewardOrbIndex, onRewardOrbC
 
         {/* Layer 5: Carrier haze */}
         <motion.path
-          d={PATH_D} fill="none" stroke="#0d3a6b" strokeWidth="50"
-          filter="url(#f-haze)" opacity={0.09}
+          d={PATH_D} fill="none" stroke="#0d3a6b" strokeWidth="60"
+          filter="url(#f-haze)"
           vectorEffect="non-scaling-stroke" strokeLinecap="round"
-          style={{ pathLength: pl }}
+          style={{ pathLength: pl, opacity: hazeOp }}
         />
 
         {/* Layer 4: Outer aura */}
         <motion.path
-          d={PATH_D} fill="none" stroke="#1a6baa" strokeWidth="28"
-          filter="url(#f-outer)" opacity={0.22}
+          d={PATH_D} fill="none" stroke="#1a6baa" strokeWidth="36"
+          filter="url(#f-outer)"
           vectorEffect="non-scaling-stroke" strokeLinecap="round"
-          style={{ pathLength: pl }}
+          style={{ pathLength: pl, opacity: outerOp }}
         />
 
         {/* Filaments — segmented secondary currents
@@ -177,26 +191,26 @@ export default function LandingPath({ containerRef, rewardOrbIndex, onRewardOrbC
 
         {/* Layer 3: Inner glow */}
         <motion.path
-          d={PATH_D} fill="none" stroke="#00E5FF" strokeWidth="14"
-          filter="url(#f-inner)" opacity={0.45}
+          d={PATH_D} fill="none" stroke="#67E8F9" strokeWidth="14"
+          filter="url(#f-inner)"
           vectorEffect="non-scaling-stroke" strokeLinecap="round"
-          style={{ pathLength: pl }}
+          style={{ pathLength: pl, opacity: innerOp }}
         />
 
         {/* Layer 2: Core ribbon */}
         <motion.path
-          d={PATH_D} fill="none" stroke="#00E5FF" strokeWidth="6"
-          filter="url(#f-core)" opacity={0.78}
+          d={PATH_D} fill="none" stroke="#C0F0FE" strokeWidth="5"
+          filter="url(#f-core)"
           vectorEffect="non-scaling-stroke" strokeLinecap="round"
-          style={{ pathLength: pl }}
+          style={{ pathLength: pl, opacity: coreOp }}
         />
 
         {/* Layer 1: White-hot spine */}
         <motion.path
-          d={PATH_D} fill="none" stroke="#E8F9FF" strokeWidth="2.5"
-          filter="url(#f-spine)" opacity={0.90}
+          d={PATH_D} fill="none" stroke="#FFFFFF" strokeWidth="1.8"
+          filter="url(#f-spine)"
           vectorEffect="non-scaling-stroke" strokeLinecap="round"
-          style={{ pathLength: pl }}
+          style={{ pathLength: pl, opacity: spineOp }}
         />
 
         {/* Cosmic residue — energy micro-traces, CSS-animated opacity */}
@@ -204,7 +218,7 @@ export default function LandingPath({ containerRef, rewardOrbIndex, onRewardOrbC
           <circle
             key={i}
             cx={p.cx} cy={p.cy} r={1.2}
-            fill="#00E5FF"
+            fill="#67E8F9"
             filter="url(#f-residue)"
             className="beam-residue"
             style={{ animationDelay: `-${(i * 0.37) % 3.5}s` }}
@@ -212,29 +226,29 @@ export default function LandingPath({ containerRef, rewardOrbIndex, onRewardOrbC
         ))}
 
         {/* Connector lines — draw from orb to card edge as orb activates */}
-        <motion.path d="M 250 700  L 550 700"  fill="none" stroke="rgba(93,184,255,0.35)" strokeWidth="1" vectorEffect="non-scaling-stroke" strokeLinecap="round" style={{ pathLength: reduceMotion ? 1 : orb1 }} />
-        <motion.path d="M 800 1300 L 450 1300" fill="none" stroke="rgba(93,184,255,0.35)" strokeWidth="1" vectorEffect="non-scaling-stroke" strokeLinecap="round" style={{ pathLength: reduceMotion ? 1 : orb2 }} />
-        <motion.path d="M 200 1900 L 550 1900" fill="none" stroke="rgba(93,184,255,0.35)" strokeWidth="1" vectorEffect="non-scaling-stroke" strokeLinecap="round" style={{ pathLength: reduceMotion ? 1 : orb3 }} />
-        <motion.path d="M 800 2500 L 450 2500" fill="none" stroke="rgba(93,184,255,0.35)" strokeWidth="1" vectorEffect="non-scaling-stroke" strokeLinecap="round" style={{ pathLength: reduceMotion ? 1 : orb4 }} />
+        <motion.path d="M 250 700  L 550 700"  fill="none" stroke="rgba(103,232,249,0.35)" strokeWidth="1" vectorEffect="non-scaling-stroke" strokeLinecap="round" style={{ pathLength: reduceMotion ? 1 : orb1 }} />
+        <motion.path d="M 800 1300 L 450 1300" fill="none" stroke="rgba(103,232,249,0.35)" strokeWidth="1" vectorEffect="non-scaling-stroke" strokeLinecap="round" style={{ pathLength: reduceMotion ? 1 : orb2 }} />
+        <motion.path d="M 200 1900 L 550 1900" fill="none" stroke="rgba(103,232,249,0.35)" strokeWidth="1" vectorEffect="non-scaling-stroke" strokeLinecap="round" style={{ pathLength: reduceMotion ? 1 : orb3 }} />
+        <motion.path d="M 800 2500 L 450 2500" fill="none" stroke="rgba(103,232,249,0.35)" strokeWidth="1" vectorEffect="non-scaling-stroke" strokeLinecap="round" style={{ pathLength: reduceMotion ? 1 : orb4 }} />
 
         {/* ── ORBS — Faza A: outer bloom + inner halo + white-hot center ── */}
         {ORB_POSITIONS.map((pos, i) => (
           <g key={i}>
             {/* Outer bloom — deep blue, wide glow */}
             <motion.circle
-              cx={pos.cx} cy={pos.cy} r={32}
+              cx={pos.cx} cy={pos.cy} r={i === 4 ? 48 : 32}
               fill="#0a4a8a" filter="url(#f-orb-bloom)"
-              style={{ opacity: reduceMotion ? 0.22 : orbBloom[i] }}
+              style={{ opacity: reduceMotion ? (i === 4 ? 0.286 : 0.22) : (i === 4 ? bm4Boost : orbBloom[i]) }}
             />
             {/* Inner halo — icy cyan */}
             <motion.circle
-              cx={pos.cx} cy={pos.cy} r={15}
-              fill="#00E5FF" filter="url(#f-orb-halo)"
-              style={{ opacity: reduceMotion ? 0.55 : orbProgress[i] }}
+              cx={pos.cx} cy={pos.cy} r={i === 4 ? 24 : 15}
+              fill="#67E8F9" filter="url(#f-orb-halo)"
+              style={{ opacity: reduceMotion ? (i === 4 ? 0.66 : 0.55) : (i === 4 ? halo4Boost : orbProgress[i]) }}
             />
             {/* White-hot center */}
             <motion.circle
-              cx={pos.cx} cy={pos.cy} r={4}
+              cx={pos.cx} cy={pos.cy} r={i === 4 ? 6 : 5}
               fill="#FFFFFF" filter="url(#f-orb-center)"
               style={{
                 opacity: reduceMotion ? 1 : orbProgress[i],

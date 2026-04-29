@@ -22,10 +22,10 @@
 
 ## Gde sam sada
 
-**Poslednji završen:** Batch 05 — Custom Cursor System (2026-04-28)
-**Sledeći:** Batch 06 — Magnetic CTAs
+**Poslednji završen:** Batch 08 — Atmospheric Cleanup (2026-04-29)
+**Sledeći:** Batch 09 — čeka /plan
 **Aktivan batch:** NONE (čeka /plan)
-**Blocker:** B-001 — TheBuild screenshots padrinobudva.com (owner: Pavle) — blokira R4b, ne blokira Batch 06
+**Blocker:** B-001 — TheBuild screenshots padrinobudva.com (owner: Pavle) — blokira R4b, ne blokira dalje batch-eve
 
 ---
 
