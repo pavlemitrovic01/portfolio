@@ -121,15 +121,21 @@ a{text-decoration:none;color:inherit}
   inset:0;
   pointer-events:none;
   z-index:0;
+  opacity:0;
+  transition:opacity 0.8s ease;
 }
 .noise{
-  opacity:.06;
   background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="180" height="180" viewBox="0 0 180 180"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/></filter><rect width="180" height="180" filter="url(%23n)" opacity="1"/></svg>');
   mix-blend-mode:screen;
 }
 .scanlines{
   background:linear-gradient(180deg, rgba(255,255,255,.015) 0, rgba(255,255,255,0) 50%, rgba(255,255,255,.015) 100%);
   background-size:100% 4px;
-  opacity:.12;
+}
+body.cl3menza-mode .noise     { opacity:.06; }
+body.cl3menza-mode .scanlines { opacity:.12; }
+body.cl3menza-mode #particles { opacity:1;   }
+@media (prefers-reduced-motion: reduce) {
+  .noise, .scanlines, #particles { transition:none; }
 }
 
