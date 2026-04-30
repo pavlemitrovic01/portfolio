@@ -1,152 +1,243 @@
 import { motion, useReducedMotion } from 'framer-motion'
 
 const CL3_EASE: [number, number, number, number] = [0.16, 1, 0.3, 1]
-const FAST_EASE: [number, number, number, number] = [0.22, 1, 0.36, 1]
 
-const KEY_MOMENTS = [
+interface Stat {
+  value: string
+  label: string
+  sub: string
+}
+
+interface MomentGroup {
+  group: string
+  items: string[]
+}
+
+interface Project {
+  name: string
+  subtitle: string
+  url: string
+  domain: string
+  tech: string[]
+  stats: Stat[]
+  moments: MomentGroup[]
+}
+
+const PROJECTS: readonly Project[] = [
   {
-    title: 'Cart \u2192 Order \u2192 Payment in one flow',
-    desc: 'The core user journey works end-to-end. Menu browsing, cart management, add-ons, delivery zone detection, and checkout \u2014 one continuous path from appetite to confirmation.',
-  },
-  {
-    title: 'Real-time order notifications via Telegram',
-    desc: 'Every new order triggers an instant Telegram alert to the restaurant. Operational visibility without operational complexity.',
-  },
-  {
-    title: 'Bankart payment integration with HMAC verification',
-    desc: 'Production-grade payment handling with webhook callbacks and cryptographic verification. Real transactions, real money, real security.',
-  },
-  {
-    title: 'Admin dashboard with zone management and menu control',
-    desc: 'The restaurant manages menus, delivery zones, pricing and order flow from a single interface. Operator autonomy without developer dependency.',
+    name: 'Padrino Budva',
+    subtitle: 'Full-stack ordering platform for a real restaurant.',
+    url: 'https://padrinobudva.com',
+    domain: 'padrinobudva.com',
+    tech: ['React', 'Vite', 'TypeScript', 'Supabase', 'Bankart', 'Telegram API', 'Vercel'],
+    stats: [
+      { value: '27',  label: 'Hours',            sub: 'to first prototype' },
+      { value: '6',   label: 'Weeks',            sub: 'from start to live' },
+      { value: '85+', label: 'Orders processed', sub: 'and counting' },
+    ],
+    moments: [
+      {
+        group: 'Customer flow',
+        items: [
+          'Custom cart engine — dodaci, varijante, količine',
+          'Delivery zone detection — automatsko prepoznavanje zone',
+          'Bankart payment integration sa HMAC webhook verifikacijom',
+        ],
+      },
+      {
+        group: 'Operator control',
+        items: [
+          'Admin dashboard — upravljanje menijem, zonama, cenama',
+          'Order management sistem — pregled, status, istorija',
+          'Real-time Telegram notifikacije pri svakoj porudžbini',
+        ],
+      },
+      {
+        group: 'Infrastructure',
+        items: [
+          'Mobile-first responsive dizajn',
+          'Vercel deployment sa automatskim CI/CD',
+        ],
+      },
+    ],
   },
 ]
 
-const FLOW_NODES = ['Client', 'Cart', 'Order', 'Payment', 'Notification']
-
-const momentsContainerVariants = {
+const statsContainerVariants = {
   hidden: {},
-  visible: { transition: { staggerChildren: 0.28 } },
+  visible: { transition: { staggerChildren: 0.12 } },
 }
-const momentItemVariants = {
-  hidden: { opacity: 0, y: 24 },
+const statItemVariants = {
+  hidden: { opacity: 0, y: 16 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: CL3_EASE } },
+}
+
+const layersContainerVariants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.15 } },
+}
+const layerVariants = {
+  hidden: { opacity: 0, y: 20 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: CL3_EASE } },
 }
 
-const flowContainerVariants = {
+const itemsContainerVariants = {
   hidden: {},
-  visible: { transition: { staggerChildren: 0.18 } },
+  visible: { transition: { staggerChildren: 0.06 } },
 }
-const nodeVariants = {
-  hidden: { opacity: 0, y: 6 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.45, ease: CL3_EASE } },
-}
-const connectorVariants = {
-  hidden: { scaleX: 0 },
-  visible: { scaleX: 1, transition: { duration: 0.22, ease: FAST_EASE } },
+const itemVariants = {
+  hidden: { opacity: 0, x: -12 },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.5, ease: CL3_EASE } },
 }
 
-// Reduced-motion: all content immediately at final state, no stagger, no animation
-const reducedContainerVariants = { hidden: {}, visible: {} }
-const reducedItemVariants = { hidden: { opacity: 1, y: 0 }, visible: { opacity: 1, y: 0 } }
-const reducedConnectorVariants = { hidden: { scaleX: 1 }, visible: { scaleX: 1 } }
+const reducedVariants = { hidden: {}, visible: {} }
+const reducedChildVariants = { hidden: { opacity: 1, y: 0, x: 0 }, visible: { opacity: 1, y: 0, x: 0 } }
 
 export default function TheBuild() {
   const reduceMotion = useReducedMotion() === true
+  const p = PROJECTS[0]
 
   return (
     <section id="the-build" className="the-build">
       <div className="container">
 
-        {/* Block A — Context */}
+        <div className="build-label">The Build</div>
+
+        {/* Heading + subtitle */}
         <motion.div
-          className="build-context"
           initial={reduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={reduceMotion ? { duration: 0 } : { duration: 0.8, ease: CL3_EASE }}
         >
-          <h2>Padrino Budva</h2>
-          <p>
-            Full-stack ordering system for a premium pizzeria. Custom cart engine, Bankart payment integration,
-            delivery zone detection, real-time admin panel, and Telegram notifications.
-            A real business needed a real product — this is what I built.
-          </p>
-          <p style={{ marginTop: 12 }}>
-            <a href="https://padrinobudva.com" target="_blank" rel="noopener noreferrer" data-cursor="cta">
-              View live &thinsp;&rarr;
-            </a>
-          </p>
+          <h2 className="build-heading">{p.name}</h2>
+          <p className="build-subtitle">{p.subtitle}</p>
         </motion.div>
 
-        {/* Block B — Screenshot Frame System (images arrive in R4b) */}
+        {/* Browser frame + iframe */}
         <motion.div
-          className="build-visuals"
-          initial={reduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
+          className="build-browser"
+          initial={reduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.1 }}
-          transition={reduceMotion ? { duration: 0 } : { duration: 0.9, ease: CL3_EASE }}
+          transition={reduceMotion ? { duration: 0 } : { duration: 1.0, delay: 0.2, ease: CL3_EASE }}
         >
-          <div className="build-frame">
-            <div className="build-frame-inner">
-              <span className="build-frame-label">Menu &amp; ordering flow</span>
+          <div className="build-browser-chrome">
+            <div className="build-browser-dots">
+              <span className="build-browser-dot build-browser-dot--red" />
+              <span className="build-browser-dot build-browser-dot--yellow" />
+              <span className="build-browser-dot build-browser-dot--green" />
+            </div>
+            <div className="build-browser-url">
+              <svg className="build-browser-lock" width="11" height="11" viewBox="0 0 12 12" fill="none">
+                <path d="M3 5V3.5C3 2.12 4.12 1 5.5 1S8 2.12 8 3.5V5M2.5 5h6v5h-6z" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+              <span>{p.domain}</span>
+            </div>
+            <div className="build-browser-live">
+              <span className="build-browser-live-dot" />
+              LIVE
             </div>
           </div>
-          <div className="build-frame">
-            <div className="build-frame-inner">
-              <span className="build-frame-label">Admin dashboard</span>
-            </div>
+          <div className="build-browser-disclaimer">
+            ⚠ Live preview — orders placed here are real. Visit {p.domain} directly.
           </div>
+          <iframe
+            src={p.url}
+            title={`${p.name} — live preview`}
+            className="build-browser-iframe"
+            loading="lazy"
+          />
         </motion.div>
 
-        {/* Block C — Key Moments */}
+        {/* Built with */}
         <motion.div
-          className="build-moments"
-          variants={reduceMotion ? reducedContainerVariants : momentsContainerVariants}
+          className="build-techline"
+          initial={reduceMotion ? { opacity: 1 } : { opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true, amount: 0.5 }}
+          transition={reduceMotion ? { duration: 0 } : { duration: 0.5, delay: 0.4, ease: CL3_EASE }}
+        >
+          <span className="build-techline-label">Built with:</span>
+          {p.tech.map((t, i) => (
+            <span key={t} className="build-techline-item">
+              {t}{i < p.tech.length - 1 && <span className="build-techline-sep">·</span>}
+            </span>
+          ))}
+        </motion.div>
+
+        <div className="build-divider" />
+
+        {/* Stat strip */}
+        <motion.div
+          className="build-stats"
+          variants={reduceMotion ? reducedVariants : statsContainerVariants}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.1 }}
+          viewport={{ once: true, amount: 0.2 }}
         >
-          {KEY_MOMENTS.map((moment, i) => (
+          {p.stats.map((s, i) => (
             <motion.div
               key={i}
-              className="build-moment"
-              variants={reduceMotion ? reducedItemVariants : momentItemVariants}
+              className="build-stat"
+              variants={reduceMotion ? reducedChildVariants : statItemVariants}
             >
-              <h3>{moment.title}</h3>
-              <p>{moment.desc}</p>
+              <div className="build-stat-value">{s.value}</div>
+              <div className="build-stat-label">{s.label}</div>
+              <div className="build-stat-sub">{s.sub}</div>
             </motion.div>
           ))}
         </motion.div>
 
-        {/* Block D — Architecture Flow */}
+        <div className="build-divider" />
+
+        {/* Layered key moments */}
         <motion.div
-          className="build-flow"
-          variants={reduceMotion ? reducedContainerVariants : flowContainerVariants}
+          className="build-layers"
+          variants={reduceMotion ? reducedVariants : layersContainerVariants}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.3 }}
+          viewport={{ once: true, amount: 0.1 }}
         >
-          {FLOW_NODES.flatMap((node, i) => [
+          {p.moments.map((layer) => (
             <motion.div
-              key={node}
-              className="build-flow-node"
-              variants={reduceMotion ? reducedItemVariants : nodeVariants}
+              key={layer.group}
+              className="build-layer"
+              variants={reduceMotion ? reducedChildVariants : layerVariants}
             >
-              {node}
-            </motion.div>,
-            ...(i < FLOW_NODES.length - 1
-              ? [
-                  <motion.div
-                    key={`c${i}`}
-                    className="build-flow-connector"
-                    variants={reduceMotion ? reducedConnectorVariants : connectorVariants}
-                    style={{ originX: 0 }}
-                  />,
-                ]
-              : []),
-          ])}
+              <h3 className="build-layer-title">{layer.group}</h3>
+              <motion.ul
+                className="build-layer-list"
+                variants={reduceMotion ? reducedVariants : itemsContainerVariants}
+              >
+                {layer.items.map((item, ii) => (
+                  <motion.li
+                    key={ii}
+                    className="build-layer-item"
+                    variants={reduceMotion ? reducedChildVariants : itemVariants}
+                  >
+                    {item}
+                  </motion.li>
+                ))}
+              </motion.ul>
+            </motion.div>
+          ))}
         </motion.div>
+
+        {/* CTA */}
+        <motion.a
+          href={p.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="build-cta"
+          data-cursor="cta"
+          initial={reduceMotion ? { opacity: 1 } : { opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true, amount: 0.5 }}
+          transition={reduceMotion ? { duration: 0 } : { duration: 0.6, delay: 0.4, ease: CL3_EASE }}
+        >
+          Visit live site →
+        </motion.a>
 
       </div>
     </section>
