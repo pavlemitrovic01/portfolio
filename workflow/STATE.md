@@ -22,8 +22,8 @@
 
 ## Gde sam sada
 
-**Poslednji završen:** Batch 08 — Atmospheric Cleanup (2026-04-29)
-**Sledeći:** Batch 09 — čeka /plan
+**Poslednji završen:** Batch 10b — Cards Redesign + Story Modal (2026-04-30)
+**Sledeći:** Batch 11 (čeka /plan)
 **Aktivan batch:** NONE (čeka /plan)
 **Blocker:** B-001 — TheBuild screenshots padrinobudva.com (owner: Pavle) — blokira R4b, ne blokira dalje batch-eve
 

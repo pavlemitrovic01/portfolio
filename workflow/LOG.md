@@ -257,3 +257,41 @@ LEARNED:  NONE
 NOTES:    #particles cascade conflict identifikovan — overrides.css (MEGA-R1 "portal compression") ima body.cl3menza-mode #particles { opacity:0 } i pobeđuje base.css u kaskadi. Option A prihvaćena: particles ostaju skriveni svuda. base.css pravilo za #particles u cl3 mode je inertno. Blocker B-001 ostaje otvoren.
 
 ---
+
+### 2026-04-29 — Batch 09a — Journey Line Polish [CLOSE]
+
+STATUS:   DONE
+TIER:     STANDARD
+GOAL:     Pojačati Journey line — šira halo, bela core/spine, scroll-triggered opacity reveal, comeback orb boost animacija, reduced-motion passthrough.
+FILES:
+  - src/components/landing/LandingCards.tsx — Journey line blur filter, .jcard-journey-line CSS za glow, backdrop-filter, opacity transition na scroll
+  - src/styles/landing.css — novi .jcard-journey-line-wrapper/.jcard-journey-line/.journey-line-halo/.journey-line-core/.journey-line-spine/.comeback-orb-boost (glow 12px white + 20px blur halo, zindex management, @media reduced-motion passthrough)
+  - src/components/canvas/StarfieldCanvas.tsx — bugfix: comeback orb boost blur filter oslobođen, scale pulse animacija dodat pre Batch 09a
+COMMIT:   NONE (čeka Pavle lokalni smoke test)
+VERIFY:
+  - build:     PASS(machine) — npm run build, 463 moduli, 0 grešaka
+  - typecheck: PASS(machine) — npm run typecheck, 0 grešaka
+  - manual:    AI-asserted — preview i Pavle lokalno: scroll-triggered opacity reveal, comeback orb boost glow pulsing, white spine vidljiva
+LEARNED:  NONE
+NOTES:    B-001 ostaje otvoren (ne utiče na ovaj batch). Sledeći: Batch 10 (Cards Redesign + Story Modal) čeka /plan.
+
+---
+
+### 2026-04-30 — Batch 10b — Cards Redesign + Story Modal [CLOSE]
+
+STATUS:   DONE
+TIER:     STRICT
+GOAL:     Kartice postaju "memory shards" sa godinom kao temporal anchor, tagovima, i "Read more" CTA koji otvara story modal. Pojačati ulaz animaciju (blur + scale + opacity + y).
+FILES:
+  - src/components/landing/LandingCards.tsx — proširen CardData interfejs, novi CARDS podaci (kratki body + fullBody), JCard markup sa year/icon/divider/tags/readmore, pojačane Framer Motion animacije (blur+scale+x+y+opacity), StoryModal integracija
+  - src/components/landing/StoryModal.tsx — NEW: portal modal, focus trap, body scroll lock, AnimatePresence, anchorSide ulaz animacija, mobile transformTemplate centering
+  - src/styles/landing.css — novi jcard stilovi (year dominance, jcard-top-row, jcard-divider, jcard-footer, jcard-tags, jcard-readmore, jcard-visual, jcard-glass), story-modal sistema, mobile modal fix
+COMMIT:   NONE (čeka Pavle lokalni smoke test)
+VERIFY:
+  - build:     PASS(machine) — npm run build, 0 grešaka
+  - typecheck: PASS(machine) — npx tsc --noEmit, 0 grešaka
+  - manual:    AI-asserted — Pavle treba lokalno verifikovati scroll-triggered reveal, modal focus trap, mobile centering
+LEARNED:  transformTemplate pattern za kombinovanje CSS layout pozicioniranja (position:fixed + left/top:50%) sa Framer Motion animacijom — centering offset mora biti deo FM transform stringa, ne zasebni CSS transform.
+NOTES:    B-001 ostaje otvoren (ne utiče na ovaj batch). Bugfiksovi u ovom batchu: body tekst (kratki teaser vs fullBody), year kartica 4 (2024→2026), mobile modal centering konflikt.
+
+---
