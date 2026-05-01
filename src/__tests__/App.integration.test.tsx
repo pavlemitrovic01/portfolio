@@ -20,6 +20,13 @@ vi.mock('framer-motion', async () => {
     useReducedMotion: vi.fn(() => null),
     useScroll: vi.fn(() => ({ scrollYProgress: { get: () => 0 } })),
     useTransform: vi.fn(() => 0),
+    useMotionValue: vi.fn((init: unknown) => ({
+      get: () => init,
+      set: vi.fn(),
+      on: vi.fn(() => () => {}),
+    })),
+    useSpring: vi.fn((source: unknown) => source),
+    useMotionValueEvent: vi.fn(),
   }
 })
 

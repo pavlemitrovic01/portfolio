@@ -4,6 +4,12 @@ export default defineConfig({
   test: {
     globals: true,
     setupFiles: ['./src/test-setup.ts'],
+    exclude: [
+      '**/node_modules/**',
+      '**/dist/**',
+      '**/.claude/**',
+      '**/workflow/_archive/**',
+    ],
     coverage: {
       provider: 'v8',
       include: ['api/**/*.ts', 'src/hooks/**/*.ts'],
