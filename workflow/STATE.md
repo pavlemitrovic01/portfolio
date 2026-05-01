@@ -22,10 +22,10 @@
 
 ## Gde sam sada
 
-**Poslednji završen:** Batch 10b — Cards Redesign + Story Modal (2026-04-30)
-**Sledeći:** Batch 11 (čeka /plan)
+**Poslednji završen:** Batch 12a — Contact Terminal Treatment + Warm Mode Flash (2026-05-01)
+**Sledeći:** Batch 12b — Reward System v1 (čeka /plan)
 **Aktivan batch:** NONE (čeka /plan)
-**Blocker:** B-001 — TheBuild screenshots padrinobudva.com (owner: Pavle) — blokira R4b, ne blokira dalje batch-eve
+**Blocker:** NONE
 
 ---
 
@@ -40,17 +40,17 @@
 
 ## Aktivni plan — kratko
 
-**Sledeći batch:** Batch 06 — Magnetic CTAs (Tier: STRICT)
-- Magnetic pull efekat na primary CTA-e pri hover-u (Framer Motion useSpring)
-- "Step Inside" button + Contact mailto kao primarni targets
-- Koordinacija sa Batch 05 custom cursor (cursor scale + magnetic move istovremeno)
-- Disable na touch uređajima i prefers-reduced-motion
+**Sledeći batch:** Batch 12 — Contact Terminal Treatment + Reward System v1 (Tier: STRICT)
+- Terminal-style Contact sekcija (signal received / initiating contact protocol...)
+- Reward System v1: 3 lokacije (hover orb iza portrait, skrivena reč u TheBuild, long-press cl3menza brand)
+- localStorage persistence za discovered rewards
+- Mode prelaz warm flash (#F4A261)
 
 **Pending van CL3 reconstruction scope:**
-- R4b (BLOCKED — B-001)
 - P-OG meta tagovi, P-Content, P-API integracije
 - Domain config, GA4 real ID
 - ⚠️ Pavle rotira ANTHROPIC_API_KEY (manuelno)
+- Batch 13 — PATH_D refinement (deferred geometry)
 
 ---
 

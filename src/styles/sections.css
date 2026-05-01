@@ -149,6 +149,37 @@
   background: rgba(2, 4, 8, 0.5);
 }
 
+/* Warm orange flash — peaks mid-animation, signature "warm spark" moment */
+.fragment-overlay::before {
+  content: '';
+  position: absolute;
+  inset: -10%;
+  pointer-events: none;
+  background: radial-gradient(
+    circle at 50% 50%,
+    var(--warm) 0%,
+    rgba(244, 162, 97, 0.4) 30%,
+    transparent 60%
+  );
+  opacity: 0;
+  animation: fragmentWarmFlash 1.05s ease-in-out forwards;
+  mix-blend-mode: screen;
+  z-index: 1;
+}
+
+@keyframes fragmentWarmFlash {
+  0%        { opacity: 0; }
+  45%, 55%  { opacity: 0.35; }
+  100%      { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fragment-overlay::before {
+    animation: none;
+    opacity: 0.15;
+  }
+}
+
 .fragment-tile {
   position: absolute;
   box-sizing: border-box;

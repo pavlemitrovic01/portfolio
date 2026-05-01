@@ -8,6 +8,37 @@
 
 ## Format — Batch entry
 
+---
+
+### 2026-04-30 — Batch 11 — TheBuild Redesign [CLOSE]
+
+STATUS:   DONE
+TIER:     STRICT
+GOAL:     TheBuild postaje "proof of work" showcase — live iframe u browser frame-u, stat strip (27h/6w/85+), layered moments (3 grupe), scalable PROJECTS array.
+FILES:
+  - src/components/sections/TheBuild.tsx — complete rewrite: PROJECTS data array, browser chrome (traffic lights + lock + LIVE badge), disclaimer banner, live <iframe>, techline, stat strip, layered moments, pill CTA, full useReducedMotion guard
+  - src/styles/chambers.css — TheBuild CSS block fully replaced: old classes removed (.build-context/.build-frame/.build-moments/.build-flow), new classes per spec, mobile breakpoints, @media prefers-reduced-motion block
+COMMIT:   5eaeabd
+VERIFY:
+  - build:     PASS(machine) — npm run build, 464 moduli, 0 grešaka
+  - typecheck: PASS(machine) — npx tsc --noEmit, 0 grešaka
+  - manual:    PASS(human) — Pavle lokalno verifikovao: chrome bar, LIVE pulse, disclaimer, iframe load, stats 3-col/1-col mobile, layers 3-col/1-col mobile, CTA, reduced-motion
+LEARNED:  NONE
+NOTES:    B-001 blocker (TheBuild screenshots) zaobiđen iframe pristupom — vidi BLOCKER RESOLVED entry ispod. Sledeći: Batch 12 (Contact + Reward System) čeka /plan.
+
+---
+
+### 2026-04-30 — BLOCKER RESOLVED — B-001
+
+BATCH:     TheBuild (Batch 11)
+SEVERITY:  LOW (nije blokirao dalje batch-eve)
+OWNER:     Pavle
+PROBLEM:   TheBuild screenshots za padrinobudva.com nisu bili dostupni
+UNBLOCK:   Odluka da se koristi live iframe umesto screenshots — B-001 zaobiđen, ne čeka screenshots
+IMPACT:    NONE — live iframe pristup je superiorno rešenje
+
+---
+
 ```
 ### [YYYY-MM-DD] — [Batch ID] — [Naziv] [OPEN|CLOSE]
 
@@ -293,5 +324,24 @@ VERIFY:
   - manual:    AI-asserted — Pavle treba lokalno verifikovati scroll-triggered reveal, modal focus trap, mobile centering
 LEARNED:  transformTemplate pattern za kombinovanje CSS layout pozicioniranja (position:fixed + left/top:50%) sa Framer Motion animacijom — centering offset mora biti deo FM transform stringa, ne zasebni CSS transform.
 NOTES:    B-001 ostaje otvoren (ne utiče na ovaj batch). Bugfiksovi u ovom batchu: body tekst (kratki teaser vs fullBody), year kartica 4 (2024→2026), mobile modal centering konflikt.
+
+---
+
+### 2026-05-01 — Batch 12a — Contact Terminal Treatment + Warm Mode Flash [CLOSE]
+
+STATUS:   DONE
+TIER:     STANDARD
+GOAL:     Contact sekcija postaje terminal-style closing chamber sa staggered line reveal, blinking cursor, i metadata. Fragment overlay dobija warm orange flash mid-animation.
+FILES:
+  - src/components/sections/Contact.tsx — complete rewrite: terminal lines (> link established. / > ready.), staggered lineFade (0/0.35/0.7/1.0s), MagneticButton email wrapper, blinking step cursor, metadata rows (response time / currently)
+  - src/styles/chambers.css — signal-out block fully replaced (old h2/pill-cta stilovi uklanjani → terminal struktura), .signal-out-cta:focus-visible uklonjen
+  - src/styles/sections.css — .fragment-overlay::before dodat (warm radial gradient var(--warm), mix-blend-mode:screen, fragmentWarmFlash @keyframes peak 45–55%, reduced-motion fallback opacity:0.15)
+COMMIT:   NONE (čeka commit)
+VERIFY:
+  - build:     PASS(machine) — npm run build, 464 moduli, 0 grešaka
+  - typecheck: PASS(machine) — npx tsc --noEmit, 0 grešaka
+  - manual:    PASS(human) — Pavle lokalno verifikovao: terminal stagger, email cursor blink, magnetic pull, warm flash na cl3 mode enter/exit, reduced-motion
+LEARNED:  NONE
+NOTES:    Reward System v1 (Batch 12b scope) nije implementiran u ovom batchu — deferred. Sledeći: Batch 12b čeka /plan.
 
 ---

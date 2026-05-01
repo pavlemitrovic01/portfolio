@@ -157,10 +157,6 @@
   outline: 2px solid var(--cyan);
   outline-offset: 2px;
 }
-.signal-out-cta:focus-visible {
-  outline: 2px solid var(--cyan);
-  outline-offset: 3px;
-}
 
 /* ── Pull Quote ── */
 .pull-quote {
@@ -513,46 +509,106 @@
   letter-spacing: 0.02em;
 }
 
-/* ── Signal Out ── */
+/* ── Signal Out (Contact) — terminal treatment ── */
 .signal-out {
-  min-height: 100vh;
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--s-6) 24px;
+}
+.signal-out-terminal {
+  width: 100%;
+  max-width: 640px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 2rem 24px;
-  text-align: center;
+  gap: 18px;
+  font-family: ui-monospace, 'Geist Mono', 'SF Mono', monospace;
 }
-.signal-out h2 {
-  font-family: "Space Grotesk", sans-serif;
-  font-size: clamp(2rem, 5vw, 4rem);
-  font-weight: 700;
-  line-height: 0.92;
-  letter-spacing: -0.05em;
-  margin-bottom: var(--s-3);
+.signal-out-line {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  font-size: 17px;
+  color: rgba(232, 244, 255, 0.78);
+  letter-spacing: 0.01em;
+  line-height: 1.5;
 }
-.signal-out-cta {
+.signal-out-prompt {
+  color: var(--cyan);
+  opacity: 0.7;
+  font-weight: 500;
+  flex-shrink: 0;
+}
+/* Email — primary, oversized */
+.signal-out-email-wrap {
+  margin-top: 12px;
+  margin-bottom: 12px;
+}
+.signal-out-email {
   display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 54px;
-  padding: 0 var(--s-3);
-  border-radius: 999px;
-  border: 1px solid rgba(120, 255, 240, 0.25);
-  background: rgba(120, 255, 240, 0.08);
-  color: var(--blue);
-  font-weight: 600;
-  font-size: 16px;
-  font-family: inherit;
-  cursor: pointer;
-  transition: 0.22s;
+  align-items: baseline;
+  font-family: ui-monospace, 'Geist Mono', 'SF Mono', monospace;
+  font-size: clamp(28px, 4.5vw, 40px);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--cyan);
   text-decoration: none;
-  box-shadow: 0 0 20px rgba(120, 255, 240, 0.08);
+  transition: color 0.25s ease, text-shadow 0.25s ease;
+  cursor: pointer;
 }
-.signal-out-cta:hover {
-  transform: translateY(-2px);
-  border-color: rgba(120, 255, 240, 0.4);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3), 0 0 24px rgba(120, 255, 240, 0.12);
+.signal-out-email:hover {
+  color: #ffffff;
+  text-shadow: 0 0 18px rgba(103, 232, 249, 0.5);
+}
+/* Blinking cursor — step keyframes (real terminal feel, not fade) */
+.signal-out-cursor {
+  display: inline-block;
+  width: 0.5em;
+  height: 1em;
+  margin-left: 4px;
+  background: var(--cyan);
+  vertical-align: -0.12em;
+  animation: terminal-blink 1.0s step-end infinite;
+}
+@keyframes terminal-blink {
+  0%, 50%   { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+/* Metadata block */
+.signal-out-meta {
+  margin-top: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 13px;
+  color: rgba(232, 244, 255, 0.42);
+}
+.signal-out-meta-row {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  letter-spacing: 0.02em;
+}
+.signal-out-meta-key {
+  color: rgba(232, 244, 255, 0.55);
+}
+.signal-out-meta-sep {
+  color: rgba(103, 232, 249, 0.35);
+}
+.signal-out-meta-val {
+  color: rgba(232, 244, 255, 0.42);
+}
+/* Mobile */
+@media (max-width: 640px) {
+  .signal-out { min-height: 60vh; padding: var(--s-5) 20px; }
+  .signal-out-line { font-size: 15px; gap: 10px; }
+  .signal-out-meta-row { flex-wrap: wrap; gap: 6px; }
+}
+/* Reduced motion — cursor visible but does not blink */
+@media (prefers-reduced-motion: reduce) {
+  .signal-out-cursor { animation: none; opacity: 1; }
+  .signal-out-email  { transition: none; }
 }
 
 /* ── Tablet (769–1024px) ── */
