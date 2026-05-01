@@ -395,6 +395,7 @@
 
 .jcard--right { right: 3%; }
 .jcard--left  { left: 3%; }
+.jcard:hover  { border-color: rgba(103,232,249,0.4); transition: border-color 0.2s ease; }
 
 /* Edge light — tih, samo revealed state, veze karticu za beam */
 .jcard--right.jcard--revealed {
