@@ -9,13 +9,22 @@ Target: max 600 lines.
 
 ## Current Phase
 
-**Phase D — Workflow v3 + Finish & Launch** (in progress, 2026-05-02 →)
+**Phase D — Workflow v3 + Finish & Launch** (Faza 1 DONE, Faza 2 ready)
 
-Workflow stabilizacija završena:
-- Faza 0 (5 batches): pre-flight, push 12 commits, test restoration, worktree cleanup, asset hygiene
-- Faza 1 (4 batches): doc consolidation (ovaj), hooks setup, RULES update, doc cap enforcement
+**Faza 0 — Cleanup & Stabilization — DONE 2026-05-01**
+Sve 5 batch-eva (B0.1-B0.5) prošle. Repo stabilizovan: 0 unpushed,
+čist working tree, 1 worktree, testovi zeleni, og-image 120KB WebP.
 
-Faza 2 = feature work: Reward System v1, domain, OG meta, final production smoke.
+**Faza 1 — Workflow v3 — DONE 2026-05-02**
+Sve 6 batch-eva (F1.0-F1.5 + F1.6 catch-up) prošle. Workflow v3 live:
+doc layer 4 active + DECISIONS, 2 hooks, 5 skills, RULES §1-22 sa
+shell-exit-code verifikacijom. Prvi mehanički gate-ovi rade u realnom
+radu (verifikovano kroz F1.5 /audit + /kickoff drift detection).
+
+**Faza 2 — Finish & Launch — Ready**
+Prvi batch: B2.1 Roadmap §14 Reconciliation (čeka /plan).
+Pre Reward System (B2.3) i drugih feature batch-eva, treba audit
+Final Done Definition da znamo šta je realno DONE / SKIPPED / POSTPONED.
 
 ---
 

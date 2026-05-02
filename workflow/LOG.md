@@ -298,7 +298,7 @@ FILES:
   - src/components/landing/LandingCards.tsx — Journey line blur filter, .jcard-journey-line CSS za glow, backdrop-filter, opacity transition na scroll
   - src/styles/landing.css — novi .jcard-journey-line-wrapper/.jcard-journey-line/.journey-line-halo/.journey-line-core/.journey-line-spine/.comeback-orb-boost (glow 12px white + 20px blur halo, zindex management, @media reduced-motion passthrough)
   - src/components/canvas/StarfieldCanvas.tsx — bugfix: comeback orb boost blur filter oslobođen, scale pulse animacija dodat pre Batch 09a
-COMMIT:   NONE (čeka Pavle lokalni smoke test)
+COMMIT:   1ef4cd1
 VERIFY:
   - build:     PASS(machine) — npm run build, 463 moduli, 0 grešaka
   - typecheck: PASS(machine) — npm run typecheck, 0 grešaka
@@ -317,7 +317,7 @@ FILES:
   - src/components/landing/LandingCards.tsx — proširen CardData interfejs, novi CARDS podaci (kratki body + fullBody), JCard markup sa year/icon/divider/tags/readmore, pojačane Framer Motion animacije (blur+scale+x+y+opacity), StoryModal integracija
   - src/components/landing/StoryModal.tsx — NEW: portal modal, focus trap, body scroll lock, AnimatePresence, anchorSide ulaz animacija, mobile transformTemplate centering
   - src/styles/landing.css — novi jcard stilovi (year dominance, jcard-top-row, jcard-divider, jcard-footer, jcard-tags, jcard-readmore, jcard-visual, jcard-glass), story-modal sistema, mobile modal fix
-COMMIT:   NONE (čeka Pavle lokalni smoke test)
+COMMIT:   fe05552
 VERIFY:
   - build:     PASS(machine) — npm run build, 0 grešaka
   - typecheck: PASS(machine) — npx tsc --noEmit, 0 grešaka
@@ -336,12 +336,227 @@ FILES:
   - src/components/sections/Contact.tsx — complete rewrite: terminal lines (> link established. / > ready.), staggered lineFade (0/0.35/0.7/1.0s), MagneticButton email wrapper, blinking step cursor, metadata rows (response time / currently)
   - src/styles/chambers.css — signal-out block fully replaced (old h2/pill-cta stilovi uklanjani → terminal struktura), .signal-out-cta:focus-visible uklonjen
   - src/styles/sections.css — .fragment-overlay::before dodat (warm radial gradient var(--warm), mix-blend-mode:screen, fragmentWarmFlash @keyframes peak 45–55%, reduced-motion fallback opacity:0.15)
-COMMIT:   NONE (čeka commit)
+COMMIT:   7b9f148
 VERIFY:
   - build:     PASS(machine) — npm run build, 464 moduli, 0 grešaka
   - typecheck: PASS(machine) — npx tsc --noEmit, 0 grešaka
   - manual:    PASS(human) — Pavle lokalno verifikovao: terminal stagger, email cursor blink, magnetic pull, warm flash na cl3 mode enter/exit, reduced-motion
 LEARNED:  NONE
 NOTES:    Reward System v1 (Batch 12b scope) nije implementiran u ovom batchu — deferred. Sledeći: Batch 12b čeka /plan.
+
+---
+
+### 2026-05-01 — B0.1 — Pre-flight Verification [CLOSE]
+
+STATUS:   DONE
+TIER:     LEAN
+GOAL:     Read-only verifikacija da je stanje identično audit snapshot-u od 2026-05-01.
+FILES:    (none — read-only operations)
+COMMIT:   N/A (read-only batch, no commit)
+VERIFY:
+  - git status: PASS(machine) — 5 modified + 1 untracked
+  - git log @{u}..: PASS(machine) — 12 commits ahead
+  - git worktree list: PASS(machine) — 6 worktrees + main
+LEARNED:  NONE
+NOTES:    Stanje potvrđeno match. Nastavak na B0.2.
+
+---
+
+### 2026-05-01 — B0.2 — Commit Batch 12a + Push 12 commits [CLOSE]
+
+STATUS:   DONE
+TIER:     STANDARD
+GOAL:     Working tree clean, origin/main = HEAD. Sve od Batch 01 do Batch 12a + cleanroadmap.md na GitHub.
+FILES:
+  - src/components/sections/Contact.tsx (Batch 12a content)
+  - src/styles/chambers.css (Batch 12a content)
+  - src/styles/sections.css (Batch 12a content)
+  - workflow/LOG.md (Batch 12a CLOSE entry)
+  - workflow/STATE.md (Batch 12a state update)
+  - workflow/cleanroadmap.md (NEW source-of-truth)
+  - .claude/Hooks/ (DELETED — Windows case duplikat)
+COMMIT:   7b9f148 (Batch 12a feat) + a772ad6 (cleanroadmap docs)
+VERIFY:
+  - build: PASS(machine) — 464 moduli, 1.25s
+  - typecheck: PASS(machine)
+LEARNED:  Single commit za logički povezane promene, scope expansion approved by Pavle označen u commit message.
+NOTES:    Push 12+2=14 commits od da3a4d8 (Batch 01) do a772ad6 (cleanroadmap). Repo synced sa origin/main.
+
+---
+
+### 2026-05-01 — B0.3 — Test Suite Restoration [CLOSE]
+
+STATUS:   DONE
+TIER:     STANDARD
+GOAL:     npm run test exit 0. Vitest skenira samo main, ne worktree-ove. Framer-motion mock pokriva sve korišćene API-je.
+FILES:
+  - src/__tests__/App.integration.test.tsx (mock additions: useMotionValue, useSpring, useMotionValueEvent)
+  - src/test-setup.ts (window.matchMedia mock + typeof window guard)
+  - vitest.config.ts (exclude .claude/** + workflow/_archive/**)
+COMMIT:   d97496a
+VERIFY:
+  - build: PASS(machine) — 464 moduli
+  - typecheck: PASS(machine)
+  - test: PASS(machine) — 3 fajla, 57 testova, 0 fail
+LEARNED:  Layered fail-cascade — exit code is truth, ne logička analiza outputa. Plan tier nije proxy za exit codes — moraju da se pokreću.
+NOTES:    Scope expansion approved by Pavle during execution (matchMedia mock + Node guard). Označeno u commit message.
+
+---
+
+### 2026-05-01 — B0.4 — Worktree & Branch Cleanup [CLOSE]
+
+STATUS:   DONE
+TIER:     STANDARD
+GOAL:     Jedan radni direktorijum (main), bez stale branch-eva. Repo state minimal.
+FILES:    (none — git operations only)
+COMMIT:   N/A (git operations only — branch/worktree deletes, push --delete remote)
+VERIFY:
+  - worktree list: PASS(machine) — samo main
+  - branch -a: PASS(machine) — main + origin/main
+  - regression build/typecheck/test: PASS(machine)
+LEARNED:  Dirty worktree audit pre remove je obavezan (jolly-lamarr je imao 1 vrednu CSS liniju). 0 commits ahead ne znači clean.
+NOTES:    6 worktrees + 7 lokalnih + 3 remote claude/* obrisani. trusting-grothendieck def2fcf diff analiziran (pre-CL3 stanje, supersedovano), DELETE odobreno. jcard hover CSS sačuvan iz jolly-lamarr za B0.5. laughing-raman folder ostao na disku (Windows Permission denied, manuelno čišćenje).
+
+---
+
+### 2026-05-01 — B0.5 — Asset & Config Hygiene [CLOSE]
+
+STATUS:   DONE
+TIER:     LEAN
+GOAL:     og-image kompresija (1.6MB → ≤200KB), jcard hover dodavanje, .gitignore/.vercelignore verify.
+FILES:
+  - public/og-image.png (DELETED) → public/og-image.webp (NEW, 120 KB)
+  - index.html (og:image + twitter:image refs → .webp, og:image:type meta added)
+  - src/styles/landing.css (jcard:hover added, 1 line)
+COMMIT:   f52b621
+VERIFY:
+  - build: PASS(machine) — 464 moduli, 1.10s
+  - typecheck: PASS(machine)
+  - test: PASS(machine) — 3 fajla, 57 testova
+LEARNED:  WebP swap zahteva index.html update — scope expansion označeno u commit. Manualne kompresije sa external alatima (TinyPNG, squoosh) su deo workflow-a, ne in-Claude-Code rad.
+NOTES:    Faza 0 COMPLETE — svih 8 EXIT stavki ✓. Repo stabilan, machine-verified gates rade prvi put od Batch 05.
+
+---
+
+### 2026-05-02 — F1.0 — Pre-flight + Backup Branch [CLOSE]
+
+STATUS:   DONE
+TIER:     LEAN
+GOAL:     Verifikovati clean repo state, kreirati workflow-v2-backup branch, pripremiti workflow-v3-plan.md.
+FILES:    (none for commit — only branch creation + plan prep)
+COMMIT:   N/A (branch creation, no source/doc changes)
+VERIFY:
+  - clean state: PASS(machine)
+  - regression baseline: PASS(machine) — 464 moduli, 57 tests
+  - backup branch: PASS(machine) — workflow-v2-backup at f52b621
+LEARNED:  NONE
+NOTES:    Baseline locked. Faza 1 prep complete. Sledeći F1.1 (doc consolidation).
+
+---
+
+### 2026-05-02 — F1.1 — Doc Consolidation [CLOSE]
+
+STATUS:   DONE
+TIER:     STANDARD
+GOAL:     Per-project doc layer 6 fajlova → 4 active + DECISIONS append-only. 3675 linija → 1138 active linija.
+FILES:
+  - workflow/projects/cl3menza/BIBLE.md (NEW, 791 linija — merge Creative_Bible + VISUAL_LANGUAGE + CL3_Planet §1-12)
+  - workflow/projects/cl3menza/ROADMAP.md (REWRITE, 160 linija — §13-14 only, current/upcoming)
+  - workflow/projects/cl3menza/DECISIONS.md (NEW, 193 linija — closed decisions log)
+  - workflow/projects/cl3menza/LESSONS.md (TRIMMED, 102 linija, 7 active entries)
+  - workflow/projects/cl3menza/CONTEXT.md (UPDATED file references, 85 linija)
+  - workflow/projects/cl3menza/Creative_Bible.md (DELETED — preserved in _archive/)
+  - workflow/projects/cl3menza/VISUAL_LANGUAGE.md (DELETED — preserved in _archive/)
+  - workflow/projects/cl3menza/CL3_Planet_Reconstruction_Master_Roadmap.md (DELETED — preserved in _archive/)
+  - workflow/_archive/v2-cl3-master-original.md (NEW safety copy)
+  - workflow/_archive/v2-roadmap-legacy.md (NEW safety copy)
+COMMIT:   9716a24
+VERIFY:
+  - build: PASS(machine) — 464 moduli
+  - typecheck: PASS(machine)
+  - test: PASS(machine) — 3 fajla, 57 testova
+LEARNED:  Doc cap is real (RULES §19) — bez mašinskog enforcement-a u skills, decoration. Active total 1138 linija, comfortable margin u 2100 cap.
+
+---
+
+### 2026-05-02 — F1.2 — Hooks Setup [CLOSE]
+
+STATUS:   DONE
+TIER:     STANDARD
+GOAL:     Postaviti dva real-running hooks: SessionStart (auto-inject context) + PreToolUse Bash protect (block dangerous commands).
+FILES:
+  - .claude/settings.json (NEW — project-shared hooks config)
+  - .claude/hooks/session-bootstrap.js (NEW, 56 linija — Node.js cross-platform)
+  - .claude/hooks/protect-bash.js (NEW, 57 linija — Node.js, regex anchored fixes)
+COMMIT:   1423924
+VERIFY:
+  - build: PASS(machine) — 464 moduli
+  - typecheck: PASS(machine)
+  - test: PASS(machine)
+  - hook smoke: 5/5 PASS (clean cmd, force push block, safe rm pass, dangerous rm block, .env block)
+  - E2E: PASS(human) — Pavle verifikovao SessionStart hook injectuje context u fresh sesiji, protect-bash blocks force-push attempts via defense-in-depth (Claude reasoning sloj 1 + hook sloj 2)
+LEARNED:  AI context injection ≠ user UI rendering — verifikacija hook funkcionalnosti mora biti preko AI-a koji prijavi svoj kontekst. Defense-in-depth je realnost: Claude reasoning sloj + hook sloj — testovi ne smeju "primorati" Claude da zaobiđe svoj reasoning.
+NOTES:    F1.2 spec greška ispravljena E2E — bootstrap blok ne ide u user UI, ide u session_context. Hook radi kako treba.
+
+---
+
+### 2026-05-02 — F1.3 — Skills v3 [CLOSE]
+
+STATUS:   DONE
+TIER:     STRICT
+GOAL:     Postaviti 5-skill set workflow v3: /plan rewrite, /close rewrite (najveći change), /kickoff (NEW), /audit (NEW), /doc-lens unchanged.
+FILES:
+  - .claude/skills/plan/SKILL.md (REWRITE, 252 → 126 linija)
+  - .claude/skills/close/SKILL.md (REWRITE, 224 → 209 linija)
+  - .claude/skills/kickoff/SKILL.md (NEW, 102 linija)
+  - .claude/skills/audit/SKILL.md (NEW, 129 linija)
+COMMIT:   1df3a77
+VERIFY:
+  - build: PASS(machine) — 464 moduli, 3.24s
+  - typecheck: PASS(machine)
+  - test: PASS(machine) — 3 fajla, 57 testova
+  - skill registration: PASS — sve 5 skills vidljive u Claude Code system-reminder kao live
+LEARNED:  YAML frontmatter je obavezan za skill recognition — bez `name:` i `description:` skill nije skill nego običan markdown.
+NOTES:    /close skill je najveći change — pokreće test interno, refuses PASS bez exit-0 dokaza, SCOPE_DRIFT detection, force commits STATE+LOG, LESSONS rotation enforce.
+
+---
+
+### 2026-05-02 — F1.4 — RULES Update + Cleanroadmap Revision [CLOSE]
+
+STATUS:   DONE
+TIER:     STANDARD
+GOAL:     Formalizovati nova pravila workflow v3 u RULES.md (§8 rewrite, §19-22 nova) + upisati Faza 0 + Faza 1 lessons u cleanroadmap revision log.
+FILES:
+  - workflow/RULES.md (244 → 355 linija — §8 rewrite, §19/20/21/22 added)
+  - workflow/cleanroadmap.md (286 → 339 linija — revision log + 10 lessons captured)
+COMMIT:   a45a3d6
+VERIFY:
+  - build: PASS(machine) — 464 moduli, 2.57s
+  - typecheck: PASS(machine)
+  - test: PASS(machine) — 3 fajla, 57 testova
+LEARNED:  Skills referiraju RULES sekcije (§19 in /plan, §20 in /close, §22 in /plan + /close header parsing) — bez enforce-a u skills, RULES su decoration.
+NOTES:    Workflow v3 RULES su sada complete. Single biggest workflow improvement: /close pokreće test interno (eliminiše honor system PASS).
+
+---
+
+### 2026-05-02 — F1.5 — E2E Smoke Test [CLOSE]
+
+STATUS:   DONE
+TIER:     LEAN
+GOAL:     End-to-end verifikovati workflow v3 mehanike u realnom okruženju pre nego što Faza 1 zatvorimo.
+FILES:    (none — no commits)
+COMMIT:   N/A (smoke test only)
+VERIFY:
+  - Test A1 /audit: PASS — skill recognized, build/typecheck/test PASS, STATE↔LOG OK, doc cap OK, drift summary clean
+  - Test A2 /plan dry-run: PASS — strukturirani header generiše tačno po §22
+  - Test A3 /plan refusal (dirty tree): PASS — REFUSE-uje pre-flight gate (a)
+  - Test A4 doc cap: PASS — sve fajlove ispod limita
+  - Test A5 hooks re-verify: PASS — settings.json valid, hooks present, force-push block exit 2
+  - Test A6 regression: PASS — exact match baseline (464 moduli, 57 tests)
+  - Test A7 final state: PASS — 5 skills, 2 hooks, repo minimal
+  - Test B1 SessionStart fresh: PASS(human) — Pavle verifikovao hook injectuje STATE u fresh sesiji
+  - Test B2 /kickoff invocation: PASS(human) — Pavle verifikovao skill izvršava sa drift detection (catches STATE drift kao Status: BLOCKED)
+LEARNED:  /kickoff drift detection radi po dizajnu — staloženo blokira /plan dok Pavle ne ack-uje drift. Prvi mehanički gate koji je radio u realnom radu, ne testu.
+NOTES:    Drift detection u F1.5 B2 otkrio dva real drift slučaja (STATE 12a vs git F1.4, STATE Batch 12b vs ROADMAP B2.x renaming). Razlog za F1.6 catch-up batch — workflow v3 chicken-and-egg jer su F1.x batch-evi sami gradili /close.
 
 ---
