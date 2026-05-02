@@ -282,6 +282,57 @@ Promene plana koje nisu trivijalne (npr. dodavanje novog batch-a, brisanje exit 
 |-------|-------|---------|--------|
 | 2026-05-01 | Opus + Pavle | Initial draft, Faza 0 specifikovana | Posle dual audit-a (Opus + Claude Code) |
 | 2026-05-01 | Pavle | Dodat u repo kao `workflow/CLEANROADMAP.md` | Source-of-truth za cleanup sesiju |
+| 2026-05-02 | Opus + Pavle + Claude Code | Faza 0 COMPLETE — sve 5 batch-eva (B0.1-B0.5) DONE | Repo stabilizovan: 0 unpushed, čist working tree, 1 worktree, testovi zelena, og-image 120KB WebP |
+| 2026-05-02 | Opus + Pavle + Claude Code | Faza 1 in progress — F1.0-F1.3 DONE, F1.4 (ovaj batch), F1.5 next | Workflow v3 mehanizam live: doc layer 6→4 fajla (1138 active linija), 2 hooks, 5 skills, RULES §19-22 |
+
+---
+
+## Faza 0 + Faza 1 — Lessons Captured (for future phases)
+
+### From Faza 0 (B0.1-B0.5)
+
+1. **Layered fail-cascade je realnost.** B0.3 počeo kao "framer-motion
+   mock fix", završio sa 3 fix-a (mock + matchMedia + Node guard).
+   Verifikacija mora biti exit-code-driven, ne plan-driven.
+
+2. **Worktree dirty audit pre brisanja je obavezan.** "0 commits ahead
+   = bezbedno" je nepotpuna provera. Worktree može biti dirty bez
+   commitova.
+
+3. **Scope expansion mora biti označen u commit message.** B0.3 i B0.5
+   commits eksplicitno kažu "Scope expansion approved by Pavle during
+   execution". Vidi se u git log-u zauvek.
+
+4. **Filesystem artifacts ≠ git problemi.** Permission denied za
+   laughing-raman folder na Windows-u je manualan cleanup, ne workflow
+   stvar.
+
+5. **Single commit za logički povezane promene.** B0.3 = 3 fix-a u 1
+   commit-u. B0.5 = 4 fajla u 1 commit-u. Lakše za revert, čistiji git log.
+
+### From Faza 1 (F1.0-F1.3)
+
+6. **AI context injection ≠ user UI rendering.** SessionStart hook
+   output ide u Claude system context, ne u user-visible UI. Verifikacija
+   hook funkcionalnosti mora biti preko AI-a koji prijavi svoj kontekst,
+   ne preko user UI vizuelne provere. F1.2 spec greška ispravljena E2E.
+
+7. **Defense-in-depth: AI guardrails + hook interception su komplementarni.**
+   Claude reasoning sloj 1 + protect-bash hook sloj 2. Test ne sme
+   "primorati" Claude da zaobiđe svoj reasoning — to ruši sloj 1. Sistem
+   je fail-safe samo dok oba sloja stoje.
+
+8. **YAML frontmatter je obavezan za Claude Code skills.** `name:` i
+   `description:` u frontmatter-u su preduslov da Claude Code prepozna
+   skill kao skill (ne kao običan markdown). F1.3 svi skills imaju oba.
+
+9. **Doc cap se mora enforce-ovati u skills, ne samo dokumentovati u
+   RULES.** §19 cap pravila bi bila dekoracija da `/plan` ih ne proverava
+   pre planiranja. Mehanizam koji ne staje sistem nije mehanizam.
+
+10. **Single biggest workflow improvement = `/close` koji pokreće test
+    interno.** Eliminiše honor system PASS(machine). 8 batch-eva drift-a
+    od Batch 05 do B0.3 je primer šta se dešava kad gate ne radi.
 
 ---
 
