@@ -57,13 +57,15 @@ LOCK = planski rad, STANDARD ili STRICT tier, jači verify, bez usputnih promena
 
 ---
 
-## Deep context dokumenti
+## Project documentation
 
-| Dokument | Tip | Kad se čita |
-|----------|-----|------------|
-| `CL3_Planet_Reconstruction_Master_Roadmap.md` | **AKTIVNI PLAN** | Kad radiš na CL3 mode — source-of-truth za CL3 batch-eve |
-| `Creative_Bible.md` | Dizajn spec | Kad radiš na vizuelnom pravcu, dizajn odluke |
-| `LESSONS.md` | Lekcije | Projekat-specifične tehničke lekcije iz ranijeg rada |
+| Dokument | Tip | Kad se čita | Cap |
+|----------|-----|------------|-----|
+| `CONTEXT.md` | Projekat istine | Na početku CL3 rada | 100 lines |
+| `ROADMAP.md` | Execution plan | Kad planiraš batch | 600 lines |
+| `BIBLE.md` | Brand + visual system | Kad radiš na vizuelnom pravcu | 1200 lines |
+| `LESSONS.md` | Aktivne lekcije | Kad repetiš grešku | 200 lines, 7 entries |
+| `DECISIONS.md` | Zatvorene odluke i istorija | Kad trebaš context | no cap |
 
 > Ovo NISU runtime dokumenti. Ne čitaj ih na početku sesije. Čitaj kad task to zahteva.
 
@@ -77,7 +79,7 @@ LOCK = planski rad, STANDARD ili STRICT tier, jači verify, bez usputnih promena
 4. `workflow/RULES.md` (univerzalna pravila)
 
 Za CL3 rad dodatno:
-5. `CL3_Planet_Reconstruction_Master_Roadmap.md` (CL3 plan)
-6. `Creative_Bible.md` (vizuelni identitet)
+5. `BIBLE.md` (brand + visual + CL3 specs)
+6. `ROADMAP.md` (current execution + §14 Final Done)
 
 Ne pretpostavljaj stanje fajlova bez čitanja. **Repo > dokumentacija > memorija.**
