@@ -1,223 +1,209 @@
 ---
 name: close
-description: Zatvara batch ili sesiju. Generiše DONE report, append CLOSE entry u LOG.md, ažurira STATE.md "Gde sam sada". Confirmation gate pred Pavlom — ne piše ništa bez OK. Spaja ulogu starih cl3-done-report i cl3-session-close skillova u jedan.
+description: Closes an active batch with machine-verified gates. Internally runs build/typecheck/test, captures exit codes, refuses PASS labels without exit-0 evidence. Compares git diff to EXPECTED-FILES (SCOPE_DRIFT detection). Forces commit of STATE.md + LOG.md as part of closure. Enforces LESSONS.md rotation cap.
 ---
 
-# close — Batch / Session Closure
+# /close — Batch Closure Gate (workflow v3)
 
-## Uloga
+## Role
 
-Formalizuje kraj batch-a ili sesije. Sprečava da sesije ostaju "otvorene" bez jasnog statusa.
-Generiše DONE report → Pavle odobrava → izvršava tačno **2 write-a**: LOG entry append + STATE.md "Gde sam sada" overwrite.
+Zatvara aktivan batch. Verifikacija je shell exit code, ne labela.
+Ne dozvoljava PASS(machine) bez stvarnog izvršenja komandi.
 
-**Nije /plan.** Ne planira sledeći batch. Samo zatvara trenutni.
-
-## Kako pozvati
+## Invocation
 
 ```
 /close
 ```
 
-Nema obaveznih argumenata. Skill sam prikuplja podatke iz sesijskog konteksta i fajlova.
+No arguments — reads active batch from STATE.md.
 
 ---
 
-## Proces
+## Process
 
-### Korak 1 — Prikupljanje podataka
+### Step 0 — Identify active batch
 
-Pročitaj direktno (bez spawna ako je ispod threshold-a):
+Read STATE.md. Extract:
+- Active batch ID
+- Active batch tier (LEAN/STANDARD/STRICT)
+- EXPECTED-FILES from the plan (must be in STATE.md or active plan reference)
 
-1. `workflow/STATE.md` — aktivan batch (ID, GOAL, TIER, FILES iz plana), lock zone
-2. `workflow/LOG.md` — zadnjih ~50 linija (dedup provera + poslednji entry)
-3. `workflow/projects/[aktivni-projekat]/CONTEXT.md` — projekat istine
+If no active batch in STATE.md, REFUSE:
+> No active batch to close. Run /plan first.
 
-**Iz sesijskog konteksta izvuci:**
-- Koji fajlovi su menjani u ovoj sesiji (Edit/Write tool pozivi)
-- Build / typecheck output (ako je pokrenuto i viđeno)
-- Manual verify rezultati (ako je Pavle vizuelno potvrdio nešto)
+### Step 1 — Run verification commands (machine-verified gates)
 
-**Ako nema dokaza za FILES** → označi `AI-asserted (bez git dokaza)`. Nikad ne izmišljaj listu fajlova.
+Execute based on tier:
 
-**Ako STATE.md kaže `Aktivan batch: NONE`:**
-- Verovatno je session-close case (nije bio formalan batch, samo rad)
-- Generiši DONE report kao SESSION CLOSE (ne BATCH CLOSE)
-- LOG entry je opciono — pitaj Pavla da li želi entry za session ili samo STATE refresh
+**LEAN:**
+```bash
+npm run build
+npm run typecheck
+```
+
+**STANDARD:**
+```bash
+npm run build
+npm run typecheck
+npm run test
+```
+
+**STRICT:**
+```bash
+npm run build
+npm run typecheck
+npm run test
+```
+Plus: ask Pavle for manual smoke checklist confirmation.
+
+For each command, capture exit code.
+
+### Step 2 — Apply verification labels
+
+For each command run:
+- Exit code 0 → `PASS(machine)` with timestamp
+- Exit code ≠ 0 → `FAIL(<command>)` with first 3 lines of error output
+- Skipped intentionally (e.g., test for LEAN) → `NIJE POKRENUTO` with reason
+
+If ANY command resulted in FAIL:
+- LOG entry status: `BLOCKED`
+- DO NOT proceed to commit step
+- Report failure to Pavle, ask whether to:
+  (a) Retry after fix
+  (b) Mark batch as BLOCKED in LOG and stop
+  (c) Override with explicit "ok skip verify" (LEAN only, requires explicit acknowledgment)
+
+### Step 3 — SCOPE_DRIFT detection
+
+Compare actual diff to plan:
+
+```bash
+git diff --name-only HEAD~N..HEAD  # N = commits in this batch
+```
+
+Sort. Compare to EXPECTED-FILES from plan.
+
+- **Exact match** → no drift, proceed
+- **Subset of EXPECTED** → no drift (planned file wasn't touched, OK)
+- **Files outside EXPECTED** → SCOPE_DRIFT detected
+
+If drift, report to Pavle:
+> SCOPE_DRIFT detected.
+> Plan said: [N] files
+> Diff has: [M] files
+> Extra: [list]
+>
+> Reason for these additions?
+> Options:
+>   (a) Approved drift — explain in commit message
+>   (b) Revert extra files
+>   (c) Restart batch with corrected plan
+
+Wait for Pavle decision before continuing.
+
+If approved drift, append to LOG entry:
+`SCOPE_DRIFT (acknowledged): added [files] — [reason]`
+
+### Step 4 — LESSONS rotation check (RULES §20)
+
+If this batch produced a new lesson worth recording:
+- Read LESSONS.md
+- If currently 7 active entries, REFUSE to add new without rotation:
+  > LESSONS.md at cap (7 active). To add new, first move oldest
+  > to DECISIONS.md as deprecated. Which entry to deprecate?
+- Pavle picks one. Move to DECISIONS.md with reason
+  ("deprecated 2026-MM-DD: [reason]"). Add new lesson to LESSONS.md.
+
+If no new lesson, skip this step.
+
+### Step 5 — Confirm with Pavle
+
+Present full DONE report draft:
+- Verify results (PASS/FAIL labels with exit codes)
+- SCOPE_DRIFT status (none or acknowledged)
+- LESSONS changes (if any)
+- Diff summary (files changed, +/- lines)
+
+Wait for Pavle: "ok", "potvrdi", "close".
+
+### Step 6 — Write LOG + STATE + COMMIT
+
+This is atomic — all three or none.
+
+(a) Append CLOSE entry to `workflow/LOG.md`. Format:
+
+```
+[BATCH-ID] — [Title] — [TIER]
+Date: [YYYY-MM-DD]
+Status: DONE | BLOCKED
+SHA: [will be filled after commit]
+Verify:
+  build:     PASS(machine) — [moduli, time]
+  typecheck: PASS(machine)
+  test:      PASS(machine) — [N files, M tests]
+  manual:    PASS(human) — [Pavle confirmed]
+Files: [list from diff]
+SCOPE_DRIFT: [none | acknowledged: [details]]
+Notes: [optional]
+```
+
+(b) Update `workflow/STATE.md`:
+- "Last completed batch" → this batch
+- "Active batch" → NONE
+- "Next" → leave blank or specify if obvious
+
+(c) Stage and commit:
+```bash
+git add workflow/STATE.md workflow/LOG.md
+git commit -m "workflow: close [BATCH-ID] [Title]"
+```
+
+(d) NO push. Pavle decides when to push (workflow commits batch up).
+
+### Step 7 — Final report
+
+Output format:
+
+```
+═══════════════════════════════
+[BATCH-ID] — CLOSED
+═══════════════════════════════
+Status: DONE
+SHA: [hash from git log -1]
+Verify: build PASS / typecheck PASS / test PASS / manual PASS
+SCOPE_DRIFT: [none | acknowledged]
+LESSONS: [unchanged | added: ... | rotated: ...]
+Next: [from STATE.md or "awaiting /plan"]
+═══════════════════════════════
+```
 
 ---
 
-### Korak 2 — DONE report
+## Refusal examples
 
-Svako polje obavezno. Ako nema sadržaja → `NONE`.
+If `npm run test` exits non-zero:
+> Cannot mark PASS(machine). `npm run test` exit code 1.
+> First error:
+>   FAIL src/__tests__/App.integration.test.tsx
+>   useMotionValue is not defined
+> Batch is BLOCKED. Options: fix and retry /close, or accept BLOCKED status.
 
-**Verification truth-types su obavezne:**
-- `PASS(machine)` — build/typecheck output viđen i prošao u ovoj sesiji
-- `PASS(human)` — Pavle vizuelno potvrdio u ovoj sesiji
-- `AI-asserted` — pretpostavka bez novog dokaza
-- `NIJE POKRENUTO` — nije ni pokušano
+If diff has unplanned file:
+> SCOPE_DRIFT detected. EXPECTED-FILES had 3 paths.
+> Actual diff has 4 (extra: src/styles/landing.css).
+> Reason for adding landing.css?
 
-```
-════════════════════════════════
-DONE:     [jedna rečenica — šta je zatvoreno]
-
-BATCH ID: [ID iz STATE.md ili "SESSION (no formal batch)"]
-
-FILES:
-  - [src/path/fajl.tsx] — [šta je promenjeno]
-  (ako nema: NONE)
-  (ako nema git dokaza: AI-asserted — [verovatni fajlovi bez potvrde])
-
-VERIFY:
-  - build:     [PASS(machine) / FAIL / AI-asserted / NIJE POKRENUTO]
-  - typecheck: [PASS(machine) / FAIL / AI-asserted / NIJE POKRENUTO]
-  - manual:    [PASS(human): šta je Pavle proverio / AI-asserted / NONE]
-
-COMMIT:   [SHA-ovi iz sesije — ili NONE / UNKNOWN]
-
-BLOCKERS:
-  - [otvoren: B-XXX (opis) / zatvoren: B-XXX / NONE]
-
-NEXT:     [sledeći konkretan task ili batch]
-
-LEARNED:  [jedna rečenica vredna pamćenja — ili NONE]
-════════════════════════════════
-```
+If LESSONS.md has 7 entries and batch produced new lesson:
+> LESSONS.md at cap. Pick oldest to deprecate to DECISIONS.md:
+>   1. [date] — [title]
+>   2. ...
 
 ---
 
-### ⚠ CONFIRMATION GATE
+## Anti-patterns
 
-Pre bilo kakvog write-a — prezentuj DONE report Pavlu.
-
-**Eksplicitno čekaj signal:** "ok", "piši", "važi", "confirmed" ili ekvivalent.
-
-Dok Pavle ne potvrdi → ne piši ništa:
-- ne CLOSE entry u LOG.md
-- ne STATE.md update
-- ne LESSONS.md append (čak i ako LEARNED nije NONE)
-
-**Ako batch nije spreman za closure** (BUILD FAIL, VERIFY nije prošao, scope nije zatvoren, open stop condition):
-→ reci to eksplicitno. **Ne prikazuj confirmation prompt.** Čekaj Pavlovu odluku.
-
-**Ako Pavle želi LEARNED da se upiše u LESSONS.md** → eksplicitno mora da kaže "upiši u lessons". Default: ne dira LESSONS.md.
-
----
-
-### Korak 3 — Write sekvenca (posle Pavle OK)
-
-Tačno **2 write-a**. Atomski. Ako prvi pukne — stani, ne pokušavaj drugi.
-
----
-
-#### Write 1 — Append CLOSE entry u LOG.md
-
-**Pre-write dedup provera (obavezna):**
-Pročitaj zadnjih 80 linija `workflow/LOG.md`.
-Traži entry koji sadrži i `[Batch ID]` i `[CLOSE]` u headeru.
-Ako postoji → **STOP. Ne piši ništa.**
-Prijavi: `⚠ CLOSE entry za [batch ID] već postoji u LOG.md — /close je verovatno već bio pokrenut.`
-Ako ne postoji → nastavi.
-
-Construiši CLOSE entry:
-
-```
-### [YYYY-MM-DD] — [Batch ID] — [Naziv] [CLOSE]
-
-STATUS:   [DONE / DONE(technical only) / BLOCKED / ABANDONED]
-TIER:     [iz aktivnog batcha]
-GOAL:     [verbatim iz plana]
-FILES:    [iz DONE reporta — sa truth-type oznakom ako AI-asserted]
-COMMIT:   [iz DONE reporta]
-VERIFY:
-  - build:     [iz DONE reporta]
-  - typecheck: [iz DONE reporta]
-  - manual:    [iz DONE reporta]
-LEARNED:  [iz DONE reporta]
-NOTES:    [opciono — šta je ostalo van scope-a, sledeći batch]
-```
-
-Spawn `scout` sa append operacijom:
-
-```
-TASK:      append
-WRITE_TO:  workflow/LOG.md
-POSITION:  end-of-file
-CONTENT:   [CLOSE entry — verbatim]
-FORBIDDEN: ne menjaj ništa van append pozicije, ne interpretiraj sadržaj, ne normalizuj whitespace
-```
-
-**Ako ima blocker promena (otvoren ili zatvoren):**
-Append i BLOCKER entry kao zaseban entry u istom write-u (jedan append, dva entry-ja jedan za drugim).
-
-```
-### [YYYY-MM-DD] — BLOCKER OPEN — [B-XXX]
-[ili]
-### [YYYY-MM-DD] — BLOCKER RESOLVED — [B-XXX]
-
-[polja iz LOG.md format-a za blocker]
-```
-
-**Post-write verifikacija:**
-Pročitaj zadnjih 50 linija LOG.md. Potvrdi da CLOSE entry postoji i da Batch ID odgovara.
-Ako ne → `⚠ CLOSE entry write verify failed.` Stani, ne pokušavaj Write 2.
-
----
-
-#### Write 2 — STATE.md "Gde sam sada" overwrite
-
-Pre spawna:
-1. Pročitaj `workflow/STATE.md`, izvuci tačan `## Gde sam sada` blok (verbatim, do sledećeg `##` headera).
-2. Generiši nov "Gde sam sada" blok:
-
-```
-## Gde sam sada
-
-**Poslednji završen:** [Batch ID] — [naziv] ([datum])
-**Sledeći:** [iz NEXT polja DONE reporta]
-**Aktivan batch:** NONE (čeka /plan)
-**Blocker:** [ažurirano stanje — ili NONE]
-```
-
-Spawn `scout` sa exact-edit:
-
-```
-TASK:       exact-edit
-WRITE_TO:   workflow/STATE.md
-OLD_STRING: [tačan postojeći "## Gde sam sada" blok — verbatim]
-NEW_STRING: [novi blok — verbatim]
-FORBIDDEN:  ne menjaj ništa van OLD_STRING → NEW_STRING zamene, ne interpretiraj sadržaj, ne normalizuj whitespace
-```
-
-**Post-write verifikacija:**
-Pročitaj STATE.md "Gde sam sada" sekciju. Potvrdi da `Poslednji završen:` polje sada sadrži batch koji je upravo zatvoren.
-Ako ne → `⚠ STATE.md write verify failed.` Prijavi i čekaj odluku.
-
----
-
-### Korak 4 — Final report Pavlu
-
-Posle uspešnih oba write-a, prijavi kratko:
-
-```
-✅ CLOSED: [Batch ID]
-  - LOG.md: CLOSE entry appended
-  - STATE.md: "Gde sam sada" updated → "Poslednji završen: [Batch ID]"
-  - Sledeći: [iz NEXT polja]
-```
-
-Ako bilo koji write nije uspeo → ne prijavljuj ✅. Prijavi tačno koji korak je pukao i zašto.
-
----
-
-## Pravila
-
-- Tačno 2 write-a. Ne više, ne manje.
-- Ne piši ništa pre Pavlovog confirmation signala.
-- Ne izmišljaj šta je urađeno — FILES mora biti pokriven dokazom ili `AI-asserted`.
-- Verification truth-type oznake su obavezne — ne piši golo `PASS`.
-- `scout` dobija sadržaj verbatim — nikakve izmene između generisanja i write-a.
-- Ne diraj LESSONS.md osim ako Pavle eksplicitno traži.
-- Ako batch nije spreman za closure → ne prikazuj confirmation prompt, objasni zašto.
-- Ne zatvaraj batch samo zato što skill to "ume" — uvek je potrebna Pavle confirmation.
-- Datum mora biti tačan (today's date).
-- Ako Write 1 pukne → ne pokušavaj Write 2.
+- Marking PASS(machine) without running the command
+- Skipping SCOPE_DRIFT check on STANDARD/STRICT batches
+- Committing STATE+LOG without first running verify
+- Adding to LESSONS.md without rotation when at cap
