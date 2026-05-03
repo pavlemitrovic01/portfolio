@@ -602,7 +602,7 @@ FILES:
   - .claude/skills/audit/SKILL.md (Step 3.5 added — STATE↔git drift check)
   - .claude/skills/kickoff/SKILL.md (Step 5 drift uslov #6 added — STATE batch ID vs git HEAD subject)
   - workflow/workflow-v3-plan.md → workflow/_archive/v3-plan-faza1.md (git mv archive)
-COMMIT:   e0c4794
+COMMIT:   508732c
 VERIFY:
   - build: PASS(machine)
   - typecheck: PASS(machine)
