@@ -42,7 +42,7 @@
 
 ## Lock zone
 
-⚠ Ne dirati bez STRICT tier plana. Lista mora biti identična `LOCK_ZONE` arrayu u `.claude/hooks/lock-zone-check.js`.
+Fajlovi koje ne dirati bez STRICT tier batch-a + Pavle approval-a.
 
 - `src/App.tsx`
 - `api/claude.ts`

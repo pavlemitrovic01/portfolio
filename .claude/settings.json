@@ -20,15 +20,6 @@
             "command": "node .claude/hooks/protect-bash.js"
           }
         ]
-      },
-      {
-        "matcher": "Edit|Write|MultiEdit",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "node .claude/hooks/lock-zone-check.js"
-          }
-        ]
       }
     ]
   }

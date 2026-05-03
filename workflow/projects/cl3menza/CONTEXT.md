@@ -46,7 +46,7 @@
 
 ## Lock zone
 
-⚠ **SYNC REQUIRED:** Ova lista mora biti identična `LOCK_ZONE` arrayu u `.claude/hooks/lock-zone-check.js`. Ako menjaš jedno, menjaj i drugo.
+Fajlovi koje ne dirati bez STRICT tier batch-a + Pavle approval-a.
 
 | Fajl | Razlog |
 |------|--------|

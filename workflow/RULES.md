@@ -219,7 +219,6 @@ Kad Opus i Claude Code konfliktiraju → Pavle pravi finalnu odluku.
 ## 15. Šta je automatsko
 
 - **session-bootstrap hook** — `STATE.md` se injektuje na početku svake sesije kao kontekst
-- **lock-zone-check hook** — warning pre Edit/Write na lock zone fajlu (warning only, ne blokira)
 - **Sve ostalo je manuelno** — AI generiše → Pavle OK → write
 
 ---
@@ -262,8 +261,6 @@ LOCK ne znači "ne diraj nikad". Znači:
 - bez usputnih promena
 
 Svaki projekat definiše svoje lock zone u svom `CONTEXT.md`.
-
-⚠ **Sync required:** lock zone lista u `CONTEXT.md` mora biti identična `LOCK_ZONE` arrayu u `.claude/hooks/lock-zone-check.js`. Ako menjaš jedno, menjaj i drugo.
 
 ---
 

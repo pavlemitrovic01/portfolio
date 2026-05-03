@@ -615,3 +615,21 @@ LEARNED:  Honesty pass disciplina — pre dodavanja bilo kakve doc reference na 
 NOTES:    Eksterni audit je 2026-05-03 03:00 CEDT, ANTHROPIC_API_KEY rotation pending (Pavle van workflow scope-a). B2.0 close je commitovan single-commit sa SHA backfill kroz amend.
 
 ---
+
+### 2026-05-03 — B2.0c — Lock Zone Hook Removal [CLOSE]
+
+STATUS: DONE
+TIER: LEAN
+GOAL: Ukloniti lock-zone-check hook + reference. Hook nije radio u Claude Code desktop app v2.1.118 iako smoke test prolazi. Lock zone ostaje kao pravilo u dokumentaciji.
+FILES:
+  - .claude/hooks/lock-zone-check.js (DELETED)
+  - .claude/settings.json
+  - workflow/RULES.md
+  - workflow/STATE.md
+  - workflow/projects/cl3menza/CONTEXT.md
+  - workflow/LOG.md
+COMMIT: [PENDING]
+VERIFY: build/typecheck/test PASS, 0 active reference matches za "lock-zone-check" (RULES/STATE/CONTEXT/settings.json). Historical refs ostaju u LOG (append-only), cleanroadmap lesson #13 (history), _archive (sealed).
+LEARNED: Smoke test (echo|node) ne dokazuje da hook radi u realnoj Claude Code sesiji. Mehanika koja zahteva više održavanja nego što štedi → remove.
+
+---
