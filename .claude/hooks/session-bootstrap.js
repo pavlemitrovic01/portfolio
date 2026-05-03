@@ -30,6 +30,27 @@ function safeRead(filepath, lines = 40, fallback = '(unavailable)') {
   }
 }
 
+function getUnpushed() {
+  try {
+    const count = execSync('git rev-list --count HEAD --not --remotes', {
+      encoding: 'utf8',
+      stdio: ['ignore', 'pipe', 'ignore'],
+    }).trim();
+    if (!count || count === '0') return '  (none)';
+    try {
+      const log = execSync('git log --oneline @{u}..HEAD', {
+        encoding: 'utf8',
+        stdio: ['ignore', 'pipe', 'ignore'],
+      }).trim();
+      return log || `  (${count} unpushed)`;
+    } catch {
+      return `  (${count} unpushed — list unavailable)`;
+    }
+  } catch {
+    return '  (none)';
+  }
+}
+
 const lines = [
   '═══ SESSION BOOTSTRAP (workflow v3) ═══════════════════',
   '',
@@ -37,7 +58,7 @@ const lines = [
   safeExec('git status --short') || '  (clean)',
   '',
   '## Unpushed commits',
-  safeExec('git log --oneline @{u}.. 2>/dev/null') || '  (none)',
+  getUnpushed(),
   '',
   '## Active worktrees',
   safeExec('git worktree list'),

@@ -55,6 +55,20 @@ Compare:
 
 If mismatch → drift between STATE and LOG.
 
+### Step 3.5 — STATE↔git drift check
+
+1. Run: `git log -1 --pretty=%s` — capture last commit subject
+2. Read `workflow/STATE.md` "Poslednji završen" line
+3. Compare:
+   - Ako commit subject sadrži batch ID prefix (e.g., "B2.0", "F1.6", "Batch 12a") sa workflow conventional format (chore/docs/feat/fix(workflow): batch-id ...)
+   - Parsuj batch ID iz commit subject
+   - Ako STATE "Poslednji završen" ne pominje taj batch ID → DRIFT
+4. Output:
+   - "STATE↔git: OK" ako match
+   - "STATE↔git: DRIFT — git je na [batch ID iz commita], STATE kaže [batch ID iz STATE]" ako mismatch
+
+Razlog: Internal /audit poredi STATE↔LOG (oba mogu biti istovremeno wrong). STATE↔git je objektivna provera da workflow nije past sebe samog. F1.6 case study: bez ovog step-a, /audit bi rekao "DRIFT SUMMARY: clean" iako je git past STATE.
+
 ### Step 4 — LOG ↔ git cross-check
 
 For each LOG entry in last 5:

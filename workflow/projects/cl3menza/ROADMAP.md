@@ -42,15 +42,6 @@ Final Done Definition da znamo šta je realno DONE / SKIPPED / POSTPONED.
 
 ---
 
-## Upcoming — Faza 1 (Workflow v3 setup)
-
-| ID | Naslov | Tier | Status |
-|---|---|---|---|
-| F1.1 | Doc Consolidation (ovaj batch) | STANDARD | IN PROGRESS |
-| F1.2 | Hooks Setup (lock-zone, session-bootstrap, done-report) | STANDARD | next |
-| F1.3 | RULES.md v3 Update | LEAN | after F1.2 |
-| F1.4 | Doc Cap Enforcement + CONTEXT verify | LEAN | after F1.3 |
-
 ## Upcoming — Faza 2 (Feature work)
 
 | ID | Naslov | Tier | Estimate |

@@ -137,6 +137,81 @@ F1.0: Pre-flight + backup (done). F1.1: Doc consolidation (ovaj batch).
 
 ---
 
+### 2026-03-26 — QA pre deploy, ne posle — DEPRECATED
+
+Deprecated 2026-05-03 (B2.0): distilled to RULES §14 #4 ("QA pre deploy — DONE → build → push → smoke").
+
+**PROBLEM:** 12 commit-a ostalo lokalno nekoliko sesija — production bio daleko iza. Otkriveno tek u Batch 15B.
+
+**LEKCIJA:** Na kraju svakog batch-a koji menja runtime: `git push` je deo verify faze, ne opcija. Vercel auto-deploy je brz (~15s) — nema razloga čekati.
+
+**PRIMENA:** Batch workflow: DONE → build → push → smoke. Posebno za LOCK zone i API promene.
+
+**STATUS:** ACTIVE
+**NEXT REVIEW:** —
+
+---
+
+### 2026-03-24 — Source-of-truth drift — DEPRECATED
+
+Deprecated 2026-05-03 (B2.0): distilled to RULES §14 #2 ("Source-of-truth drift — repo > doc; proveri pre rada").
+
+**PROBLEM:** Dokumentacija bila delimično zastarela u odnosu na realni repo.
+
+**LEKCIJA:** AI radi po pogrešnim pretpostavkama kad doc i kod ne pričaju istu priču.
+
+**PRIMENA:** Pri većim nastavcima rada prvo proveri da li CLAUDE.md i repo pričaju istu priču.
+
+**STATUS:** ACTIVE
+**NEXT REVIEW:** —
+
+---
+
+### 2026-03-24 — Audit → scope explosion — DEPRECATED
+
+Deprecated 2026-05-03 (B2.0): distilled to RULES §14 #5 ("Audit ≠ implementacija — posle audita trijaž pre akcije: kritično → primetno → polish").
+
+**PROBLEM:** Audit lako sklizne u prevelik implementation scope.
+
+**LEKCIJA:** Posle audit-a trijaž pre implementacije: kritično → primetno → polish. Najmanji siguran batch prvi.
+
+**PRIMENA:** Uvek razdvoji audit findings od execution plana.
+
+**STATUS:** ACTIVE
+**NEXT REVIEW:** —
+
+---
+
+### 2026-04-01 — AI scope inflation — DEPRECATED
+
+Deprecated 2026-05-03 (B2.0): distilled to RULES §14 #1 ("AI scope inflation — svaki plan ima 'RADIMO' i 'NE RADIMO' sekciju").
+
+**PROBLEM:** AI lako predloži veći scope nego što je potreban za task.
+
+**LEKCIJA:** U svakom planu jasno preseći: šta radimo sada vs šta svesno ostaje za kasnije.
+
+**PRIMENA:** Plan uvek sadrži "radimo" i "ne radimo" sekciju. Scope expansion zahteva eksplicitnu odluku.
+
+**STATUS:** ACTIVE
+**NEXT REVIEW:** —
+
+---
+
+### 2026-04-01 — background vs background-image — DEPRECATED
+
+Deprecated 2026-05-03 (B2.0): distilled to RULES §14 #6 ("CSS shorthand oprez — `background:` resetuje sve sub-properties; koristi `background-image:` kad dodaješ na postojeći element").
+
+**PROBLEM:** Korišćenje `background:` shorthand na elementu koji već ima background property može resetovati sve sub-properties (color, position, size, repeat, attachment, origin, clip) na default vrednosti.
+
+**LEKCIJA:** Kad dodaješ samo novi gradient na postojeći element, koristi `background-image:` umesto `background:`. Shorthand je bezbedan samo kad svesno pišeš kompletan novi background od nule.
+
+**PRIMENA:** Proveriti svaki batch koji dodaje gradient na element koji već ima bg definisan drugde.
+
+**STATUS:** ACTIVE
+**NEXT REVIEW:** 2026-07-01
+
+---
+
 ## Closed Specs (moved from Creative_Bible, VISUAL_LANGUAGE, CL3_Planet)
 
 ### Creative_Bible §11-14 — Legacy MEGA Batch Descriptions (Phase A, completed)

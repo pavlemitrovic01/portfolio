@@ -284,6 +284,7 @@ Promene plana koje nisu trivijalne (npr. dodavanje novog batch-a, brisanje exit 
 | 2026-05-01 | Pavle | Dodat u repo kao `workflow/CLEANROADMAP.md` | Source-of-truth za cleanup sesiju |
 | 2026-05-02 | Opus + Pavle + Claude Code | Faza 0 COMPLETE — sve 5 batch-eva (B0.1-B0.5) DONE | Repo stabilizovan: 0 unpushed, čist working tree, 1 worktree, testovi zelena, og-image 120KB WebP |
 | 2026-05-02 | Opus + Pavle + Claude Code | Faza 1 in progress — F1.0-F1.3 DONE, F1.4 (ovaj batch), F1.5 next | Workflow v3 mehanizam live: doc layer 6→4 fajla (1138 active linija), 2 hooks, 5 skills, RULES §19-22 |
+| 2026-05-03 | Opus + Pavle + Claude Code | Faza 1 COMPLETE — F1.0-F1.6 DONE; B2.0 honesty pass added | Eksterni Claude Code audit (85 min) otkrio 9 drift instances + 3 broken mehanike (lock-zone hook nedostajao, doc-lens stale paths, bootstrap Windows broken). B2.0 zatvara sve. |
 
 ---
 
@@ -310,7 +311,7 @@ Promene plana koje nisu trivijalne (npr. dodavanje novog batch-a, brisanje exit 
 5. **Single commit za logički povezane promene.** B0.3 = 3 fix-a u 1
    commit-u. B0.5 = 4 fajla u 1 commit-u. Lakše za revert, čistiji git log.
 
-### From Faza 1 (F1.0-F1.3)
+### From Faza 1 (F1.0-F1.6)
 
 6. **AI context injection ≠ user UI rendering.** SessionStart hook
    output ide u Claude system context, ne u user-visible UI. Verifikacija
@@ -333,6 +334,24 @@ Promene plana koje nisu trivijalne (npr. dodavanje novog batch-a, brisanje exit 
 10. **Single biggest workflow improvement = `/close` koji pokreće test
     interno.** Eliminiše honor system PASS(machine). 8 batch-eva drift-a
     od Batch 05 do B0.3 je primer šta se dešava kad gate ne radi.
+
+11. **Catch-up batches MORAJU pisati svoj sopstveni LOG entry.** F1.6
+    je retroaktivno popravio 11 prethodnih entries ali nije pisao svoj
+    — što je uvek isti drift class. /close skill chicken-and-egg
+    ne self-heals; self-referential write je eksplicitan korak.
+
+12. **Eksterni audit > internal /audit za drift detection.** Internal
+    skill poredi STATE↔LOG (oba mogu biti istovremeno wrong). Eksterni
+    audit (drugi AI ili human) poredi STATE↔git. Workflow v3 je dobio
+    Step 3.5 u /audit + uslov #6 u /kickoff za STATE↔git checking u
+    B2.0, ali istinska drift garancija ostaje sa eksternim auditom
+    pre svake faze.
+
+13. **Decoration vs mechanism dvostruki standard je rekurentni risk.**
+    Workflow v3 sam uveo 3 broken mehanike (lock-zone-check pominje se
+    4 mesta, hook ne postojao; bootstrap Windows tiho fail; doc-lens
+    stale paths). Pre dodavanja bilo kakve doc reference na mehaniku,
+    verifikovati da mehanika postoji u kodu i radi na targeted platformi.
 
 ---
 

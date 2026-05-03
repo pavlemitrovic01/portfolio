@@ -88,6 +88,7 @@ If any of these is true → DRIFT:
 - Typecheck fails
 - Active batch in STATE but no plan visible
 - More than 1 worktree
+- STATE batch ID iz "Poslednji završen" ne pojavljuje se u git log poslednjeg commit subject-a (`git log -1 --pretty=%s`). Razlog: workflow past STATE — catch-up batch potreban pre /plan.
 
 Report DRIFT clearly. State that next /plan or /close
 should not proceed until Pavle acknowledges drift

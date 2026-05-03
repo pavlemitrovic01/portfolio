@@ -1,13 +1,13 @@
 ---
 name: doc-lens
-description: Izvlači samo relevantan deo iz Roadmap-a ili Creative Bible za konkretan task. Koristi scout (Haiku) za extraction. Sprečava punjenje konteksta celim dokumentima.
+description: Izvlači samo relevantan deo iz ROADMAP-a ili BIBLE-a za konkretan task. Koristi scout (Haiku) za extraction. Sprečava punjenje konteksta celim dokumentima.
 ---
 
 # doc-lens — Document Extraction Lens
 
 ## Uloga
 
-Sprečava da se Roadmap (1600+ linija) i Creative Bible (700+ linija) čitaju celi svaki put.
+Sprečava da se ROADMAP (~170 linija) i BIBLE (~790 linija) čitaju celi svaki put. Posle workflow v3 doc consolidation veličine su znatno manje, ali skill ostaje za buduće rast.
 Uzima task fokus → vraća samo relevantne delove → ništa više.
 
 ## Kako pozvati
@@ -30,8 +30,8 @@ Uzima task fokus → vraća samo relevantne delove → ništa više.
 
 | Parametar | Fajl |
 |-----------|------|
-| `roadmap` | `workflow/projects/[aktivni-projekat]/CL3_Planet_Reconstruction_Master_Roadmap.md` |
-| `bible` | `workflow/projects/[aktivni-projekat]/Creative_Bible.md` |
+| `roadmap` | `workflow/projects/[aktivni-projekat]/ROADMAP.md` |
+| `bible` | `workflow/projects/[aktivni-projekat]/BIBLE.md` |
 
 > Putanja zavisi od aktivnog projekta — proveri u `workflow/STATE.md` "Kontekst" polje.
 

@@ -46,7 +46,7 @@
 
 ## Lock zone
 
-⚠ **SYNC REQUIRED:** Ova lista mora biti identična `LOCK_ZONE` arrayu u `~/.claude/hooks/lock-zone-check.js`. Ako menjaš jedno, menjaj i drugo.
+⚠ **SYNC REQUIRED:** Ova lista mora biti identična `LOCK_ZONE` arrayu u `.claude/hooks/lock-zone-check.js`. Ako menjaš jedno, menjaj i drugo.
 
 | Fajl | Razlog |
 |------|--------|

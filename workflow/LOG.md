@@ -560,3 +560,58 @@ LEARNED:  /kickoff drift detection radi po dizajnu — staloženo blokira /plan 
 NOTES:    Drift detection u F1.5 B2 otkrio dva real drift slučaja (STATE 12a vs git F1.4, STATE Batch 12b vs ROADMAP B2.x renaming). Razlog za F1.6 catch-up batch — workflow v3 chicken-and-egg jer su F1.x batch-evi sami gradili /close.
 
 ---
+
+### 2026-05-02 — F1.6 — Workflow v3 Catch-up [CLOSE]
+
+STATUS:   DONE
+TIER:     LEAN
+GOAL:     Workflow v3 chicken-and-egg fix: F1.1-F1.5 batch-evi sami su gradili /close skill, pa /close nije mogao biti pozvan na njima. Catch-up retroaktivno upisuje state, da /close v3 mehanika ubuduće radi automatski.
+FILES:
+  - workflow/LOG.md (11 retroactive CLOSE entries appended: B0.1-B0.5 + F1.0-F1.5 + Pre-v3 SHA fix za Batch 09a/10b/12a)
+  - workflow/STATE.md (Aktivni plan reference fix: CL3_Planet_Reconstruction_Master_Roadmap.md → ROADMAP.md; "Gde sam sada" Batch 12a → F1.5; Faza progres summary added; Workflow v3 status section added)
+  - workflow/projects/cl3menza/ROADMAP.md (Current Phase rewrite: Faza 0 DONE, Faza 1 DONE, Faza 2 ready; Faza summaries added; B2.1 entry point identified)
+COMMIT:   60cb206
+VERIFY:
+  - build: PASS(machine)
+  - typecheck: PASS(machine)
+  - test: PASS(machine)
+  - drift resolved: STATE↔git (Last completed Batch 12a → F1.5), STATE↔ROADMAP naming (Batch 12b → B2.x), ROADMAP↔git (F1.1-F1.4 in progress → all DONE)
+LEARNED:  Catch-up batches MORAJU pisati svoj sopstveni LOG entry — /close skill chicken-and-egg ne self-heals. Workflow dizajniran za drift detection sadrži drift ako self-referential write nije eksplicitan korak.
+NOTES:    F1.6 LOG entry retroaktivno upisan u B2.0 (2026-05-03) jer F1.6 sam ga nije zapisao. Audit nalaz #4 — workflow gap u /close + /audit.
+
+---
+
+### 2026-05-03 — B2.0 — Workflow v3 Honesty Pass [CLOSE]
+
+STATUS:   DONE
+TIER:     STANDARD
+GOAL:     Eliminisati 9 drift instances iz workflow v3 + restore 3 broken mehanike (lock-zone-check kreirati, doc-lens stale paths fix, bootstrap Windows full refactor) + dodati STATE↔git drift detection u /audit + /kickoff.
+FILES:
+  - .claude/hooks/lock-zone-check.js (NEW, ~60 linija — Pattern B JSON permissionDecision: ask)
+  - .claude/hooks/session-bootstrap.js (refactored — drop bash 2>/dev/null, replace sa platform-agnostic getUnpushed function)
+  - .claude/settings.json (registered Edit|Write|MultiEdit PreToolUse hook)
+  - workflow/STATE.md (4 izmene: poslednji završen update, "Aktivni plan — kratko" obrisan, lock-zone path ~/.claude → .claude, Faza 2 line note)
+  - workflow/LOG.md (F1.6 retroactive entry + ovaj B2.0 entry)
+  - workflow/RULES.md (line 266 path fix: ~/.claude → .claude)
+  - workflow/cleanroadmap.md (revision log update + From Faza 1 subsection rename + 3 lessons append)
+  - workflow/projects/cl3menza/ROADMAP.md (uklonjena "Upcoming — Faza 1" stale tabela)
+  - workflow/projects/cl3menza/CONTEXT.md (line 49 path fix: ~/.claude → .claude)
+  - workflow/projects/cl3menza/LESSONS.md (5 entries deprecated — distillovane u RULES §14, premeštene u DECISIONS)
+  - workflow/projects/cl3menza/DECISIONS.md (5 deprecated lessons appended u postojeću "Deprecated Lessons" sekciju)
+  - .claude/skills/doc-lens/SKILL.md (3 stale references fix: description + body line 12 + paths line 33-34)
+  - .claude/skills/audit/SKILL.md (Step 3.5 added — STATE↔git drift check)
+  - .claude/skills/kickoff/SKILL.md (Step 5 drift uslov #6 added — STATE batch ID vs git HEAD subject)
+  - workflow/workflow-v3-plan.md → workflow/_archive/v3-plan-faza1.md (git mv archive)
+COMMIT:   e0c4794
+VERIFY:
+  - build: PASS(machine)
+  - typecheck: PASS(machine)
+  - test: PASS(machine)
+  - hook smoke: 3/3 PASS (lock-zone hit src/App.tsx, lock-zone hit api/claude.ts, lock-zone miss src/components/sections/Hero.tsx)
+  - bootstrap smoke: PASS(machine) — getUnpushed returns concrete output, ne "(unavailable)"
+  - JSON validation: settings.json parses
+  - drift verification: 0 grep matches za "Creative_Bible|CL3_Planet_Reconstruction|Aktivni plan — kratko|F1.1.*IN PROGRESS|~/.claude/hooks"
+LEARNED:  Honesty pass disciplina — pre dodavanja bilo kakve doc reference na mehaniku, verifikovati da mehanika postoji u kodu. Eksterni audit (Claude Code, 85 min) bio je single biggest workflow improvement: identifikovao 9 drift + 3 broken mehanike koje internal /audit nije mogao da uhvati. Workflow gap: /audit + /kickoff su poredili STATE↔LOG ali ne STATE↔git, što je past F1.6.
+NOTES:    Eksterni audit je 2026-05-03 03:00 CEDT, ANTHROPIC_API_KEY rotation pending (Pavle van workflow scope-a). B2.0 close je commitovan single-commit sa SHA backfill kroz amend.
+
+---

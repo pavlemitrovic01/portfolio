@@ -263,7 +263,7 @@ LOCK ne znači "ne diraj nikad". Znači:
 
 Svaki projekat definiše svoje lock zone u svom `CONTEXT.md`.
 
-⚠ **Sync required:** lock zone lista u `CONTEXT.md` mora biti identična `LOCK_ZONE` arrayu u `~/.claude/hooks/lock-zone-check.js`. Ako menjaš jedno, menjaj i drugo.
+⚠ **Sync required:** lock zone lista u `CONTEXT.md` mora biti identična `LOCK_ZONE` arrayu u `.claude/hooks/lock-zone-check.js`. Ako menjaš jedno, menjaj i drugo.
 
 ---
 
