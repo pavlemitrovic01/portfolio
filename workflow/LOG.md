@@ -649,7 +649,7 @@ FILES:
   - .claude/settings.local.json (37 stale allow rules removed: 69→32 entries, validan JSON)
   - workflow/projects/cl3menza/DECISIONS.md (Phase D Setup Complete entry appended)
   - workflow/LOG.md (this entry)
-COMMIT:   [PENDING]
+COMMIT:   c1b0dbb
 VERIFY:
   - build: PASS(machine)
   - typecheck: PASS(machine)
