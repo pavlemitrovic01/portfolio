@@ -1,5 +1,4 @@
 @media (max-width:1180px){
-  .hero-grid,.section-head,.project-grid,.cta-card{grid-template-columns:1fr}
   .grid-6{grid-template-columns:repeat(3,1fr)}
   .grid-4,.stack-grid{grid-template-columns:repeat(2,1fr)}
   .process-grid{grid-template-columns:repeat(3,1fr)}
@@ -71,7 +70,6 @@
 
   /* Hero */
   .hero{padding-top:36px}
-  .hero-grid{min-height:auto;gap:36px}
   .hero h1{font-size:clamp(2.8rem,13vw,4.8rem)}
   .lead{font-size:16px;line-height:1.75}
 
@@ -117,7 +115,6 @@
   .process-step{min-height:auto;padding:18px}
 
   /* CTA */
-  .cta-card{padding:24px;gap:20px}
   .cta-actions{justify-content:flex-start}
 
   /* Footer */

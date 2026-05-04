@@ -22,7 +22,7 @@
 
 ## Gde sam sada
 
-**Poslednji završen:** B2.0 — Workflow v3 honesty pass (2026-05-03)
+**Poslednji završen:** B2.0d — Repo Cleanup (2026-05-04)
 **Sledeći:** B2.1 — Roadmap §14 Reconciliation (čeka /plan)
 **Aktivan batch:** NONE
 **Blocker:** NONE
@@ -30,7 +30,7 @@
 **Faza progres:**
 - Faza 0 (cleanup) — DONE 2026-05-01 (B0.1-B0.5)
 - Faza 1 (workflow v3) — DONE 2026-05-02 (F1.0-F1.5 + F1.6)
-- Faza 2 (finish & launch) — ready, B2.1 first (posle B2.0 honesty pass)
+- Faza 2 (finish & launch) — in progress: B2.0d done, B2.1 next
 
 **Workflow v3 status:** live i verifikovan
 - Doc layer: 4 active + DECISIONS (1138 active linija)

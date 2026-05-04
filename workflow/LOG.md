@@ -633,3 +633,30 @@ VERIFY: build/typecheck/test PASS, 0 active reference matches za "lock-zone-chec
 LEARNED: Smoke test (echo|node) ne dokazuje da hook radi u realnoj Claude Code sesiji. Mehanika koja zahteva više održavanja nego što štedi → remove.
 
 ---
+
+### 2026-05-04 — B2.0d — Repo Cleanup [CLOSE]
+
+STATUS:   DONE
+TIER:     LEAN
+GOAL:     Eliminisati mrtve fajlove, duplikate, i stale config noise koji su otkriveni u eksternom inventory audit-u (Claude Code, 2026-05-04). Pavle je _archive folder izvadio ručno; ovaj batch verifikuje to + briše ostatak.
+FILES:
+  - workflow/_archive/ (ENTIRE FOLDER REMOVED — Pavle manual)
+  - workflow/CLEANROADMAP.md (deleted, revision log preselen u DECISIONS Phase D Setup Complete)
+  - .claude/workflow-trace.jsonl (deleted — deprecated debug log, gitignored)
+  - .claude/worktrees/laughing-raman-8d3944/ (empty folder removed)
+  - src/hooks/useCountUp.ts (deleted — 0 imports)
+  - src/styles/overrides.css (3 dead selektore uklonjene: .hero-grid/.section-head/.project-grid/.cta-card na liniji 2; .hero-grid na liniji 74; .cta-card na liniji 120)
+  - .claude/settings.local.json (37 stale allow rules removed: 69→32 entries, validan JSON)
+  - workflow/projects/cl3menza/DECISIONS.md (Phase D Setup Complete entry appended)
+  - workflow/LOG.md (this entry)
+COMMIT:   [PENDING]
+VERIFY:
+  - build: PASS(machine)
+  - typecheck: PASS(machine)
+  - test: PASS(machine)
+  - settings.local.json valid JSON
+  - 0 references to deleted files in active docs (cleanroadmap OK in DECISIONS historical)
+LEARNED:  _archive folder koji sadrži duplikate aktivnih fajlova je signal da archive nema garbage collection disciplinu. Workflow koji raste a nikad se ne čisti dolazi do tačke gde 70% može da padne. Buduće archive odluke: ili briši odmah, ili dodaj 30-dan rotation rule.
+NOTES:    Reward sistem (TEN_PCT/TWENTY_PCT/PRIORITY_SLOT) zadržan za kasnije B2.3. launch.json zadržan (Pavle koristi Claude Preview). .section-head confirmed dead (0 TSX/HTML imports) — obrisano zajedno sa ostalim dead selektorima na liniji 2.
+
+---

@@ -266,3 +266,25 @@ Original batch filter per batch:
 ---
 
 *Append new decisions at the bottom. No size cap.*
+
+## 2026-05-04 — Phase D Setup Complete
+
+Faza 0 (cleanup, B0.1-B0.5) + Faza 1 (workflow v3, F1.0-F1.6) + B2.0 honesty pass + B2.0a SHA fix + B2.0c lock-zone removal — sve DONE.
+
+cleanroadmap.md je bio planning artifact koji je odslužio svoj posao. Sadržaj distillovan/dupliran u:
+- LOG.md (svi batch entries)
+- ROADMAP.md (Faza 2 lista)
+- LESSONS.md + RULES §14 (lessons captured)
+- DECISIONS.md (ovaj entry — closure record)
+
+Revision log iz cleanroadmap-a (5 entries):
+
+| Datum | Autor | Promena | Razlog |
+|-------|-------|---------|--------|
+| 2026-05-01 | Opus + Pavle | Initial draft, Faza 0 specifikovana | Posle dual audit-a (Opus + Claude Code) |
+| 2026-05-01 | Pavle | Dodat u repo kao `workflow/CLEANROADMAP.md` | Source-of-truth za cleanup sesiju |
+| 2026-05-02 | Opus + Pavle + Claude Code | Faza 0 COMPLETE — sve 5 batch-eva (B0.1-B0.5) DONE | Repo stabilizovan: 0 unpushed, čist working tree, 1 worktree, testovi zelena, og-image 120KB WebP |
+| 2026-05-02 | Opus + Pavle + Claude Code | Faza 1 in progress — F1.0-F1.3 DONE, F1.4 (ovaj batch), F1.5 next | Workflow v3 mehanizam live: doc layer 6→4 fajla (1138 active linija), 2 hooks, 5 skills, RULES §19-22 |
+| 2026-05-03 | Opus + Pavle + Claude Code | Faza 1 COMPLETE — F1.0-F1.6 DONE; B2.0 honesty pass added | Eksterni Claude Code audit (85 min) otkrio 9 drift instances + 3 broken mehanike (lock-zone hook nedostajao, doc-lens stale paths, bootstrap Windows broken). B2.0 zatvara sve. |
+
+cleanroadmap.md briše se u B2.0d cleanup batch-u.
